@@ -1,0 +1,60 @@
+// Define versions in a single place
+ext {
+    // Sdk and tools
+    minSdkVersion = 15
+    targetSdkVersion = 26
+    compileSdkVersion = 26
+    buildToolsVersion = '25.0.1'
+
+    // App dependencies
+    supportLibraryVersion = '24.2.0'
+    daggerVersion = '2.11'
+    rxJavaVersion = '2.1.1'
+    rxAndroidVersion = '2.0.1'
+    constraintLayoutVersion = '1.0.2'
+    realmVersion = '3.5.0'
+    retrofitVersion = '2.3.0'
+    okHttpVersion = '3.8.1'
+    liveDataVersion = '1.0.0-alpha7'
+
+    //developer
+    leakCanaryVersion = '1.5.1'
+
+    appDependencies = [
+            dagger                : "com.google.dagger:dagger:${daggerVersion}",
+            daggerAndroid         : "com.google.dagger:dagger-android:$daggerVersion",
+            daggerAndroidSupport  : "com.google.dagger:dagger-android-support:$daggerVersion",
+            daggerCompiler        : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$daggerVersion",
+            rxJava                : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid             : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            constraintLayout      : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            liveDataRuntime       : "android.arch.lifecycle:runtime:${liveDataVersion}",
+            liveDataExtensions    : "android.arch.lifecycle:extensions:${liveDataVersion}",
+            liveCycleCompiler     : "android.arch.lifecycle:compiler:${liveDataVersion}",
+
+    ]
+
+    dataDependencies = [
+            daggerCompiler: "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger        : "com.google.dagger:dagger:${daggerVersion}",
+    ]
+
+    domainDependencies = [
+            okHttp               : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpLogging        : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            retrofit             : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitGsonConverter: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            retrofitRxAdapter    : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            rxJava               : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid            : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            daggerCompiler       : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger               : "com.google.dagger:dagger:${daggerVersion}",
+    ]
+
+    developmentDependencies = [
+            leakCanary    : "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+            leakCanaryNoOp: "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
+    ]
+
+}
