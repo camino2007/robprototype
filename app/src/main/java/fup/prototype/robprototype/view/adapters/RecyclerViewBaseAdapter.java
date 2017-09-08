@@ -1,17 +1,16 @@
 package fup.prototype.robprototype.view.adapters;
 
 import android.databinding.ViewDataBinding;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RecyclerViewBaseAdapter<T, V extends ViewDataBinding>
         extends RecyclerView.Adapter<DataBoundViewHolder<V>> {
 
-    @Nullable
-    private List<T> items;
+    private List<T> items = new ArrayList<>();
 
     @Override
     public final DataBoundViewHolder<V> onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -32,10 +31,10 @@ public abstract class RecyclerViewBaseAdapter<T, V extends ViewDataBinding>
     }
 
     public void replace(List<T> update) {
-        if (items != null) {
+        if (!items.isEmpty()) {
             items.clear();
         }
-        items = update;
+        items.addAll(update);
         notifyDataSetChanged();
     }
 

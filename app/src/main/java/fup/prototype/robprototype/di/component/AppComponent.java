@@ -6,18 +6,15 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
-import dagger.android.support.AndroidSupportInjectionModule;
 import fup.prototype.data.di.DataModule;
 import fup.prototype.domain.di.DomainModule;
 import fup.prototype.robprototype.ProtoApplication;
-import fup.prototype.robprototype.di.module.ActivityModule;
 import fup.prototype.robprototype.di.module.AppModule;
+import fup.prototype.robprototype.view.viewmodels.MainViewModel;
 
 @Singleton
 @Component(modules = {
         AppModule.class,
-        AndroidSupportInjectionModule.class,
-        ActivityModule.class,
         DataModule.class,
         DomainModule.class})
 public interface AppComponent {
@@ -31,5 +28,7 @@ public interface AppComponent {
     }
 
     void inject(ProtoApplication protoApplication);
+
+    void inject(MainViewModel mainViewModel);
 
 }

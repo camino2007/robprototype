@@ -67,6 +67,7 @@ public class UserRepository {
         //TODO Check if we have a different user
         if (userCache.hasCachedData()
                 && userCache.isCacheValid()) {
+            Log.d(TAG, "show cached data");
             if (userListener != null) {
                 userListener.onUserLoaded(userCache.getData());
                 return;

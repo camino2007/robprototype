@@ -14,8 +14,7 @@ import fup.prototype.domain.github.provider.GitHubProvider;
 import fup.prototype.robprototype.data.repositories.UserRepository;
 import io.reactivex.annotations.NonNull;
 
-@Module(subcomponents = {DomainComponent.class, DataComponent.class},
-        includes = ViewModelModule.class)
+@Module(subcomponents = {DomainComponent.class, DataComponent.class})
 public class AppModule {
 
     @Provides
