@@ -50,12 +50,6 @@ public class MainFragment extends BaseFragment<FragmentMainBinding> {
     @Override
     protected void initViewModel() {
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
-        if (mainViewModel.getUserData().getValue() != null) {
-            Log.d(TAG, "initViewModel: " + mainViewModel.getUserData().getValue().getName());
-        } else {
-            Log.d(TAG, "initViewModel - mainViewModel.getUserData().getValue() == NULL ");
-        }
-
     }
 
     @Override
@@ -69,7 +63,7 @@ public class MainFragment extends BaseFragment<FragmentMainBinding> {
                     Log.d(TAG, "onChanged");
                     adapter.get().replace(user.getRepositoryList());
                     //doesn't work anymore
-                    //mainViewModel.name.set(user.getName());
+                    //mainViewModel.userName.set(user.getName());
                     //works
                     //getViewBinding().userName.setText(user.getName());
                 }

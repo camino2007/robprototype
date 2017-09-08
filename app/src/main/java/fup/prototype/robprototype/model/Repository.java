@@ -47,6 +47,7 @@ public class Repository {
         return new Builder()
                 .id(realmRepository.getIdRep())
                 .name(realmRepository.getName())
+                .fullName(realmRepository.getFullName())
                 .build();
     }
 

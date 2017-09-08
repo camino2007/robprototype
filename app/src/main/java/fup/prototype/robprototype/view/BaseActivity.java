@@ -14,8 +14,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-            initContent();
-      }
+        initContent();
+    }
 
     private void initContent() {
         final BaseFragment baseFragment = createInitialContentFragment();

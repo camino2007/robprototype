@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.model;
+package fup.prototype.robprototype.data.repositories;
 
 import android.util.Log;
 
@@ -15,6 +15,7 @@ import fup.prototype.domain.github.model.GitHubRepo;
 import fup.prototype.domain.github.model.GitHubUser;
 import fup.prototype.domain.github.provider.GitHubProvider;
 import fup.prototype.robprototype.data.cache.UserCache;
+import fup.prototype.robprototype.model.User;
 import io.reactivex.annotations.NonNull;
 
 public class UserRepository {

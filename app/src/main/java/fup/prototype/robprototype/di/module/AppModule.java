@@ -11,7 +11,7 @@ import fup.prototype.data.RealmService;
 import fup.prototype.data.di.DataComponent;
 import fup.prototype.domain.di.DomainComponent;
 import fup.prototype.domain.github.provider.GitHubProvider;
-import fup.prototype.robprototype.model.UserRepository;
+import fup.prototype.robprototype.data.repositories.UserRepository;
 import io.reactivex.annotations.NonNull;
 
 @Module(subcomponents = {DomainComponent.class, DataComponent.class},

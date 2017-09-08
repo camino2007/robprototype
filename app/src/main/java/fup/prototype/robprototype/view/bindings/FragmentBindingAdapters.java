@@ -4,9 +4,6 @@ import android.support.v4.app.Fragment;
 
 import javax.inject.Inject;
 
-/**
- * Created by rxdroid on 9/7/17.
- */
 
 public class FragmentBindingAdapters {
 

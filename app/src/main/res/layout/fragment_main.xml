@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="fup.prototype.robprototype.view.viewmodels.MainViewModel" />
@@ -17,11 +16,32 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="fup.prototype.robprototype.view.MainFragnment">
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="8dp">
+
+            <EditText
+                android:id="@+id/input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="GitHub User"
+                android:imeOptions="actionSearch"
+                android:inputType="textNoSuggestions"
+                tools:text="google" />
+        </android.support.design.widget.TextInputLayout>
+
         <TextView
             android:id="@+id/user_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.name}"
+            android:text="@{viewModel.userName}"
+            app:layout_constraintTop_toBottomOf="@+id/input_layout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:text="Getting GitHubRepos" />

@@ -12,7 +12,6 @@ import fup.prototype.domain.di.DomainModule;
 import fup.prototype.robprototype.ProtoApplication;
 import fup.prototype.robprototype.di.module.ActivityModule;
 import fup.prototype.robprototype.di.module.AppModule;
-import fup.prototype.robprototype.model.UserRepository;
 
 @Singleton
 @Component(modules = {
@@ -32,8 +31,5 @@ public interface AppComponent {
     }
 
     void inject(ProtoApplication protoApplication);
-
-    /*void inject(UserRepository userRepository);*/
-
 
 }

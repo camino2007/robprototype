@@ -11,8 +11,8 @@ import javax.inject.Inject;
 
 import fup.prototype.domain.api.LoadingState;
 import fup.prototype.domain.api.RequestError;
+import fup.prototype.robprototype.data.repositories.UserRepository;
 import fup.prototype.robprototype.model.User;
-import fup.prototype.robprototype.model.UserRepository;
 import io.reactivex.annotations.NonNull;
 
 public class MainViewModel extends ViewModel {
@@ -20,7 +20,7 @@ public class MainViewModel extends ViewModel {
     private static final String TAG = "MainViewModel";
 
     public final ObservableBoolean isProgress = new ObservableBoolean(false);
-    public final ObservableField<String> name = new ObservableField<>();
+    public final ObservableField<String> userName = new ObservableField<>();
 
     @Inject
     UserRepository userRepository;
@@ -34,11 +34,12 @@ public class MainViewModel extends ViewModel {
     public MainViewModel(@NonNull final UserRepository userRepository) {
         this.userRepository = userRepository;
         this.userRepository.setUserListener(new UserListener());
-        if (userData.getValue() == null) {
+        loadUserFromRepository();
+       /* if (userData.getValue() == null) {
             loadUserFromRepository();
         } else {
             Log.d(TAG, "loadOrDisplay - userData.getValue() == NULL");
-        }
+        }*/
     }
 
     public MutableLiveData<User> getUserData() {
@@ -55,9 +56,7 @@ public class MainViewModel extends ViewModel {
         public void onUserLoaded(@NonNull final User user) {
             Log.d(TAG, "onUserLoaded");
             userData.postValue(user);
-            name.set(user.getName());
-         /*   results.postValue(user.getRepositoryList());
-            name.set(user.getName());*/
+            userName.set(user.getName());
         }
 
         @Override

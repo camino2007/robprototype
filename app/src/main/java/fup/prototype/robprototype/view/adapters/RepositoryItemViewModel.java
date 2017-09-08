@@ -7,5 +7,4 @@ public class RepositoryItemViewModel extends BaseObservable {
 
     public final ObservableField<String> repoName = new ObservableField<>();
 
-
 }

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.ItemRepositoryBinding;
 import fup.prototype.robprototype.model.Repository;
-import fup.prototype.robprototype.view.ViewModelFactory;
+import fup.prototype.robprototype.view.ItemViewModelFactory;
 
 
 public class RepositoryAdapter extends RecyclerViewBaseAdapter<Repository, ItemRepositoryBinding> {
@@ -21,15 +21,14 @@ public class RepositoryAdapter extends RecyclerViewBaseAdapter<Repository, ItemR
 
     @Override
     protected void bind(ItemRepositoryBinding binding, Repository item) {
-        final RepositoryItemViewModel viewModel = ViewModelFactory.create(item);
+        final RepositoryItemViewModel viewModel = ItemViewModelFactory.create(item);
         binding.setViewModel(viewModel);
     }
 
     @Override
     protected ItemRepositoryBinding createBinding(ViewGroup parent) {
-        ItemRepositoryBinding binding = DataBindingUtil
+        return DataBindingUtil
                 .inflate(LayoutInflater.from(parent.getContext()), R.layout.item_repository,
                         parent, false, dataBindingComponent);
-        return binding;
     }
 }
