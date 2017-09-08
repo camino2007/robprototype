@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModel;
 import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
-import fup.prototype.robprototype.view.MainViewModel;
+import fup.prototype.robprototype.view.viewmodels.MainViewModel;
 
 @Module
 public abstract class ViewModelModule {

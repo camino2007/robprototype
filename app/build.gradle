@@ -50,9 +50,6 @@ dependencies {
     def appDependencies = rootProject.ext.appDependencies
     def developmentDependencies = rootProject.ext.developmentDependencies
 
-/*    debugCompile project(path: ':domain', configuration: "debug")
-    releaseCompile project(path: ':domain', configuration: "release")*/
-
     debugCompile project(path: ':data', configuration: "debug")
     releaseCompile project(path: ':data', configuration: "release")
 

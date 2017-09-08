@@ -3,35 +3,31 @@ package fup.prototype.robprototype.view;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.DataBindingComponent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.data.AppViewModelFactory;
 import fup.prototype.robprototype.databinding.FragmentMainBinding;
-import fup.prototype.robprototype.model.Repository;
+import fup.prototype.robprototype.model.User;
 import fup.prototype.robprototype.util.AutoClearedValue;
-import fup.prototype.robprototype.view.adapters.RepositoryAdapterNew;
-import fup.prototype.robprototype.view.bindings.FragmentDataBindingComponent;
+import fup.prototype.robprototype.view.adapters.RepositoryAdapter;
+import fup.prototype.robprototype.view.viewmodels.MainViewModel;
 
 public class MainFragment extends BaseFragment<FragmentMainBinding> {
 
     private static final String TAG = "MainFragment";
 
     @Inject
-    AppViewModelFactory viewModelFactory;
+    protected AppViewModelFactory viewModelFactory;
 
     private MainViewModel mainViewModel;
-    private DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
-    private AutoClearedValue<RepositoryAdapterNew> adapter;
+    private AutoClearedValue<RepositoryAdapter> adapter;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -48,33 +44,42 @@ public class MainFragment extends BaseFragment<FragmentMainBinding> {
 
     @Override
     protected void initBinding(FragmentMainBinding binding) {
-        Log.d(TAG, "initBinding");
         binding.setViewModel(mainViewModel);
     }
 
     @Override
     protected void initViewModel() {
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel.class);
-        Log.d(TAG, "initViewModel: " + mainViewModel.items.size());
+        if (mainViewModel.getUserData().getValue() != null) {
+            Log.d(TAG, "initViewModel: " + mainViewModel.getUserData().getValue().getName());
+        } else {
+            Log.d(TAG, "initViewModel - mainViewModel.getUserData().getValue() == NULL ");
+        }
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setupRepositoryAdapter();
-        mainViewModel.getResults().observe(this, new Observer<List<Repository>>() {
+        mainViewModel.getUserData().observe(this, new Observer<User>() {
             @Override
-            public void onChanged(@Nullable List<Repository> repositories) {
-                adapter.get().replace(repositories);
-                Log.d(TAG, "onChanged");
+            public void onChanged(@Nullable User user) {
+                if (user != null) {
+                    Log.d(TAG, "onChanged");
+                    adapter.get().replace(user.getRepositoryList());
+                    //doesn't work anymore
+                    //mainViewModel.name.set(user.getName());
+                    //works
+                    //getViewBinding().userName.setText(user.getName());
+                }
             }
         });
-
     }
 
     private void setupRepositoryAdapter() {
-        final RecyclerView recyclerView = getBinding().recyclerView;
-        final RepositoryAdapterNew repoAdapter = new RepositoryAdapterNew(dataBindingComponent);
+        final RecyclerView recyclerView = getViewBinding().recyclerView;
+        final RepositoryAdapter repoAdapter = new RepositoryAdapter(getDataBindingComponent());
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
