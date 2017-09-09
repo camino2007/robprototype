@@ -20,8 +20,7 @@ public class RepositoryAdapter extends RecyclerViewBaseAdapter<Repository, ItemR
 
     @Override
     protected ItemRepositoryBinding createBinding(ViewGroup parent) {
-        return DataBindingUtil
-                .inflate(LayoutInflater.from(parent.getContext()), R.layout.item_repository,
-                        parent, false);
+        return DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.item_repository, parent, false);
     }
 }

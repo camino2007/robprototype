@@ -8,7 +8,6 @@ import dagger.BindsInstance;
 import dagger.Component;
 import fup.prototype.data.di.DataModule;
 import fup.prototype.domain.di.DomainModule;
-import fup.prototype.robprototype.ProtoApplication;
 import fup.prototype.robprototype.di.module.AppModule;
 import fup.prototype.robprototype.view.viewmodels.MainViewModel;
 
@@ -26,8 +25,6 @@ public interface AppComponent {
 
         AppComponent build();
     }
-
-    void inject(ProtoApplication protoApplication);
 
     void inject(MainViewModel mainViewModel);
 

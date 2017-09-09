@@ -1,6 +1,8 @@
 package fup.prototype.robprototype.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ import java.util.List;
 import fup.prototype.data.model.RealmRepository;
 import io.realm.RealmList;
 
-public class Repository {
+public class Repository implements Parcelable {
 
     private String id;
     private String name;
@@ -79,4 +81,34 @@ public class Repository {
             return new Repository(this);
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.fullName);
+    }
+
+    protected Repository(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.fullName = in.readString();
+    }
+
+    public static final Parcelable.Creator<Repository> CREATOR = new Parcelable.Creator<Repository>() {
+        @Override
+        public Repository createFromParcel(Parcel source) {
+            return new Repository(source);
+        }
+
+        @Override
+        public Repository[] newArray(int size) {
+            return new Repository[size];
+        }
+    };
 }

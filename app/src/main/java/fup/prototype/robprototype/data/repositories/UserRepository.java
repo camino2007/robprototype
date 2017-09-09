@@ -31,6 +31,7 @@ public class UserRepository {
 
     public UserRepository(@NonNull final GitHubProvider gitHubProvider, @NonNull final RealmService realmService) {
         this.gitHubProvider = gitHubProvider;
+        this.gitHubProvider.setApiCallListener(new GitHubListener());
         this.realmService = realmService;
         this.userCache = new UserCache(30, TimeUnit.SECONDS);
     }
@@ -73,7 +74,7 @@ public class UserRepository {
                 return;
             }
         }
-        gitHubProvider.setApiCallListener(new GitHubListener());
+
         gitHubProvider.loadGitHubData(userName);
     }
 
@@ -97,7 +98,6 @@ public class UserRepository {
 
         @Override
         public void onLoadingStateChanged(@NonNull LoadingState loadingState) {
-            Log.d(TAG, "onLoadingStateChanged: " + loadingState);
             if (userListener != null) {
                 userListener.onLoadingStateChanged(loadingState);
             }
@@ -107,15 +107,14 @@ public class UserRepository {
         public void onApiCallDone(@NonNull Map<GitHubUser, List<GitHubRepo>> gitHubUserListMap) {
             if (!gitHubUserListMap.isEmpty()) {
                 for (Map.Entry<GitHubUser, List<GitHubRepo>> gitHubUserListEntry : gitHubUserListMap.entrySet()) {
-                    GitHubUser gitHubUser = gitHubUserListEntry.getKey();
-                    List<GitHubRepo> gitHubRepos = gitHubUserListEntry.getValue();
-                    RealmUser realmUser = RealmUser.fromDomainModel(gitHubUser, gitHubRepos);
+                    final GitHubUser gitHubUser = gitHubUserListEntry.getKey();
+                    final List<GitHubRepo> gitHubRepos = gitHubUserListEntry.getValue();
+                    final RealmUser realmUser = RealmUser.fromDomainModel(gitHubUser, gitHubRepos);
 //                        realmService.getRealm().beginTransaction();
 
                       /*  realmService.getRealm().copyToRealm(realmUser);
                         realmService.getRealm().commitTransaction();*/
                     final User user = User.fromRealm(realmUser);
-
                     userCache.setData(user);
                     if (userListener != null) {
                         userListener.onUserLoaded(user);

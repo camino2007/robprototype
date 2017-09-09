@@ -27,6 +27,7 @@ ext {
             daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$daggerVersion",
             rxJava                : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxAndroid             : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxBinding             : "com.jakewharton.rxbinding2:rxbinding:2.0.0",
             constraintLayout      : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
 
     ]

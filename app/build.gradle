@@ -66,6 +66,7 @@ dependencies {
     annotationProcessor appDependencies.daggerAndroidProcessor
     compile appDependencies.rxJava
     compile appDependencies.rxAndroid
+    compile appDependencies.rxBinding
     compile appDependencies.constraintLayout
 
     //Development

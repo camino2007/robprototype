@@ -33,6 +33,7 @@
                 android:hint="GitHub User"
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
+                android:text="@{viewModel.observableSearchValue}"
                 tools:text="google" />
 
         </android.support.design.widget.TextInputLayout>

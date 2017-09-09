@@ -1,12 +1,15 @@
 package fup.prototype.robprototype.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import fup.prototype.data.model.RealmUser;
 
-public class User {
+public class User implements Parcelable {
 
     private String name;
     private List<Repository> repositoryList;
@@ -47,4 +50,33 @@ public class User {
             return new User(this);
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeList(this.repositoryList);
+    }
+
+    protected User(Parcel in) {
+        this.name = in.readString();
+        this.repositoryList = new ArrayList<Repository>();
+        in.readList(this.repositoryList, Repository.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }
