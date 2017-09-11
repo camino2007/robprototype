@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view;
+package fup.prototype.robprototype.view.fragments;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -10,14 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import fup.prototype.robprototype.view.viewmodels.BaseViewModel;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
+public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends Fragment {
+
+    private static final String KEY_VIEW_MODEL = "keyViewModel";
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    private T viewBinding;
+    private B viewBinding;
+
+    private VM viewModel;
 
     @Nullable
     @Override
@@ -29,7 +34,18 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            viewModel = savedInstanceState.getParcelable(KEY_VIEW_MODEL);
+        } else {
+            viewModel = createViewModel();
+        }
         initBinding(viewBinding);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(KEY_VIEW_MODEL, viewModel);
     }
 
     @Override
@@ -50,14 +66,20 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
 
     protected abstract void addRxSubscriptions();
 
-    public T getViewBinding() {
+    public B getViewBinding() {
         return viewBinding;
     }
 
-    protected abstract void initBinding(T binding);
+    public VM getViewModel() {
+        return viewModel;
+    }
+
+    protected abstract VM createViewModel();
+
+    protected abstract void initBinding(B binding);
 
     protected abstract int getLayoutId();
 
-    protected abstract String getKey();
+    public abstract String getKey();
 
 }

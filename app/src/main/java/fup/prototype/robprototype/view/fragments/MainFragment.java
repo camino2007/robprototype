@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view;
+package fup.prototype.robprototype.view.fragments;
 
 
 import android.os.Bundle;
@@ -18,12 +18,9 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
-public class MainFragment extends BaseFragment<FragmentMainBinding> {
+public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewModel> {
 
     private static final String TAG = "MainFragment";
-    private static final String KEY_VIEW_MODEL = "keyViewModel";
-
-    private MainViewModel mainViewModel;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -39,30 +36,24 @@ public class MainFragment extends BaseFragment<FragmentMainBinding> {
     }
 
     @Override
-    protected String getKey() {
+    public String getKey() {
         return MainFragment.class.getSimpleName();
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        setupRepositoryAdapter();
-        if (savedInstanceState != null) {
-            mainViewModel = savedInstanceState.getParcelable(KEY_VIEW_MODEL);
-        } else {
-            mainViewModel = new MainViewModel();
-        }
-        super.onActivityCreated(savedInstanceState);
+    protected MainViewModel createViewModel() {
+        return new MainViewModel();
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(KEY_VIEW_MODEL, mainViewModel);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupRepositoryAdapter();
     }
 
     @Override
     protected void initBinding(FragmentMainBinding binding) {
-        binding.setViewModel(mainViewModel);
+        binding.setViewModel(getViewModel());
     }
 
 
@@ -83,7 +74,7 @@ public class MainFragment extends BaseFragment<FragmentMainBinding> {
                     @Override
                     public void accept(@NonNull CharSequence charSequence) throws Exception {
                         Log.d(TAG, "accept: " + charSequence.toString());
-                        mainViewModel.observableSearchValue.set(charSequence.toString());
+                        getViewModel().observableSearchValue.set(charSequence.toString());
                     }
                 });
         addRxDisposable(searchDisposable);
@@ -93,9 +84,11 @@ public class MainFragment extends BaseFragment<FragmentMainBinding> {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
                         Log.d(TAG, "accept: button click");
-                        mainViewModel.loadData();
+                        getViewModel().loadData();
                     }
                 });
         addRxDisposable(clickDisposable);
     }
+
+
 }

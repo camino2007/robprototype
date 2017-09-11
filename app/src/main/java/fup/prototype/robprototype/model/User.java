@@ -64,7 +64,7 @@ public class User implements Parcelable {
 
     protected User(Parcel in) {
         this.name = in.readString();
-        this.repositoryList = new ArrayList<Repository>();
+        this.repositoryList = new ArrayList<>();
         in.readList(this.repositoryList, Repository.class.getClassLoader());
     }
 

@@ -63,7 +63,7 @@ public class MainViewModel extends BaseViewModel implements Parcelable {
     }
 
     private void loadUserFromRepository() {
-        userRepository.load("camino2007");
+        userRepository.load(searchValue);
     }
 
 
@@ -100,7 +100,7 @@ public class MainViewModel extends BaseViewModel implements Parcelable {
         dest.writeString(this.searchValue);
     }
 
-    protected MainViewModel(Parcel in) {
+    private MainViewModel(Parcel in) {
         this.user = in.readParcelable(User.class.getClassLoader());
         this.searchValue = in.readString();
     }

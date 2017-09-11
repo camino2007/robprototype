@@ -11,4 +11,8 @@ public class UserCache extends TimeLimitedCache<User> {
     public UserCache(@NonNull final long timeOut, @NonNull final TimeUnit timeUnit) {
         super(timeOut, timeUnit);
     }
+
+    public boolean isSameUserCached(@NonNull final String userName) {
+        return hasCachedData() && getData().getName().equalsIgnoreCase(userName);
+    }
 }

@@ -19,7 +19,7 @@ public class Bindings {
     @BindingAdapter({"app:items"})
     public static void setItems(RecyclerView recyclerView, List<Repository> items) {
         RepositoryAdapter repositoryAdapter = (RepositoryAdapter) recyclerView.getAdapter();
-        if (repositoryAdapter != null) {
+        if (repositoryAdapter != null && items != null) {
             repositoryAdapter.replace(items);
         }
     }

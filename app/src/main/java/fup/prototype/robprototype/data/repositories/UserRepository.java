@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import fup.prototype.data.RealmService;
+import fup.prototype.data.RealmTable;
 import fup.prototype.data.model.RealmUser;
 import fup.prototype.domain.api.ApiCallAdapter;
 import fup.prototype.domain.api.LoadingState;
@@ -17,6 +18,7 @@ import fup.prototype.domain.github.provider.GitHubProvider;
 import fup.prototype.robprototype.data.cache.UserCache;
 import fup.prototype.robprototype.model.User;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.annotations.Nullable;
 
 public class UserRepository {
 
@@ -28,11 +30,12 @@ public class UserRepository {
 
     private UserCache userCache;
     private OnUserListener userListener;
+    private String currentSearchValue;
 
     public UserRepository(@NonNull final GitHubProvider gitHubProvider, @NonNull final RealmService realmService) {
         this.gitHubProvider = gitHubProvider;
-        this.gitHubProvider.setApiCallListener(new GitHubListener());
         this.realmService = realmService;
+        this.gitHubProvider.setApiCallListener(new GitHubListener());
         this.userCache = new UserCache(30, TimeUnit.SECONDS);
     }
 
@@ -40,33 +43,9 @@ public class UserRepository {
         this.userListener = userListener;
     }
 
-   /* public void load(final String userName) {
-
-        RealmUser realmUser = realmService.getRealm()
-                .where(RealmUser.class)
-                .equalTo(RealmTable.User.NAME, userName)
-                .findFirst();
-
-        if (realmUser == null) {
-
-
-
-
-            gitHubProvider.loadGitHubData(userName);
-        } else {
-            Log.d(TAG, "load: User found!");
-            if (userListener != null) {
-                final User user = User.fromRealm(realmUser);
-                userListener.onUserLoaded(user);
-                userListener.onLoadingStateChanged(LoadingState.DONE);
-            }
-        }
-    }*/
-
-    public void load(final String userName) {
+    public void load(@NonNull final String userName) {
         Log.d(TAG, "load: " + userName);
-        //TODO Check if we have a different user
-        if (userCache.hasCachedData()
+        if (userCache.isSameUserCached(userName)
                 && userCache.isCacheValid()) {
             Log.d(TAG, "show cached data");
             if (userListener != null) {
@@ -74,8 +53,34 @@ public class UserRepository {
                 return;
             }
         }
-
+        currentSearchValue = userName;
         gitHubProvider.loadGitHubData(userName);
+    }
+
+
+    private void handleErrorCase(@NonNull final RequestError requestError) {
+        if (userCache.isSameUserCached(currentSearchValue)
+                && userCache.isCacheValid()) {
+            if (userListener != null) {
+                userListener.onUserLoaded(userCache.getData());
+            }
+        } else {
+            RealmUser realmUser = realmService.getRealm()
+                    .where(RealmUser.class)
+                    .equalTo(RealmTable.User.NAME, currentSearchValue)
+                    .findFirst();
+
+            if (realmUser == null) {
+                if (userListener != null) {
+                    userListener.onError(requestError);
+                }
+            } else {
+                final User user = User.fromRealm(realmUser);
+                if (userListener != null) {
+                    userListener.onUserLoaded(user);
+                }
+            }
+        }
     }
 
     public interface OnUserListener {
@@ -90,30 +95,28 @@ public class UserRepository {
     private class GitHubListener extends ApiCallAdapter<Map<GitHubUser, List<GitHubRepo>>> {
         @Override
         public void onApiCallError(@NonNull RequestError requestError) {
-            Log.d(TAG, "onApiCallError: ");
-            if (userListener != null) {
-                userListener.onError(requestError);
-            }
+            Log.d(TAG, "onApiCallError");
+            handleErrorCase(requestError);
         }
 
         @Override
-        public void onLoadingStateChanged(@NonNull LoadingState loadingState) {
+        public void onLoadingStateChanged(@NonNull final LoadingState loadingState) {
             if (userListener != null) {
                 userListener.onLoadingStateChanged(loadingState);
             }
         }
 
         @Override
-        public void onApiCallDone(@NonNull Map<GitHubUser, List<GitHubRepo>> gitHubUserListMap) {
-            if (!gitHubUserListMap.isEmpty()) {
+        public void onApiCallDone(@Nullable final Map<GitHubUser, List<GitHubRepo>> gitHubUserListMap) {
+            Log.d(TAG, "onApiCallDone");
+            if (gitHubUserListMap != null && !gitHubUserListMap.isEmpty()) {
                 for (Map.Entry<GitHubUser, List<GitHubRepo>> gitHubUserListEntry : gitHubUserListMap.entrySet()) {
                     final GitHubUser gitHubUser = gitHubUserListEntry.getKey();
                     final List<GitHubRepo> gitHubRepos = gitHubUserListEntry.getValue();
                     final RealmUser realmUser = RealmUser.fromDomainModel(gitHubUser, gitHubRepos);
-//                        realmService.getRealm().beginTransaction();
-
-                      /*  realmService.getRealm().copyToRealm(realmUser);
-                        realmService.getRealm().commitTransaction();*/
+                    realmService.getRealm().beginTransaction();
+                    realmService.getRealm().copyToRealmOrUpdate(realmUser);
+                    realmService.getRealm().commitTransaction();
                     final User user = User.fromRealm(realmUser);
                     userCache.setData(user);
                     if (userListener != null) {
@@ -123,4 +126,5 @@ public class UserRepository {
             }
         }
     }
+
 }

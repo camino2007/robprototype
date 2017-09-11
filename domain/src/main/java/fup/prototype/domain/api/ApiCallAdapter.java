@@ -1,5 +1,7 @@
 package fup.prototype.domain.api;
 
+import android.support.annotation.Nullable;
+
 import io.reactivex.annotations.NonNull;
 
 /**
@@ -15,7 +17,7 @@ public class ApiCallAdapter<T> implements OnApiCallListener<T> {
     }
 
     @Override
-    public void onApiCallDone(@NonNull final T t) {
+    public void onApiCallDone(@Nullable final T t) {
 
     }
 

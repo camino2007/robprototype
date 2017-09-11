@@ -1,24 +1,18 @@
-package fup.prototype.robprototype.view;
+package fup.prototype.robprototype.view.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import javax.inject.Inject;
-
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
 import fup.prototype.robprototype.R;
+import fup.prototype.robprototype.view.fragments.BaseFragment;
+import fup.prototype.robprototype.view.fragments.MainFragment;
 
-public class MainActivity extends BaseActivity implements HasSupportFragmentInjector {
-
-    @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +61,4 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
-        return dispatchingAndroidInjector;
-    }
 }

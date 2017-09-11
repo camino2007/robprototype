@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.annotations.NonNull;
+
 public abstract class RecyclerViewBaseAdapter<T, V extends ViewDataBinding>
         extends RecyclerView.Adapter<DataBoundViewHolder<V>> {
 
@@ -30,7 +32,7 @@ public abstract class RecyclerViewBaseAdapter<T, V extends ViewDataBinding>
         return items == null ? 0 : items.size();
     }
 
-    public void replace(List<T> update) {
+    public void replace(@NonNull final List<T> update) {
         if (!items.isEmpty()) {
             items.clear();
         }
