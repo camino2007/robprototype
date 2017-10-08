@@ -9,14 +9,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import fup.prototype.robprototype.view.ViewProvider;
 import fup.prototype.robprototype.view.viewmodels.BaseViewModel;
+import fup.prototype.robprototype.view.viewmodels.ViewState;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends Fragment {
+public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends Fragment implements ViewProvider<B, VM> {
 
-    private static final String KEY_VIEW_MODEL = "keyViewModel";
+    private static final String KEY_VIEW_MODEL_STATE = "keyViewModelState";
+    private static final String KEY_REQUEST_ERROR = "keyRequestError";
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -34,10 +36,13 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            viewModel = savedInstanceState.getParcelable(KEY_VIEW_MODEL);
-        } else {
+        if (viewModel == null) {
             viewModel = createViewModel();
+        }
+        if (savedInstanceState != null) {
+            final ViewState viewState = (ViewState) savedInstanceState.getSerializable(KEY_VIEW_MODEL_STATE);
+            this.viewModel.setViewState(viewState);
+            restoreViewModelValues(savedInstanceState);
         }
         initBinding(viewBinding);
     }
@@ -45,13 +50,15 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(KEY_VIEW_MODEL, viewModel);
+        outState.putSerializable(KEY_VIEW_MODEL_STATE, this.viewModel.getViewState());
+        storeViewModelValues(outState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        addRxSubscriptions();
+        addViewListener();
+        viewModel.loadOrShowData();
     }
 
     @Override
@@ -64,7 +71,9 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
         compositeDisposable.add(disposable);
     }
 
-    protected abstract void addRxSubscriptions();
+    protected abstract void storeViewModelValues(@NonNull final Bundle outState);
+
+    protected abstract void restoreViewModelValues(@NonNull final Bundle savedInstanceState);
 
     public B getViewBinding() {
         return viewBinding;
@@ -74,12 +83,5 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
         return viewModel;
     }
 
-    protected abstract VM createViewModel();
-
-    protected abstract void initBinding(B binding);
-
-    protected abstract int getLayoutId();
-
     public abstract String getKey();
-
 }

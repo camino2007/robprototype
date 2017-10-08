@@ -263,6 +263,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/BaseView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/BindableLayout.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/BindableViewGroup.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/HasComponent.java">
           <value>
             <set />
@@ -289,6 +304,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/ViewModelFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/ViewProvider.java">
           <value>
             <set />
           </value>
@@ -338,6 +358,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/BaseView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/bindings/Bindings.java">
           <value>
             <set />
@@ -353,6 +378,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/errorview/ErrorView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/errorview/ErrorViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/fragments/BaseFragment.java">
           <value>
             <set />
@@ -363,12 +398,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/ui/MainView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/viewmodels/BaseViewModel.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/viewmodels/MainViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/viewmodels/ViewState.java">
           <value>
             <set />
           </value>
@@ -389,6 +434,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/item_repository.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/view_error.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/values/colors.xml">
           <value>
             <set />
           </value>
@@ -648,12 +703,27 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/api/JoyHeadersRequestInterceptor.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/api/data/account/LoggedInUser.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/api/provider/ApiProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/model/context/JoyContext.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/model/error/RequestError.java">
           <value>
             <set />
           </value>
@@ -668,6 +738,36 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/authentication/signin/SignInFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/authentication/signup/EmailLoginController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/base/BaseActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/base/view/RetryImageView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/base/view/custom/SpinnerItemModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/base/view/image/BaseImageView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/gallery/adapters/GalleryPictureDetailPagerAdapter.java">
           <value>
             <set />
@@ -678,7 +778,52 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/gallery/fragments/ManageGalleryFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/gallery/viewmodels/GalleryVisibility.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/gallery/viewmodels/ManageAlbumVisibilitySpinnerView.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/logout/LogoutDialogFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/settings/chrometabs/AccessTokenProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/utils/DialogUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/utils/glide/GlideUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/utils/glide/JoyceGlideModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/res/values/attrs.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/res/values/strings.xml">
           <value>
             <set />
           </value>

@@ -1,11 +1,6 @@
 package fup.prototype.robprototype.data.repositories;
 
 import android.util.Log;
-
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import fup.prototype.data.RealmService;
 import fup.prototype.data.RealmTable;
 import fup.prototype.data.model.RealmUser;
@@ -15,10 +10,14 @@ import fup.prototype.domain.api.RequestError;
 import fup.prototype.domain.github.model.GitHubRepo;
 import fup.prototype.domain.github.model.GitHubUser;
 import fup.prototype.domain.github.provider.GitHubProvider;
+import fup.prototype.domain.github.provider.GitHubUserProvider;
 import fup.prototype.robprototype.data.cache.UserCache;
 import fup.prototype.robprototype.model.User;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class UserRepository {
 
@@ -27,15 +26,37 @@ public class UserRepository {
     private final RealmService realmService;
 
     private final GitHubProvider gitHubProvider;
+    private final GitHubUserProvider gitHubUserProvider;
 
     private UserCache userCache;
     private OnUserListener userListener;
     private String currentSearchValue;
 
-    public UserRepository(@NonNull final GitHubProvider gitHubProvider, @NonNull final RealmService realmService) {
+    public UserRepository(@NonNull final GitHubProvider gitHubProvider,
+                          @NonNull final GitHubUserProvider gitHubUserProvider,
+                          @NonNull final RealmService realmService) {
         this.gitHubProvider = gitHubProvider;
+        this.gitHubUserProvider = gitHubUserProvider;
         this.realmService = realmService;
         this.gitHubProvider.setApiCallListener(new GitHubListener());
+        gitHubUserProvider.setApiCallListener(new ApiCallAdapter<GitHubUser>() {
+            @Override
+            public void onLoadingStateChanged(@NonNull LoadingState loadingState) {
+                if (userListener != null) {
+                    userListener.onLoadingStateChanged(loadingState);
+                }
+            }
+
+            @Override
+            public void onApiCallDone(@Nullable GitHubUser gitHubUser) {
+                Log.d(TAG, "onApiCallDone: " + gitHubUser.getLogin());
+            }
+
+            @Override
+            public void onApiCallError(@NonNull RequestError requestError) {
+                handleErrorCase(requestError);
+            }
+        });
         this.userCache = new UserCache(30, TimeUnit.SECONDS);
     }
 
@@ -45,8 +66,9 @@ public class UserRepository {
 
     public void load(@NonNull final String userName) {
         Log.d(TAG, "load: " + userName);
-        if (userCache.isSameUserCached(userName)
-                && userCache.isCacheValid()) {
+        Log.d(TAG, "userCache.isSameUserCached(userName): " + userCache.isSameUserCached(userName));
+        Log.d(TAG, "userCache.isCacheValid(): " + userCache.isCacheValid());
+        if (userCache.isSameUserCached(userName) && userCache.isCacheValid()) {
             Log.d(TAG, "show cached data");
             if (userListener != null) {
                 userListener.onUserLoaded(userCache.getData());
@@ -54,21 +76,17 @@ public class UserRepository {
             }
         }
         currentSearchValue = userName;
-        gitHubProvider.loadGitHubData(userName);
+        gitHubUserProvider.loadGithubUserRepos(userName);
+        //gitHubProvider.loadGitHubData(userName);
     }
 
-
     private void handleErrorCase(@NonNull final RequestError requestError) {
-        if (userCache.isSameUserCached(currentSearchValue)
-                && userCache.isCacheValid()) {
+        if (userCache.isSameUserCached(currentSearchValue) && userCache.isCacheValid()) {
             if (userListener != null) {
                 userListener.onUserLoaded(userCache.getData());
             }
         } else {
-            RealmUser realmUser = realmService.getRealm()
-                    .where(RealmUser.class)
-                    .equalTo(RealmTable.User.NAME, currentSearchValue)
-                    .findFirst();
+            RealmUser realmUser = realmService.getRealm().where(RealmUser.class).equalTo(RealmTable.User.NAME, currentSearchValue).findFirst();
 
             if (realmUser == null) {
                 if (userListener != null) {
@@ -126,5 +144,4 @@ public class UserRepository {
             }
         }
     }
-
 }
