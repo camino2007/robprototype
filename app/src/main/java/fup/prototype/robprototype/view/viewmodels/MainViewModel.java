@@ -61,7 +61,7 @@ public class MainViewModel extends BaseViewModel {
         }
 
         @Override
-        public void onError(@NonNull RequestError requestError) {
+        public void onError(@NonNull final RequestError requestError) {
             Log.e(TAG, "onError: ");
             onDataError(requestError);
         }

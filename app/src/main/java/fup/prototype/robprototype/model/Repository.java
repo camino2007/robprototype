@@ -1,38 +1,35 @@
 package fup.prototype.robprototype.model;
 
-
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
-
+import com.google.auto.value.AutoValue;
+import fup.prototype.data.model.RealmRepository;
+import io.realm.RealmList;
 import java.util.ArrayList;
 import java.util.List;
 
-import fup.prototype.data.model.RealmRepository;
-import io.realm.RealmList;
+@AutoValue
+public abstract class Repository {
 
-public class Repository implements Parcelable {
+    public abstract String getId();
 
-    private String id;
-    private String name;
-    private String fullName;
+    public abstract String getName();
 
-    private Repository(Builder builder) {
-        id = builder.id;
-        name = builder.name;
-        fullName = builder.fullName;
+    public abstract String getFullName();
+
+    private static Builder builder() {
+        return new AutoValue_Repository.Builder();
     }
 
-    public String getId() {
-        return id;
-    }
+    @AutoValue.Builder
+    abstract static class Builder {
 
-    public String getName() {
-        return name;
-    }
+        abstract Builder setName(final String value);
 
-    public String getFullName() {
-        return fullName;
+        abstract Builder setFullName(final String value);
+
+        abstract Builder setId(final String value);
+
+        abstract Repository build();
     }
 
     static List<Repository> fromRealmList(final RealmList<RealmRepository> realmRepositories) {
@@ -46,69 +43,6 @@ public class Repository implements Parcelable {
 
     @NonNull
     private static Repository create(RealmRepository realmRepository) {
-        return new Builder()
-                .id(realmRepository.getIdRep())
-                .name(realmRepository.getName())
-                .fullName(realmRepository.getFullName())
-                .build();
+        return Repository.builder().setId(realmRepository.getIdRep()).setName(realmRepository.getName()).setFullName(realmRepository.getFullName()).build();
     }
-
-
-    public static final class Builder {
-        private String id;
-        private String name;
-        private String fullName;
-
-        Builder() {
-        }
-
-        public Builder id(String val) {
-            id = val;
-            return this;
-        }
-
-        public Builder name(String val) {
-            name = val;
-            return this;
-        }
-
-        public Builder fullName(String val) {
-            fullName = val;
-            return this;
-        }
-
-        public Repository build() {
-            return new Repository(this);
-        }
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.name);
-        dest.writeString(this.fullName);
-    }
-
-    protected Repository(Parcel in) {
-        this.id = in.readString();
-        this.name = in.readString();
-        this.fullName = in.readString();
-    }
-
-    public static final Parcelable.Creator<Repository> CREATOR = new Parcelable.Creator<Repository>() {
-        @Override
-        public Repository createFromParcel(Parcel source) {
-            return new Repository(source);
-        }
-
-        @Override
-        public Repository[] newArray(int size) {
-            return new Repository[size];
-        }
-    };
 }

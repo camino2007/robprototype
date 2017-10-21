@@ -18,7 +18,6 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends Fragment implements ViewProvider<B, VM> {
 
     private static final String KEY_VIEW_MODEL_STATE = "keyViewModelState";
-    private static final String KEY_REQUEST_ERROR = "keyRequestError";
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -63,8 +62,12 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
 
     @Override
     public void onPause() {
-        compositeDisposable.clear();
+        removeViewListener();
         super.onPause();
+    }
+
+    private void removeViewListener() {
+        compositeDisposable.clear();
     }
 
     protected void addRxDisposable(@NonNull final Disposable disposable) {

@@ -64,20 +64,20 @@ public class UserRepository {
         this.userListener = userListener;
     }
 
-    public void load(@NonNull final String userName) {
-        Log.d(TAG, "load: " + userName);
-        Log.d(TAG, "userCache.isSameUserCached(userName): " + userCache.isSameUserCached(userName));
+    public void load(@NonNull final String searchValue) {
+        Log.d(TAG, "load: " + searchValue);
+        Log.d(TAG, "userCache.isSameUserCached(searchValue): " + userCache.isSameUserCached(searchValue));
         Log.d(TAG, "userCache.isCacheValid(): " + userCache.isCacheValid());
-        if (userCache.isSameUserCached(userName) && userCache.isCacheValid()) {
+        if (userCache.isSameUserCached(searchValue) && userCache.isCacheValid()) {
             Log.d(TAG, "show cached data");
             if (userListener != null) {
                 userListener.onUserLoaded(userCache.getData());
                 return;
             }
         }
-        currentSearchValue = userName;
-        gitHubUserProvider.loadGithubUserRepos(userName);
-        //gitHubProvider.loadGitHubData(userName);
+        currentSearchValue = searchValue;
+        gitHubUserProvider.loadGithubUserRepos(searchValue);
+        //gitHubProvider.loadGitHubData(searchValue);
     }
 
     private void handleErrorCase(@NonNull final RequestError requestError) {
@@ -105,9 +105,9 @@ public class UserRepository {
 
         void onUserLoaded(@NonNull final User user);
 
-        void onError(@NonNull RequestError requestError);
+        void onError(@NonNull final RequestError requestError);
 
-        void onLoadingStateChanged(@NonNull LoadingState loadingState);
+        void onLoadingStateChanged(@NonNull final LoadingState loadingState);
     }
 
     private class GitHubListener extends ApiCallAdapter<Map<GitHubUser, List<GitHubRepo>>> {

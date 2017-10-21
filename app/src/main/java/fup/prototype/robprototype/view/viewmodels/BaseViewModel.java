@@ -4,11 +4,13 @@ import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
 import fup.prototype.domain.api.RequestError;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.subjects.PublishSubject;
 
 public abstract class BaseViewModel extends BaseObservable {
 
-    public ObservableField<RequestError> requestError = new ObservableField<>();
     public ObservableField<ViewState> viewState = new ObservableField<>(ViewState.ON_INIT);
+
+    private PublishSubject<RequestError> errorSubject = PublishSubject.create();
 
     public BaseViewModel() {
         injectDependencies();
@@ -28,7 +30,11 @@ public abstract class BaseViewModel extends BaseObservable {
 
     public void onDataError(@NonNull final RequestError requestError) {
         setViewState(ViewState.ON_DATA_ERROR);
-        this.requestError.set(requestError);
+        this.errorSubject.onNext(requestError);
+    }
+
+    public PublishSubject<RequestError> getErrorSubject() {
+        return errorSubject;
     }
 
     public boolean isOnError() {

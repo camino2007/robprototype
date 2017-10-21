@@ -68,6 +68,8 @@ dependencies {
     compile appDependencies.rxAndroid
     compile appDependencies.rxBinding
     compile appDependencies.constraintLayout
+    annotationProcessor appDependencies.autoValue
+    provided appDependencies.autoValueAnnotations
 
     //Development
     compile developmentDependencies.leakCanary

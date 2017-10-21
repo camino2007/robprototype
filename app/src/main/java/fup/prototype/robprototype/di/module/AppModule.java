@@ -24,10 +24,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    UserRepository provideUserRepository(@NonNull final GitHubProvider gitHubProvider,
-                                         GitHubUserProvider gitHubUserProvider,
+    UserRepository provideUserRepository(@NonNull final GitHubProvider gitHubProvider, @NonNull final GitHubUserProvider gitHubUserProvider,
                                          @NonNull final RealmService realmService) {
         return new UserRepository(gitHubProvider, gitHubUserProvider, realmService);
     }
-
 }

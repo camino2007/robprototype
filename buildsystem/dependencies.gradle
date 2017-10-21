@@ -15,6 +15,7 @@ ext {
     realmVersion = '3.5.0'
     retrofitVersion = '2.3.0'
     okHttpVersion = '3.8.1'
+    autoValueVersion = '1.5'
 
     //developer
     leakCanaryVersion = '1.5.1'
@@ -29,7 +30,8 @@ ext {
             rxAndroid             : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             rxBinding             : "com.jakewharton.rxbinding2:rxbinding:2.0.0",
             constraintLayout      : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
-
+            autoValue             : "com.google.auto.value:auto-value:${autoValueVersion}",
+            autoValueAnnotations  : "com.jakewharton.auto.value:auto-value-annotations:${autoValueVersion}",
     ]
 
     dataDependencies = [
@@ -47,6 +49,9 @@ ext {
             rxAndroid            : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             daggerCompiler       : "com.google.dagger:dagger-compiler:${daggerVersion}",
             dagger               : "com.google.dagger:dagger:${daggerVersion}",
+            autoValue            : "com.google.auto.value:auto-value:${autoValueVersion}",
+            autoValueAnnotations : "com.jakewharton.auto.value:auto-value-annotations:${autoValueVersion}",
+
     ]
 
     developmentDependencies = [
