@@ -71,7 +71,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:visibleOrGone="@{viewModel.viewState == ViewState.ON_LOADING}"/>
+                app:visibleOrGone="@{viewModel.isInProgress}"/>
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"

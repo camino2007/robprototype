@@ -9,6 +9,7 @@ import io.reactivex.subjects.PublishSubject;
 public abstract class BaseViewModel extends BaseObservable {
 
     public ObservableField<ViewState> viewState = new ObservableField<>(ViewState.ON_INIT);
+    public ObservableField<Boolean> isInProgress = new ObservableField<>(false);
 
     private PublishSubject<RequestError> errorSubject = PublishSubject.create();
 
@@ -25,7 +26,7 @@ public abstract class BaseViewModel extends BaseObservable {
     }
 
     public void changeLoadingState(final boolean isLoading) {
-        //viewState.set(ViewState.ON_LOADING == isLoading);
+        isInProgress.set(isLoading);
     }
 
     public void onDataError(@NonNull final RequestError requestError) {

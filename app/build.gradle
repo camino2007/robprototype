@@ -47,11 +47,10 @@ android {
 }
 
 dependencies {
+    implementation project(':data')
+
     def appDependencies = rootProject.ext.appDependencies
     def developmentDependencies = rootProject.ext.developmentDependencies
-
-    debugCompile project(path: ':data', configuration: "debug")
-    releaseCompile project(path: ':data', configuration: "release")
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -77,4 +76,5 @@ dependencies {
     testCompile developmentDependencies.leakCanaryNoOp
 
     testCompile 'junit:junit:4.12'
+    compile project(path: ':domain')
 }
