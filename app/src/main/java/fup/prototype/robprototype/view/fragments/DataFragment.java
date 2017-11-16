@@ -18,8 +18,9 @@ import io.reactivex.functions.Consumer;
  * @param <B>
  * @param <VM>
  */
-public abstract class DataBaseFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends BaseFragment<B, VM> {
+public abstract class DataFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends BaseFragment<B, VM> {
 
+    //TODO think, if it's a good idea to store RequestError in onSaveInstance
     private static final String KEY_REQUEST_ERROR = "keyRequestError";
 
     private AlertDialog errorDialog;

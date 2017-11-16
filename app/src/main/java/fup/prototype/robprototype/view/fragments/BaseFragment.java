@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends Fragment implements ViewProvider<B, VM> {
+
+    private static final String TAG = "BaseFragment";
 
     private static final String KEY_VIEW_MODEL_STATE = "keyViewModelState";
 
@@ -40,6 +43,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
         }
         if (savedInstanceState != null) {
             final ViewState viewState = (ViewState) savedInstanceState.getSerializable(KEY_VIEW_MODEL_STATE);
+            Log.d(TAG, "onActivityCreated - viewState: " + viewState);
             this.viewModel.setViewState(viewState);
             restoreViewModelValues(savedInstanceState);
         }
@@ -47,23 +51,22 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_VIEW_MODEL_STATE, this.viewModel.getViewState());
-        storeViewModelValues(outState);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         addViewListener();
-        viewModel.loadOrShowData();
     }
 
     @Override
     public void onPause() {
         removeViewListener();
         super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(KEY_VIEW_MODEL_STATE, this.viewModel.getViewState());
+        storeViewModelValues(outState);
     }
 
     private void removeViewListener() {

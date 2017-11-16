@@ -15,8 +15,9 @@ import fup.prototype.robprototype.view.adapters.RepositoryAdapter;
 import fup.prototype.robprototype.view.viewmodels.MainViewModel;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import java.net.HttpURLConnection;
 
-public class MainFragment extends DataBaseFragment<FragmentMainBinding, MainViewModel> {
+public class MainFragment extends DataFragment<FragmentMainBinding, MainViewModel> {
 
     private static final String KEY_SEARCH_VALUE = "keySearchValue";
 
@@ -59,6 +60,11 @@ public class MainFragment extends DataBaseFragment<FragmentMainBinding, MainView
 
     @Override
     public void addViewListener() {
+        addSearchInputListener();
+        addSearchButtonListener();
+    }
+
+    private void addSearchInputListener() {
         final Disposable searchDisposable = RxTextView.textChanges(getViewBinding().input).skipInitialValue().subscribe(new Consumer<CharSequence>() {
             @Override
             public void accept(@NonNull CharSequence charSequence) throws Exception {
@@ -66,7 +72,9 @@ public class MainFragment extends DataBaseFragment<FragmentMainBinding, MainView
             }
         });
         addRxDisposable(searchDisposable);
+    }
 
+    private void addSearchButtonListener() {
         final Disposable clickDisposable = RxView.clicks(getViewBinding().searchButton).subscribe(new Consumer<Object>() {
             @Override
             public void accept(@NonNull Object o) throws Exception {
@@ -89,10 +97,13 @@ public class MainFragment extends DataBaseFragment<FragmentMainBinding, MainView
 
     @Override
     protected AlertDialog createErrorDialog(@NonNull final RequestError requestError) {
-        if (requestError.getResponse() != null && requestError.getResponse().code() == 404) {
+        if (requestError.getResponse() != null && requestError.getResponse().code() == HttpURLConnection.HTTP_NOT_FOUND) {
             return DialogUtils.createOkCancelDialog(getContext(), "Möp", "User not found", "Ok", "Fuck it", null, null);
-        } else {
-            return DialogUtils.createOkCancelDialog(getContext(), "Möp", "A wild error occurred", "Ok", "Fuck it", null, null);
         }
+        if (requestError.getErrorCode() == RequestError.ERROR_CODE_NO_SEARCH_INPUT) {
+            final String errorText = "If you leave this field blank, sooner or later I'll load all users.";
+            return DialogUtils.createOkCancelDialog(getContext(), "ToDo", errorText, "Ok", "Fuck it", null, null);
+        }
+        return DialogUtils.createOkCancelDialog(getContext(), "Möp", "A wild error occurred", "Ok", "Fuck it", null, null);
     }
 }

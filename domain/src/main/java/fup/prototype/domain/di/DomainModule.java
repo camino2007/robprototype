@@ -1,21 +1,17 @@
 package fup.prototype.domain.di;
 
 import android.content.Context;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
+import fup.prototype.domain.github.GitHubApi;
 import fup.prototype.domain.github.provider.GitHubProvider;
 import fup.prototype.domain.github.provider.GitHubRepoProvider;
-import fup.prototype.domain.github.GithubApi;
 import fup.prototype.domain.github.provider.GitHubUserProvider;
+import java.util.concurrent.TimeUnit;
+import javax.inject.Singleton;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -68,26 +64,26 @@ public class DomainModule {
 
     @Provides
     @Singleton
-    GithubApi provideGithubApi(final Retrofit retrofit) {
-        return retrofit.create(GithubApi.class);
+    GitHubApi provideGithubApi(final Retrofit retrofit) {
+        return retrofit.create(GitHubApi.class);
     }
 
     @Provides
     @Singleton
-    GitHubProvider provideGitHubProvider(final GithubApi githubApi) {
-        return new GitHubProvider(githubApi);
+    GitHubProvider provideGitHubProvider(final GitHubApi gitHubApi) {
+        return new GitHubProvider(gitHubApi);
     }
 
     @Provides
     @Singleton
-    GitHubUserProvider provideGitHubUserProvider(final GithubApi githubApi) {
-        return new GitHubUserProvider(githubApi);
+    GitHubUserProvider provideGitHubUserProvider(final GitHubApi gitHubApi) {
+        return new GitHubUserProvider(gitHubApi);
     }
 
     @Provides
     @Singleton
-    GitHubRepoProvider provideGitHubRepoProvider(final GithubApi githubApi) {
-        return new GitHubRepoProvider(githubApi);
+    GitHubRepoProvider provideGitHubRepoProvider(final GitHubApi gitHubApi) {
+        return new GitHubRepoProvider(gitHubApi);
     }
 }
 

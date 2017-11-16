@@ -1,8 +1,7 @@
 package fup.prototype.domain.api;
 
 import android.util.Log;
-
-import fup.prototype.domain.github.GithubApi;
+import fup.prototype.domain.github.GitHubApi;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,19 +16,19 @@ public abstract class ApiProvider<T> {
     private static final String TAG = "ApiProvider";
 
     @NonNull
-    private final GithubApi githubApi;
+    private final GitHubApi gitHubApi;
 
     private LoadingState loadingState = LoadingState.IDLE;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private OnApiCallListener<T> apiCallListener;
 
-    public ApiProvider(@NonNull final GithubApi githubApi) {
-        this.githubApi = githubApi;
+    public ApiProvider(@NonNull final GitHubApi gitHubApi) {
+        this.gitHubApi = gitHubApi;
     }
 
     @NonNull
-    public GithubApi getGithubApi() {
-        return githubApi;
+    public GitHubApi getGitHubApi() {
+        return gitHubApi;
     }
 
     public LoadingState getLoadingState() {

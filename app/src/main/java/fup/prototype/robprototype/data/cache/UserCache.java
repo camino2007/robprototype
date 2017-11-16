@@ -1,10 +1,8 @@
 package fup.prototype.robprototype.data.cache;
 
-
-import java.util.concurrent.TimeUnit;
-
 import fup.prototype.robprototype.model.User;
 import io.reactivex.annotations.NonNull;
+import java.util.concurrent.TimeUnit;
 
 public class UserCache extends TimeLimitedCache<User> {
 
@@ -12,7 +10,7 @@ public class UserCache extends TimeLimitedCache<User> {
         super(timeOut, timeUnit);
     }
 
-    public boolean isSameUserCached(@NonNull final String userName) {
-        return hasCachedData() && getData().getName().equalsIgnoreCase(userName);
+    public boolean isSameUserCached(@NonNull final String userLogin) {
+        return hasCachedData() && getData().getLogin().equalsIgnoreCase(userLogin);
     }
 }

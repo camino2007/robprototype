@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="viewModel"
+                type="fup.prototype.robprototype.view.adapters.UserItemViewModel"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:padding="12dp"
+            tools:context="fup.prototype.robprototype.view.MainFragnment">
+
+        <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.userName}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:text="User Name"/>
+
+        <TextView
+                android:id="@+id/repo_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.repoCounter}"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="23"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
+
+

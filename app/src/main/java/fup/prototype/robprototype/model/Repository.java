@@ -1,6 +1,7 @@
 package fup.prototype.robprototype.model;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
 import fup.prototype.data.model.RealmRepository;
 import io.realm.RealmList;
@@ -32,11 +33,13 @@ public abstract class Repository {
         abstract Repository build();
     }
 
-    static List<Repository> fromRealmList(final RealmList<RealmRepository> realmRepositories) {
+    static List<Repository> fromRealmList(@Nullable final RealmList<RealmRepository> realmRepositories) {
         final List<Repository> repositories = new ArrayList<>();
-        for (RealmRepository realmRepository : realmRepositories) {
-            Repository repository = create(realmRepository);
-            repositories.add(repository);
+        if (realmRepositories != null && !realmRepositories.isEmpty()) {
+            for (RealmRepository realmRepository : realmRepositories) {
+                Repository repository = create(realmRepository);
+                repositories.add(repository);
+            }
         }
         return repositories;
     }
