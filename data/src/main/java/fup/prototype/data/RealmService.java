@@ -1,9 +1,7 @@
 package fup.prototype.data;
 
-
 import android.content.Context;
 import android.support.annotation.NonNull;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -11,7 +9,7 @@ public class RealmService {
 
     private Realm realm;
 
-    public RealmService(final @NonNull Context context) {
+    public RealmService(@NonNull final Context context) {
         Realm.init(context);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name(Realm.DEFAULT_REALM_NAME)

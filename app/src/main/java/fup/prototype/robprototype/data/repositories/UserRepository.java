@@ -1,9 +1,8 @@
 package fup.prototype.robprototype.data.repositories;
 
 import android.text.TextUtils;
-import fup.prototype.data.RealmService;
-import fup.prototype.data.RealmTable;
-import fup.prototype.data.model.RealmUser;
+import fup.prototype.data.UserRealmProvider;
+import fup.prototype.data.models.main.UserEntity;
 import fup.prototype.domain.api.ApiCallAdapter;
 import fup.prototype.domain.api.LoadingState;
 import fup.prototype.domain.api.RequestError;
@@ -11,7 +10,7 @@ import fup.prototype.domain.github.model.GitHubUser;
 import fup.prototype.domain.github.provider.GitHubProvider;
 import fup.prototype.domain.github.provider.GitHubUserProvider;
 import fup.prototype.robprototype.data.cache.UserCache;
-import fup.prototype.robprototype.model.User;
+import fup.prototype.robprototype.view.main.model.User;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 import java.util.concurrent.TimeUnit;
@@ -20,21 +19,19 @@ public class UserRepository {
 
     private static final String TAG = "UserRepository";
 
-    private final RealmService realmService;
-
     private final GitHubProvider gitHubProvider;
     private final GitHubUserProvider gitHubUserProvider;
+    private final UserRealmProvider userRealmProvider;
 
     private UserCache userCache;
     private OnUserListener userListener;
     private String currentSearchValue;
 
     public UserRepository(@NonNull final GitHubProvider gitHubProvider,
-                          @NonNull final GitHubUserProvider gitHubUserProvider,
-                          @NonNull final RealmService realmService) {
+                          @NonNull final GitHubUserProvider gitHubUserProvider, @NonNull final UserRealmProvider userRealmProvider) {
         this.gitHubProvider = gitHubProvider;
         this.gitHubUserProvider = gitHubUserProvider;
-        this.realmService = realmService;
+        this.userRealmProvider = userRealmProvider;
         this.gitHubUserProvider.setApiCallListener(new GitHubUserListener());
         this.userCache = new UserCache(30, TimeUnit.SECONDS);
     }
@@ -52,7 +49,7 @@ public class UserRepository {
     }
 
     private void loadAllUser() {
-
+        //TODO
     }
 
     private void loadSingleUser(@NonNull  final String searchValue) {
@@ -72,14 +69,14 @@ public class UserRepository {
                 userListener.onUserLoaded(userCache.getData());
             }
         } else {
-            RealmUser realmUser = realmService.getRealm().where(RealmUser.class).equalTo(RealmTable.User.NAME, currentSearchValue).findFirst();
+            final UserEntity userEntity = userRealmProvider.getForStringValue(currentSearchValue);
 
-            if (realmUser == null) {
+            if (userEntity == null) {
                 if (userListener != null) {
                     userListener.onError(requestError);
                 }
             } else {
-                final User user = User.fromRealm(realmUser);
+                final User user = User.fromRealm(userEntity);
                 if (userListener != null) {
                     userListener.onUserLoaded(user);
                 }
@@ -107,11 +104,8 @@ public class UserRepository {
 
         @Override
         public void onApiCallDone(@Nullable final GitHubUser gitHubUser) {
-            final RealmUser realmUser = RealmUser.fromDomainModel(gitHubUser);
-            realmService.getRealm().beginTransaction();
-            realmService.getRealm().copyToRealmOrUpdate(realmUser);
-            realmService.getRealm().commitTransaction();
-            final User user = User.fromRealm(realmUser);
+            userRealmProvider.onStoreOrUpdate(gitHubUser);
+            final User user = User.fromApi(gitHubUser);
             userCache.setData(user);
             if (userListener != null) {
                 userListener.onUserLoaded(user);

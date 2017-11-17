@@ -1,18 +1,21 @@
-package fup.prototype.robprototype.view.fragments;
+package fup.prototype.robprototype.view.base.fragments;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import fup.prototype.robprototype.view.ViewProvider;
-import fup.prototype.robprototype.view.viewmodels.BaseViewModel;
-import fup.prototype.robprototype.view.viewmodels.ViewState;
+import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
+import fup.prototype.robprototype.view.base.viewmodels.ViewState;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -67,6 +70,17 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
         super.onSaveInstanceState(outState);
         outState.putSerializable(KEY_VIEW_MODEL_STATE, this.viewModel.getViewState());
         storeViewModelValues(outState);
+    }
+
+    protected void hideKeyboard() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null) {
+            final InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            final View view = activity.getCurrentFocus();
+            if (view != null && imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
     }
 
     private void removeViewListener() {

@@ -1,6 +1,5 @@
 package fup.prototype.data;
 
-
 public interface RealmTable {
 
     String ID = "id";
@@ -8,6 +7,9 @@ public interface RealmTable {
     interface User {
 
         String NAME = "name";
+        String LOGIN = "login";
+        String PUBLIC_REPOS_COUNTER = "publicReposCounter";
+        String PUBLIC_GISTS_COUNTER = "publicGistsCounter";
         String REPOSITORIES = "repositories";
     }
 
@@ -17,7 +19,5 @@ public interface RealmTable {
         String NAME = "name";
         String FULL_NAME = "fullName";
         String ID = "idRep";
-
     }
-
 }

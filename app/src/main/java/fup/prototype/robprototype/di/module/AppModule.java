@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
-import fup.prototype.data.RealmService;
+import fup.prototype.data.UserRealmProvider;
 import fup.prototype.data.di.DataComponent;
 import fup.prototype.domain.di.DomainComponent;
 import fup.prototype.domain.github.provider.GitHubProvider;
@@ -24,8 +24,9 @@ public class AppModule {
 
     @Provides
     @Singleton
-    UserRepository provideUserRepository(@NonNull final GitHubProvider gitHubProvider, @NonNull final GitHubUserProvider gitHubUserProvider,
-                                         @NonNull final RealmService realmService) {
-        return new UserRepository(gitHubProvider, gitHubUserProvider, realmService);
+    UserRepository provideUserRepository(@NonNull final GitHubProvider gitHubProvider,
+                                         @NonNull final GitHubUserProvider gitHubUserProvider,
+                                         @NonNull final UserRealmProvider userRealmProvider) {
+        return new UserRepository(gitHubProvider, gitHubUserProvider, userRealmProvider);
     }
 }

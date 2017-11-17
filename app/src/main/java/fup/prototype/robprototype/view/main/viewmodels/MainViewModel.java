@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.viewmodels;
+package fup.prototype.robprototype.view.main.viewmodels;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
@@ -8,7 +8,9 @@ import fup.prototype.domain.api.LoadingState;
 import fup.prototype.domain.api.RequestError;
 import fup.prototype.robprototype.ProtoApplication;
 import fup.prototype.robprototype.data.repositories.UserRepository;
-import fup.prototype.robprototype.model.User;
+import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
+import fup.prototype.robprototype.view.base.viewmodels.ViewState;
+import fup.prototype.robprototype.view.main.model.User;
 import io.reactivex.annotations.NonNull;
 import javax.inject.Inject;
 
@@ -20,7 +22,7 @@ public class MainViewModel extends BaseViewModel {
     //public ObservableArrayList<Repository> items = new ObservableArrayList<>();
 
     @Inject
-    UserRepository userRepository;
+    protected UserRepository userRepository;
 
     public MainViewModel() {
         this.userRepository.setUserListener(new UserListener());

@@ -1,5 +1,6 @@
-package fup.prototype.data.model;
+package fup.prototype.data.models.main;
 
+import fup.prototype.data.models.details.RepositoryEntity;
 import fup.prototype.domain.github.model.GitHubUser;
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -7,7 +8,7 @@ import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-public class RealmUser extends RealmObject {
+public class UserEntity extends RealmObject {
 
     @Index
     @PrimaryKey
@@ -22,12 +23,12 @@ public class RealmUser extends RealmObject {
 
     public int publicGistCount;
 
-    public RealmList<RealmRepository> repositories;
+    public RealmList<RepositoryEntity> repositories;
 
-    public RealmUser() {
+    public UserEntity() {
     }
 
-    private RealmUser(final Builder builder) {
+    private UserEntity(final Builder builder) {
         login = builder.login;
         name = builder.name;
         publicRepoCount = builder.publicRepoCount;
@@ -55,11 +56,11 @@ public class RealmUser extends RealmObject {
         return publicGistCount;
     }
 
-    public RealmList<RealmRepository> getRepositories() {
+    public RealmList<RepositoryEntity> getRepositories() {
         return repositories;
     }
 
-    public static RealmUser fromDomainModel(final GitHubUser gitHubUser) {
+    public static UserEntity fromDomainModel(final GitHubUser gitHubUser) {
         return new Builder().login(gitHubUser.getLogin())
                             .name(gitHubUser.getName())
                             .publicGistCount(gitHubUser.getPublicGists())
@@ -72,7 +73,7 @@ public class RealmUser extends RealmObject {
         private String name;
         private int publicRepoCount;
         private int publicGistCount;
-        private RealmList<RealmRepository> repositories;
+        private RealmList<RepositoryEntity> repositories;
 
         public Builder() {
         }
@@ -97,13 +98,13 @@ public class RealmUser extends RealmObject {
             return this;
         }
 
-        public Builder repositories(final RealmList<RealmRepository> val) {
+        public Builder repositories(final RealmList<RepositoryEntity> val) {
             repositories = val;
             return this;
         }
 
-        public RealmUser build() {
-            return new RealmUser(this);
+        public UserEntity build() {
+            return new UserEntity(this);
         }
     }
 }

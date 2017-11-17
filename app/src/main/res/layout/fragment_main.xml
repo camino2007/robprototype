@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="fup.prototype.robprototype.view.viewmodels.ViewState"/>
+        <import type="fup.prototype.robprototype.view.base.viewmodels.ViewState"/>
 
         <variable
                 name="viewModel"
-                type="fup.prototype.robprototype.view.viewmodels.MainViewModel"/>
+                type="fup.prototype.robprototype.view.main.viewmodels.MainViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -82,16 +82,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/user_name"/>
-
-        <!--        <fup.prototype.robprototype.view.errorview.ErrorView
-                        android:id="@+id/error_view"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:visibleOrGone="@{viewModel.viewState == ViewState.ON_DATA_ERROR}"/>-->
 
     </android.support.constraint.ConstraintLayout>
 

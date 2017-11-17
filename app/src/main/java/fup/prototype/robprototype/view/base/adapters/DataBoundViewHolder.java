@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.adapters;
+package fup.prototype.robprototype.view.base.adapters;
 
 
 import android.databinding.ViewDataBinding;

@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.viewmodels;
+package fup.prototype.robprototype.view.base.viewmodels;
 
 public enum ViewState {
 

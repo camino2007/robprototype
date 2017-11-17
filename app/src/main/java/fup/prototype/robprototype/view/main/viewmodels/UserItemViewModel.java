@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.adapters;
+package fup.prototype.robprototype.view.main.viewmodels;
 
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;

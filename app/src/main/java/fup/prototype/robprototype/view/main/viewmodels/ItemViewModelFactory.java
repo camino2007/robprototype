@@ -1,8 +1,7 @@
-package fup.prototype.robprototype.view;
+package fup.prototype.robprototype.view.main.viewmodels;
 
 import android.support.annotation.NonNull;
-import fup.prototype.robprototype.model.User;
-import fup.prototype.robprototype.view.adapters.UserItemViewModel;
+import fup.prototype.robprototype.view.main.model.User;
 
 public final class ItemViewModelFactory {
 

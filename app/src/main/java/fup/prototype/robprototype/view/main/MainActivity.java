@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.activities;
+package fup.prototype.robprototype.view.main;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,10 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import fup.prototype.robprototype.R;
-import fup.prototype.robprototype.view.fragments.BaseFragment;
-import fup.prototype.robprototype.view.fragments.MainFragment;
+import fup.prototype.robprototype.view.base.BaseActivity;
+import fup.prototype.robprototype.view.base.fragments.BaseFragment;
 
 public class MainActivity extends BaseActivity {
 

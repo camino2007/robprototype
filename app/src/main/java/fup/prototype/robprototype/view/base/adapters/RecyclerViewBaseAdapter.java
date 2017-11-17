@@ -1,13 +1,11 @@
-package fup.prototype.robprototype.view.adapters;
+package fup.prototype.robprototype.view.base.adapters;
 
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-
+import io.reactivex.annotations.NonNull;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.annotations.NonNull;
 
 public abstract class RecyclerViewBaseAdapter<T, V extends ViewDataBinding>
         extends RecyclerView.Adapter<DataBoundViewHolder<V>> {

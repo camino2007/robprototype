@@ -1,25 +1,22 @@
-package fup.prototype.data.model;
-
+package fup.prototype.data.models.details;
 
 import android.support.annotation.NonNull;
-
-import java.util.List;
-
 import fup.prototype.domain.github.model.GitHubRepo;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import java.util.List;
 
-public class RealmRepository extends RealmObject {
+public class RepositoryEntity extends RealmObject {
 
     private String idRep;
     private String name;
     private String fullName;
 
-    public RealmRepository() {
+    public RepositoryEntity() {
         //needed for realm
     }
 
-    private RealmRepository(Builder builder) {
+    private RepositoryEntity(Builder builder) {
         idRep = builder.idRep;
         name = builder.name;
         fullName = builder.fullName;
@@ -38,17 +35,17 @@ public class RealmRepository extends RealmObject {
     }
 
     @NonNull
-    public static RealmList<RealmRepository> fromDomainModels(final List<GitHubRepo> gitHubRepos) {
-        RealmList<RealmRepository> realmRepositories = new RealmList<>();
+    public static RealmList<RepositoryEntity> fromDomainModels(final List<GitHubRepo> gitHubRepos) {
+        RealmList<RepositoryEntity> realmRepositories = new RealmList<>();
         for (GitHubRepo gitHubRepo : gitHubRepos) {
-            RealmRepository repository = create(gitHubRepo);
+            RepositoryEntity repository = create(gitHubRepo);
             realmRepositories.add(repository);
         }
         return realmRepositories;
     }
 
     @NonNull
-    private static RealmRepository create(GitHubRepo gitHubRepo) {
+    private static RepositoryEntity create(GitHubRepo gitHubRepo) {
         return new Builder()
                 .name(gitHubRepo.getName())
                 .fullName(gitHubRepo.getFullName())
@@ -79,8 +76,8 @@ public class RealmRepository extends RealmObject {
             return this;
         }
 
-        public RealmRepository build() {
-            return new RealmRepository(this);
+        public RepositoryEntity build() {
+            return new RepositoryEntity(this);
         }
     }
 

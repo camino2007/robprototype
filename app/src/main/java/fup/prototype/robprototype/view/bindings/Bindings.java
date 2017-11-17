@@ -3,8 +3,8 @@ package fup.prototype.robprototype.view.bindings;
 import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import fup.prototype.robprototype.model.User;
-import fup.prototype.robprototype.view.adapters.RepositoryAdapter;
+import fup.prototype.robprototype.view.main.UserAdapter;
+import fup.prototype.robprototype.view.main.model.User;
 import java.util.List;
 
 public class Bindings {
@@ -16,9 +16,9 @@ public class Bindings {
 
     @BindingAdapter({"app:items"})
     public static void setItems(RecyclerView recyclerView, List<User> items) {
-        RepositoryAdapter repositoryAdapter = (RepositoryAdapter) recyclerView.getAdapter();
-        if (repositoryAdapter != null && items != null) {
-            repositoryAdapter.replace(items);
+        UserAdapter userAdapter = (UserAdapter) recyclerView.getAdapter();
+        if (userAdapter != null && items != null) {
+            userAdapter.replace(items);
         }
     }
 }

@@ -1,9 +1,9 @@
-package fup.prototype.robprototype.model;
+package fup.prototype.robprototype.view.main.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
-import fup.prototype.data.model.RealmRepository;
+import fup.prototype.data.models.details.RepositoryEntity;
 import io.realm.RealmList;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +33,11 @@ public abstract class Repository {
         abstract Repository build();
     }
 
-    static List<Repository> fromRealmList(@Nullable final RealmList<RealmRepository> realmRepositories) {
+    static List<Repository> fromRealmList(@Nullable final RealmList<RepositoryEntity> realmRepositories) {
         final List<Repository> repositories = new ArrayList<>();
         if (realmRepositories != null && !realmRepositories.isEmpty()) {
-            for (RealmRepository realmRepository : realmRepositories) {
-                Repository repository = create(realmRepository);
+            for (RepositoryEntity repositoryEntity : realmRepositories) {
+                Repository repository = create(repositoryEntity);
                 repositories.add(repository);
             }
         }
@@ -45,7 +45,7 @@ public abstract class Repository {
     }
 
     @NonNull
-    private static Repository create(RealmRepository realmRepository) {
-        return Repository.builder().setId(realmRepository.getIdRep()).setName(realmRepository.getName()).setFullName(realmRepository.getFullName()).build();
+    private static Repository create(RepositoryEntity repositoryEntity) {
+        return Repository.builder().setId(repositoryEntity.getIdRep()).setName(repositoryEntity.getName()).setFullName(repositoryEntity.getFullName()).build();
     }
 }

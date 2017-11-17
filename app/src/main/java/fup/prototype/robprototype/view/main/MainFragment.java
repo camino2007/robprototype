@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.fragments;
+package fup.prototype.robprototype.view.main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,8 +11,8 @@ import fup.prototype.domain.api.RequestError;
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.FragmentMainBinding;
 import fup.prototype.robprototype.util.DialogUtils;
-import fup.prototype.robprototype.view.adapters.RepositoryAdapter;
-import fup.prototype.robprototype.view.viewmodels.MainViewModel;
+import fup.prototype.robprototype.view.base.fragments.DataFragment;
+import fup.prototype.robprototype.view.main.viewmodels.MainViewModel;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import java.net.HttpURLConnection;
@@ -52,7 +52,7 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
 
     private void setupRepositoryAdapter() {
         final RecyclerView recyclerView = getViewBinding().recyclerView;
-        final RepositoryAdapter repoAdapter = new RepositoryAdapter();
+        final UserAdapter repoAdapter = new UserAdapter();
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(repoAdapter);
@@ -78,6 +78,7 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
         final Disposable clickDisposable = RxView.clicks(getViewBinding().searchButton).subscribe(new Consumer<Object>() {
             @Override
             public void accept(@NonNull Object o) throws Exception {
+                hideKeyboard();
                 getViewModel().loadOrShowData();
             }
         });

@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.activities;
+package fup.prototype.robprototype.view.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import fup.prototype.robprototype.R;
-import fup.prototype.robprototype.view.fragments.BaseFragment;
+import fup.prototype.robprototype.view.base.fragments.BaseFragment;
 
 public abstract class BaseActivity extends AppCompatActivity {
 

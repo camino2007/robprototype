@@ -1,6 +1,6 @@
 package fup.prototype.robprototype.data.cache;
 
-import fup.prototype.robprototype.model.User;
+import fup.prototype.robprototype.view.main.model.User;
 import io.reactivex.annotations.NonNull;
 import java.util.concurrent.TimeUnit;
 

@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.fragments;
+package fup.prototype.robprototype.view.base.fragments;
 
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import fup.prototype.domain.api.RequestError;
 import fup.prototype.robprototype.util.DialogUtils;
-import fup.prototype.robprototype.view.viewmodels.BaseViewModel;
+import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -20,7 +20,7 @@ import io.reactivex.functions.Consumer;
  */
 public abstract class DataFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends BaseFragment<B, VM> {
 
-    //TODO think, if it's a good idea to store RequestError in onSaveInstance
+    //TODO store RequestError in onSaveInstance
     private static final String KEY_REQUEST_ERROR = "keyRequestError";
 
     private AlertDialog errorDialog;
