@@ -15,32 +15,31 @@
     </data>
 
 
-    <!--  <android.support.v7.widget.CardView
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:padding="12dp">-->
-
-    <android.support.constraint.ConstraintLayout
-            android:id="@+id/item_root_layout"
+    <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context="fup.prototype.robprototype.view.MainFragnment"
-            android:onClick="@{() -> handler.onClick(viewModel, itemRootLayout)}">
+            android:padding="12dp">
 
-        <TextView
-                android:id="@+id/user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.repoName}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                tools:text="User Name"/>
+        <android.support.constraint.ConstraintLayout
+                android:id="@+id/item_root_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="12dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:context="fup.prototype.robprototype.view.MainFragnment"
+                android:onClick="@{() -> handler.onClick(viewModel, itemRootLayout)}">
 
+            <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.repoName}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    tools:text="User Name"/>
 
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
-    <!--    </android.support.v7.widget.CardView>-->
+    </android.support.v7.widget.CardView>
 
 </layout>
 
