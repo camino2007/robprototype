@@ -14,8 +14,8 @@ public class GitHubRepoProvider extends ApiProvider<List<GitHubRepo>> {
         super(gitHubApi);
     }
 
-    public void loadGithubRepos(final String userName) {
-        final Observable<Response<List<GitHubRepo>>> observable = getGitHubApi().getReposForUser(userName);
+    public void loadGithubRepos(final String userLogin) {
+        final Observable<Response<List<GitHubRepo>>> observable = getGitHubApi().getReposForUser(userLogin);
         execute(observable);
     }
 }

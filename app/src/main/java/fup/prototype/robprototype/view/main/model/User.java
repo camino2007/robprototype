@@ -6,10 +6,11 @@ import com.google.auto.value.AutoValue;
 import com.squareup.haha.guava.collect.ImmutableList;
 import fup.prototype.data.models.main.UserEntity;
 import fup.prototype.domain.github.model.GitHubUser;
+import java.io.Serializable;
 import java.util.List;
 
 @AutoValue
-public abstract class User {
+public abstract class User implements Serializable {
 
     public abstract int getId();
 
@@ -92,13 +93,12 @@ public abstract class User {
     }
 
     @NonNull
-    public static User fromRealm(final UserEntity userEntity) {
+    public static User fromEntity(final UserEntity userEntity) {
         return User.builder()
                    .setLogin(userEntity.getLogin())
                    .setName(userEntity.getName())
                    .setPublicGistCount(userEntity.getPublicGistCount())
-                   .setPublicRepoCount(userEntity.getPublicRepoCount())
-                   .setRepositoryList(Repository.fromRealmList(userEntity.getRepositories()))
+                   .setPublicRepoCount(userEntity.getPublicRepoCount()).setRepositoryList(Repository.fromEntityList(userEntity.getRepositories()))
                    .build();
     }
 }

@@ -6,6 +6,7 @@ import dagger.Component;
 import fup.prototype.data.di.DataModule;
 import fup.prototype.domain.di.DomainModule;
 import fup.prototype.robprototype.di.module.AppModule;
+import fup.prototype.robprototype.view.details.DetailViewModel;
 import fup.prototype.robprototype.view.main.viewmodels.MainViewModel;
 import javax.inject.Singleton;
 
@@ -25,5 +26,7 @@ public interface AppComponent {
     }
 
     void inject(MainViewModel mainViewModel);
+
+    void inject(DetailViewModel detailViewModel);
 
 }

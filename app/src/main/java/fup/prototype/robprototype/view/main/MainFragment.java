@@ -47,10 +47,10 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
     @Override
     public void initBinding(final FragmentMainBinding binding) {
         binding.setViewModel(getViewModel());
-        setupRepositoryAdapter();
+        setupUserAdapter();
     }
 
-    private void setupRepositoryAdapter() {
+    private void setupUserAdapter() {
         final RecyclerView recyclerView = getViewBinding().recyclerView;
         final UserAdapter repoAdapter = new UserAdapter();
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);

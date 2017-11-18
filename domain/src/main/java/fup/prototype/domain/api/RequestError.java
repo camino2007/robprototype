@@ -14,6 +14,9 @@ public class RequestError {
     @Nullable
     private final Throwable throwable;
 
+    /**
+     * Can be used to create a custom, non-Api related error.
+     */
     private int errorCode;
 
     private RequestError(@Nullable Response<?> response, @Nullable Throwable throwable, final int errorCode) {

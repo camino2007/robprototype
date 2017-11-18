@@ -48,8 +48,6 @@ dependencies {
     compile domainDependencies.okHttpLogging
     compile domainDependencies.rxAndroid
     compile domainDependencies.rxJava
-    annotationProcessor domainDependencies.autoValue
-    provided domainDependencies.autoValueAnnotations
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

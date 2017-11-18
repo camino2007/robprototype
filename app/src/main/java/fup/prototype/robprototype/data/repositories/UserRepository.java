@@ -7,7 +7,6 @@ import fup.prototype.domain.api.ApiCallAdapter;
 import fup.prototype.domain.api.LoadingState;
 import fup.prototype.domain.api.RequestError;
 import fup.prototype.domain.github.model.GitHubUser;
-import fup.prototype.domain.github.provider.GitHubProvider;
 import fup.prototype.domain.github.provider.GitHubUserProvider;
 import fup.prototype.robprototype.data.cache.UserCache;
 import fup.prototype.robprototype.view.main.model.User;
@@ -19,7 +18,6 @@ public class UserRepository {
 
     private static final String TAG = "UserRepository";
 
-    private final GitHubProvider gitHubProvider;
     private final GitHubUserProvider gitHubUserProvider;
     private final UserRealmProvider userRealmProvider;
 
@@ -27,9 +25,7 @@ public class UserRepository {
     private OnUserListener userListener;
     private String currentSearchValue;
 
-    public UserRepository(@NonNull final GitHubProvider gitHubProvider,
-                          @NonNull final GitHubUserProvider gitHubUserProvider, @NonNull final UserRealmProvider userRealmProvider) {
-        this.gitHubProvider = gitHubProvider;
+    public UserRepository(@NonNull final GitHubUserProvider gitHubUserProvider, @NonNull final UserRealmProvider userRealmProvider) {
         this.gitHubUserProvider = gitHubUserProvider;
         this.userRealmProvider = userRealmProvider;
         this.gitHubUserProvider.setApiCallListener(new GitHubUserListener());
@@ -52,7 +48,7 @@ public class UserRepository {
         //TODO
     }
 
-    private void loadSingleUser(@NonNull  final String searchValue) {
+    private void loadSingleUser(@NonNull final String searchValue) {
         if (userCache.isSameUserCached(searchValue) && userCache.isCacheValid()) {
             if (userListener != null) {
                 userListener.onUserLoaded(userCache.getData());
@@ -76,7 +72,7 @@ public class UserRepository {
                     userListener.onError(requestError);
                 }
             } else {
-                final User user = User.fromRealm(userEntity);
+                final User user = User.fromEntity(userEntity);
                 if (userListener != null) {
                     userListener.onUserLoaded(user);
                 }

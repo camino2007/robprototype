@@ -7,11 +7,11 @@
 
         <variable
                 name="handler"
-                type="fup.prototype.robprototype.view.main.viewmodels.UserItemHandler"/>
+                type="fup.prototype.robprototype.view.details.RepoItemHandler"/>
 
         <variable
                 name="viewModel"
-                type="fup.prototype.robprototype.view.main.viewmodels.UserItemViewModel"/>
+                type="fup.prototype.robprototype.view.details.RepoItemViewModel"/>
     </data>
 
 
@@ -33,17 +33,10 @@
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.loginName}"
+                android:text="@{viewModel.repoName}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 tools:text="User Name"/>
 
-        <TextView
-                android:id="@+id/repo_counter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.repoCounter}"
-                app:layout_constraintRight_toRightOf="parent"
-                tools:text="23"/>
 
     </android.support.constraint.ConstraintLayout>
 

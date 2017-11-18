@@ -7,8 +7,9 @@ import dagger.Provides;
 import fup.prototype.data.UserRealmProvider;
 import fup.prototype.data.di.DataComponent;
 import fup.prototype.domain.di.DomainComponent;
-import fup.prototype.domain.github.provider.GitHubProvider;
+import fup.prototype.domain.github.provider.GitHubRepoProvider;
 import fup.prototype.domain.github.provider.GitHubUserProvider;
+import fup.prototype.robprototype.data.repositories.GitHubRepoRepository;
 import fup.prototype.robprototype.data.repositories.UserRepository;
 import io.reactivex.annotations.NonNull;
 import javax.inject.Singleton;
@@ -24,9 +25,13 @@ public class AppModule {
 
     @Provides
     @Singleton
-    UserRepository provideUserRepository(@NonNull final GitHubProvider gitHubProvider,
-                                         @NonNull final GitHubUserProvider gitHubUserProvider,
-                                         @NonNull final UserRealmProvider userRealmProvider) {
-        return new UserRepository(gitHubProvider, gitHubUserProvider, userRealmProvider);
+    UserRepository provideUserRepository(@NonNull final GitHubUserProvider gitHubUserProvider, @NonNull final UserRealmProvider userRealmProvider) {
+        return new UserRepository(gitHubUserProvider, userRealmProvider);
+    }
+
+    @Provides
+    @Singleton
+    GitHubRepoRepository provideGitHubRepoRepository(@NonNull final GitHubRepoProvider gitHubRepoProvider, @NonNull final UserRealmProvider userRealmProvider) {
+        return new GitHubRepoRepository(gitHubRepoProvider, userRealmProvider);
     }
 }

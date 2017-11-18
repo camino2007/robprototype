@@ -4,12 +4,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
 import fup.prototype.data.models.details.RepositoryEntity;
+import fup.prototype.domain.github.model.GitHubRepo;
 import io.realm.RealmList;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @AutoValue
-public abstract class Repository {
+public abstract class Repository implements Serializable {
 
     public abstract String getId();
 
@@ -33,11 +35,22 @@ public abstract class Repository {
         abstract Repository build();
     }
 
-    static List<Repository> fromRealmList(@Nullable final RealmList<RepositoryEntity> realmRepositories) {
+    public static List<Repository> fromApiList(final List<GitHubRepo> gitHubRepos) {
+        final List<Repository> repositories = new ArrayList<>();
+        if (gitHubRepos != null && !gitHubRepos.isEmpty()) {
+            for (final GitHubRepo repo : gitHubRepos) {
+                final Repository repository = create(repo);
+                repositories.add(repository);
+            }
+        }
+        return repositories;
+    }
+
+    public static List<Repository> fromEntityList(@Nullable final RealmList<RepositoryEntity> realmRepositories) {
         final List<Repository> repositories = new ArrayList<>();
         if (realmRepositories != null && !realmRepositories.isEmpty()) {
             for (RepositoryEntity repositoryEntity : realmRepositories) {
-                Repository repository = create(repositoryEntity);
+                final Repository repository = create(repositoryEntity);
                 repositories.add(repository);
             }
         }
@@ -47,5 +60,10 @@ public abstract class Repository {
     @NonNull
     private static Repository create(RepositoryEntity repositoryEntity) {
         return Repository.builder().setId(repositoryEntity.getIdRep()).setName(repositoryEntity.getName()).setFullName(repositoryEntity.getFullName()).build();
+    }
+
+    @NonNull
+    private static Repository create(GitHubRepo gitHubRepo) {
+        return Repository.builder().setId(gitHubRepo.getIdRep()).setName(gitHubRepo.getName()).setFullName(gitHubRepo.getFullName()).build();
     }
 }

@@ -19,10 +19,9 @@ public class MainViewModel extends BaseViewModel {
     public ObservableField<String> userName = new ObservableField<>();
     public ObservableField<String> searchValue = new ObservableField<>();
     public ObservableArrayList<User> items = new ObservableArrayList<>();
-    //public ObservableArrayList<Repository> items = new ObservableArrayList<>();
 
     @Inject
-    protected UserRepository userRepository;
+    UserRepository userRepository;
 
     public MainViewModel() {
         this.userRepository.setUserListener(new UserListener());
