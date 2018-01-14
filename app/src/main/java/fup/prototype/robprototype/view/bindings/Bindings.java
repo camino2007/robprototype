@@ -3,10 +3,10 @@ package fup.prototype.robprototype.view.bindings;
 import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import com.rxdroid.repository.model.Repository;
+import com.rxdroid.repository.model.User;
 import fup.prototype.robprototype.view.details.RepoAdapter;
 import fup.prototype.robprototype.view.main.UserAdapter;
-import fup.prototype.robprototype.view.main.model.Repository;
-import fup.prototype.robprototype.view.main.model.User;
 import java.util.List;
 
 public class Bindings {

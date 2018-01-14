@@ -5,15 +5,17 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import fup.prototype.domain.api.RequestError;
+import com.rxdroid.api.RequestError;
+import com.rxdroid.repository.model.User;
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.FragmentDetailsBinding;
+import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.base.fragments.DataFragment;
-import fup.prototype.robprototype.view.main.model.User;
 
 public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailViewModel> {
 
     private static final String KEY_USER = "keyUser";
+    private static final String KEY_USER_SAVE = "keyUserSave";
 
     public static DetailFragment newInstance(@NonNull final Bundle bundle) {
         final DetailFragment detailFragment = new DetailFragment();
@@ -39,6 +41,8 @@ public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailV
     @Override
     public void initBinding(final FragmentDetailsBinding binding) {
         binding.setViewModel(getViewModel());
+        final User user = (User) getArguments().getSerializable(KEY_USER);
+        getViewModel().setUser(user);
         setupRepositoryAdapter();
     }
 
@@ -57,30 +61,29 @@ public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailV
 
     @Override
     public void addViewListener() {
-
+        //nothing
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        final User user = (User) getArguments().getSerializable(KEY_USER);
-        getViewModel().setUser(user);
         getViewModel().loadOrShowData();
     }
 
     @Override
     protected AlertDialog createErrorDialog(@NonNull final RequestError requestError) {
-        return null;
+        return DialogUtils.createOkCancelDialog(getContext(), "Möp", "A wild error occurred", "Ok", "Fuck it", null, null);
     }
 
     @Override
     protected void storeViewModelValues(@NonNull final Bundle outState) {
-
+        outState.putSerializable(KEY_USER_SAVE, getViewModel().getUser());
     }
 
     @Override
     protected void restoreViewModelValues(@NonNull final Bundle savedInstanceState) {
-
+        final User user = (User) savedInstanceState.getSerializable(KEY_USER);
+        getViewModel().setUser(user);
     }
 
     @Override

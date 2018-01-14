@@ -47,7 +47,10 @@ android {
 }
 
 dependencies {
-    implementation project(':data')
+
+    compile project(path: ':repository')
+    compile project(path: ':api')
+    compile project(path: ':data')
 
     def appDependencies = rootProject.ext.appDependencies
     def developmentDependencies = rootProject.ext.developmentDependencies
@@ -77,5 +80,5 @@ dependencies {
     testCompile developmentDependencies.leakCanaryNoOp
 
     testCompile 'junit:junit:4.12'
-    compile project(path: ':domain')
+
 }

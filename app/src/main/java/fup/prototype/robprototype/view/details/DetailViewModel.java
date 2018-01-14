@@ -2,16 +2,10 @@ package fup.prototype.robprototype.view.details;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
-import android.support.annotation.NonNull;
-import fup.prototype.domain.api.LoadingState;
-import fup.prototype.domain.api.RequestError;
+import com.rxdroid.repository.model.Repository;
+import com.rxdroid.repository.model.User;
 import fup.prototype.robprototype.ProtoApplication;
-import fup.prototype.robprototype.data.repositories.GitHubRepoRepository;
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
-import fup.prototype.robprototype.view.main.model.Repository;
-import fup.prototype.robprototype.view.main.model.User;
-import java.util.List;
-import javax.inject.Inject;
 
 public class DetailViewModel extends BaseViewModel {
 
@@ -19,11 +13,11 @@ public class DetailViewModel extends BaseViewModel {
     public ObservableArrayList<Repository> items = new ObservableArrayList<>();
     private User user;
 
-    @Inject
-    GitHubRepoRepository gitHubRepoRepository;
+  /*  @Inject
+    GitHubRepoRepository gitHubRepoRepository;*/
 
     public DetailViewModel() {
-        gitHubRepoRepository.setRepoListener(new RepoListener());
+        //    gitHubRepoRepository.setRepoListener(new RepoListener());
     }
 
     @Override
@@ -33,14 +27,18 @@ public class DetailViewModel extends BaseViewModel {
 
     @Override
     public void loadOrShowData() {
-        gitHubRepoRepository.load(user.getLogin());
+        //gitHubRepoRepository.load(user.getLogin());
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void setUser(final User user) {
         this.user = user;
     }
 
-    private class RepoListener implements GitHubRepoRepository.OnRepoListener {
+   /* private class RepoListener implements GitHubRepoRepository.OnRepoListener {
 
         @Override
         public void onReposLoaded(final List<Repository> repositories) {
@@ -50,12 +48,12 @@ public class DetailViewModel extends BaseViewModel {
 
         @Override
         public void onError(@NonNull final RequestError requestError) {
-            onDataError(requestError);
+            handleErrorCase(requestError);
         }
 
         @Override
-        public void onLoadingStateChanged(@NonNull final LoadingState loadingState) {
+        public void onDatabaseStateChanged(@NonNull final LoadingState loadingState) {
             changeLoadingState(loadingState == LoadingState.LOADING);
         }
-    }
+    }*/
 }

@@ -2,7 +2,7 @@ package fup.prototype.robprototype.view.details;
 
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
-import fup.prototype.robprototype.view.main.model.Repository;
+import com.rxdroid.repository.model.Repository;
 
 public class RepoItemViewModel extends BaseObservable {
 

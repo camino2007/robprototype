@@ -2,7 +2,7 @@ package fup.prototype.robprototype.view.base.viewmodels;
 
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
-import fup.prototype.domain.api.RequestError;
+import com.rxdroid.api.RequestError;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.subjects.PublishSubject;
 
@@ -29,7 +29,7 @@ public abstract class BaseViewModel extends BaseObservable {
         isInProgress.set(isLoading);
     }
 
-    public void onDataError(@NonNull final RequestError requestError) {
+    public void handleErrorCase(@NonNull final RequestError requestError) {
         setViewState(ViewState.ON_DATA_ERROR);
         this.errorSubject.onNext(requestError);
     }

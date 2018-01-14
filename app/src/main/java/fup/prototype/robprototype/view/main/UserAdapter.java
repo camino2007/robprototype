@@ -3,11 +3,11 @@ package fup.prototype.robprototype.view.main;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import com.rxdroid.repository.model.User;
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.ItemUserBinding;
 import fup.prototype.robprototype.view.ItemViewModelFactory;
 import fup.prototype.robprototype.view.base.adapters.RecyclerViewBaseAdapter;
-import fup.prototype.robprototype.view.main.model.User;
 import fup.prototype.robprototype.view.main.viewmodels.UserItemHandler;
 import fup.prototype.robprototype.view.main.viewmodels.UserItemViewModel;
 

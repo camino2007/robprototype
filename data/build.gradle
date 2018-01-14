@@ -39,8 +39,6 @@ android {
 
 dependencies {
 
-    implementation project(':domain')
-
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -48,6 +46,8 @@ dependencies {
     compile dataDependencies.androidSupportDesgin
     compile dataDependencies.dagger
     annotationProcessor dataDependencies.daggerCompiler
+    compile dataDependencies.rxAndroid
+    compile dataDependencies.rxJava
 
     testCompile 'junit:junit:4.12'
 

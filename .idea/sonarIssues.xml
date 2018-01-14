@@ -18,6 +18,96 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/api/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/AndroidManifest.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/ApiCallAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/ApiProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/OnApiCallListener.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/di/ApiComponent.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/di/ApiModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/GitHubApi.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/model/GitHubRepoModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/model/GitHubUserModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/ApiGitHubProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/ApiGitHubProviderImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/ApiGitHubUserProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/GitHubProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/GitHubRepoProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/GitHubUserProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/IGitHubUserProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/OldGitHubProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/build.gradle">
           <value>
             <set />
@@ -128,12 +218,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/data/repositories/GitHubRepoRepositoryOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/data/repositories/RepositoryRepository.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/data/repositories/UserRepository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/data/repositories/UserRepositoryOLd.java">
           <value>
             <set />
           </value>
@@ -259,6 +359,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/model/UserRepository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/MainActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/MainFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/MainViewModel.java">
           <value>
             <set />
           </value>
@@ -408,7 +523,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/fragments/BaseFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/fragments/DataFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/viewmodels/BaseViewModel.java">
           <value>
             <set />
           </value>
@@ -499,6 +624,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/main/MainFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/main/User.java">
           <value>
             <set />
           </value>
@@ -633,12 +763,37 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/DatabaseAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/DatabaseProvider.java">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/DatabaseProviderNew.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/DatabaseState.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/ObjectConverter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/OnDatabaseListener.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/OnDatbaseListener.java">
           <value>
             <set />
           </value>
@@ -649,6 +804,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/RealmTable.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/UserDataBaseProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/UserDatabaseProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/UserDatabaseProviderImpl.java">
           <value>
             <set />
           </value>
@@ -683,6 +853,31 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/entities/details/RepositoryEntity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/entities/main/UserEntity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/main/UserDatabaseProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/main/UserDatabaseProviderImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/main/UserEntity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/model/RealmRepository.java">
           <value>
             <set />
@@ -709,6 +904,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/model/UserRealmModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/models/DatabaseGitHubUserProvider.java">
           <value>
             <set />
           </value>
@@ -883,6 +1083,76 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/repository/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/AndroidManifest.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/GithubRepository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/GithubRepositoryImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/Repository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/RepositoryImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/UserRepository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/UserRepositoryImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/di/DataComponent.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/di/RepositoryComponent.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/di/RepositoryModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/model/GitHubRepository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/model/Repository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/model/User.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../joyclub-android/app/build.gradle">
           <value>
             <set />
@@ -968,12 +1238,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/clubmails/inbox/InboxItemHandlers.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/gallery/adapters/GalleryPictureDetailPagerAdapter.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/gallery/controller/GalleryPictureController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/gallery/fragments/GalleryFragment.java">
           <value>
             <set />
           </value>

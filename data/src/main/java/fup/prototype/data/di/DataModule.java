@@ -4,8 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
-import fup.prototype.data.RealmService;
-import fup.prototype.data.UserRealmProvider;
+import fup.prototype.data.main.UserDatabaseProvider;
+import fup.prototype.data.main.UserDatabaseProviderImpl;
+import fup.prototype.data.realm.RealmService;
 import javax.inject.Singleton;
 
 @Module
@@ -18,8 +19,8 @@ public class DataModule {
     }
 
     @Provides
-    UserRealmProvider provideUserRealmProvider(@NonNull final RealmService realmService) {
-        return new UserRealmProvider(realmService);
+    UserDatabaseProvider provideUserDatabaseProvider(@NonNull final UserDatabaseProviderImpl userDatabaseProvider) {
+        return userDatabaseProvider;
     }
 }
 

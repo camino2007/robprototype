@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+
+android {
+
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["compileSdkVersion"]
+    buildToolsVersion globalConfiguration["buildToolsVersion"]
+
+    defaultConfig {
+
+        defaultPublishConfig 'release'
+        publishNonDefault true
+
+        minSdkVersion globalConfiguration["minSdkVersion"]
+        targetSdkVersion globalConfiguration["targetSdkVersion"]
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+    buildToolsVersion '26.0.2'
+}
+
+dependencies {
+
+    compile apiDependencies.dagger
+    annotationProcessor apiDependencies.daggerCompiler
+    compile apiDependencies.retrofit
+    compile apiDependencies.retrofitGsonConverter
+    compile apiDependencies.retrofitRxAdapter
+    compile apiDependencies.okHttp
+    compile apiDependencies.okHttpLogging
+    compile apiDependencies.rxAndroid
+    compile apiDependencies.rxJava
+    compile apiDependencies.androidSupportAppCompat
+    compile apiDependencies.androidSupportDesgin
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    testCompile 'junit:junit:4.12'
+
+}

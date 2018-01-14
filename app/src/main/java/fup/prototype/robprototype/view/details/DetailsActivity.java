@@ -3,10 +3,10 @@ package fup.prototype.robprototype.view.details;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import com.rxdroid.repository.model.User;
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.view.base.BaseActivity;
 import fup.prototype.robprototype.view.base.fragments.BaseFragment;
-import fup.prototype.robprototype.view.main.model.User;
 
 public class DetailsActivity extends BaseActivity {
 

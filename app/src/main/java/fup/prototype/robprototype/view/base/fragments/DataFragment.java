@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import fup.prototype.domain.api.RequestError;
+import com.rxdroid.api.RequestError;
 import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;

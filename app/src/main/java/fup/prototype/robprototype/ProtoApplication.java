@@ -1,9 +1,8 @@
 package fup.prototype.robprototype;
 
 import android.app.Application;
-
-import fup.prototype.robprototype.di.component.AppComponent;
-import fup.prototype.robprototype.di.component.DaggerAppComponent;
+import fup.prototype.robprototype.di.AppComponent;
+import fup.prototype.robprototype.di.DaggerAppComponent;
 
 public class ProtoApplication extends Application {
 
