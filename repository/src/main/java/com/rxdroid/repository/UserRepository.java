@@ -9,6 +9,7 @@ import com.rxdroid.api.LoadingState;
 import com.rxdroid.api.RequestError;
 import com.rxdroid.api.github.model.GitHubUserModel;
 import com.rxdroid.api.github.provider.ApiGitHubProviderImpl;
+import com.rxdroid.repository.cache.UserCache;
 import com.rxdroid.repository.model.User;
 import fup.prototype.data.DatabaseAdapter;
 import fup.prototype.data.DatabaseState;
@@ -19,6 +20,7 @@ import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import retrofit2.Response;
@@ -32,8 +34,8 @@ public class UserRepository implements Repository {
     private final UserDatabaseProviderImpl userDatabaseProvider;
 
     private OnUserListener userListener;
-    private String currentSearchValue;
     private User user = null;
+    private UserCache userCache;
 
     @Inject
     public UserRepository(@NonNull final ApiGitHubProviderImpl apiGitHubProvider, @NonNull final UserDatabaseProviderImpl userDatabaseProvider) {
@@ -41,26 +43,24 @@ public class UserRepository implements Repository {
         this.apiGitHubProvider.setApiCallListener(new ApiUserAdapter());
         this.userDatabaseProvider = userDatabaseProvider;
         this.userDatabaseProvider.setDatabaseListener(new DatabaseUserAdapter());
+        userCache = new UserCache(10L, TimeUnit.SECONDS);
     }
 
     @Override
     public void loadFromApi(@NonNull final String searchValue) {
-        Log.d(TAG, "loadFromApi: " + searchValue);
-        currentSearchValue = searchValue;
         final Observable<Response<GitHubUserModel>> observable = apiGitHubProvider.loadGitHubUser(searchValue);
         apiGitHubProvider.execute(observable, Schedulers.io(), AndroidSchedulers.mainThread());
     }
 
     @Override
     public void loadFromDatabase(@NonNull final String userName) {
-        Log.d(TAG, "loadFromDatabase: " + userName);
-        Maybe<UserDto> maybe = userDatabaseProvider.getForSearchValue(userName);
+        final Maybe<UserDto> maybe = userDatabaseProvider.getForSearchValue(userName);
         userDatabaseProvider.executeRead(maybe, Schedulers.io(), AndroidSchedulers.mainThread());
     }
 
     @Override
     public boolean hasCachedValue() {
-        return false;
+        return user != null && userCache.isSameObjectCached(user) && userCache.isCacheValid();
     }
 
     public User getUser() {
@@ -72,7 +72,6 @@ public class UserRepository implements Repository {
     }
 
     private void insertOrUpdateDatabase(final User user) {
-        Log.d(TAG, "insertOrUpdateDatabase: " + user.getLogin());
         final UserDto userDto = new UserDto();
         userDto.name = user.getName();
         userDto.login = user.getLogin();
@@ -84,75 +83,38 @@ public class UserRepository implements Repository {
 
     public void load(@Nullable final String searchValue) {
         if (!TextUtils.isEmpty(searchValue)) {
-            //  loadSingleUser(searchValue);
+            loadSingleUser(searchValue);
         } else {
             //loadAllUser();
         }
     }
 
-/*    private void loadSingleUser(final String searchValue) {
-        currentSearchValue = searchValue;
-        if (hasCachedValue()){
-
-        } else{
-
+    private void loadSingleUser(final String searchValue) {
+        if (!tryToGetUserFromDatabase()) {
+            apiGitHubProvider.loadGitHubUser(searchValue);
         }
-        if (userCache.isSameUserCached(searchValue) && userCache.isCacheValid()) {
+    }
+
+    private boolean tryToGetUserFromDatabase() {
+        if (hasCachedValue()) {
             if (userListener != null) {
                 userListener.onUserLoaded(userCache.getData());
-                return;
+                return true;
             }
         }
-        currentSearchValue = searchValue;
-        apiGitHubProvider.loadGitHubUser(searchValue);
-    }*/
-
- /*
-
-    public void load(@Nullable final String searchValue) {
-        if (!TextUtils.isEmpty(searchValue)) {
-            loadSingleUser(searchValue);
-        } else {
-            loadAllUser();
-        }
+        return false;
     }
 
     private void loadAllUser() {
         //TODO
     }
 
-    private void loadSingleUser(@NonNull final String searchValue) {
-        if (userCache.isSameUserCached(searchValue) && userCache.isCacheValid()) {
+    private void handleErrorCase(@NonNull final RequestError requestError) {
+        if (!tryToGetUserFromDatabase()) {
             if (userListener != null) {
-                userListener.onUserLoaded(userCache.getData());
-                return;
+                userListener.onError(requestError);
             }
         }
-        currentSearchValue = searchValue;
-        apiGitHubProvider.loadGitHubUser(searchValue);
-    }
-
-*/
-
-    private void handleErrorCase(@NonNull final RequestError requestError) {
-       /* if (userCache.isSameUserCached(currentSearchValue) && userCache.isCacheValid()) {
-            if (userListener != null) {
-                userListener.onUserLoaded(userCache.getData());
-            }
-        } else {
-            final UserEntity userEntity = userRealmProvider.getForStringValue(currentSearchValue);
-
-            if (userEntity == null) {
-                if (userListener != null) {
-                    userListener.onError(requestError);
-                }
-            } else {
-                final User user = User.fromEntity(userEntity);
-                if (userListener != null) {
-                    userListener.onUserLoaded(user);
-                }
-            }
-        }*/
     }
 
     public interface OnUserListener {
@@ -174,9 +136,6 @@ public class UserRepository implements Repository {
         @Override
         public void onStoreOrUpdateDatabaseDone(final boolean isSuccess) {
             Log.d(TAG, "onStoreOrUpdateDatabaseDone: " + isSuccess);
-            /*if (isSuccess) {
-                loadFromDatabase(currentSearchValue);
-            }*/
         }
 
         @Override
@@ -208,12 +167,13 @@ public class UserRepository implements Repository {
         public void onApiCallDone(@Nullable final Response<GitHubUserModel> gitHubUserModelResponse) {
             Log.d(TAG, "ApiUserAdapter - onApiCallDone: ");
             if (gitHubUserModelResponse != null && gitHubUserModelResponse.isSuccessful()) {
-                final User user = User.fromApi(gitHubUserModelResponse.body());
-                insertOrUpdateDatabase(user);
-                //   userCache.setData(user);
+                final User newUser = User.fromApi(gitHubUserModelResponse.body());
+                insertOrUpdateDatabase(newUser);
+                userCache.setData(newUser);
                 if (userListener != null) {
-                    userListener.onUserLoaded(user);
+                    userListener.onUserLoaded(newUser);
                 }
+                user = newUser;
             } else {
                 handleErrorCase(RequestError.create(gitHubUserModelResponse, null));
             }

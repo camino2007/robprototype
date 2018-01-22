@@ -55,10 +55,11 @@ public class MainViewModel extends BaseViewModel {
     private void loadUserFromRepository() {
         Log.d(TAG, "loadUserFromRepository: " + searchValue.get());
         if (!TextUtils.isEmpty(searchValue.get())) {
+            Log.d(TAG, "loadUserFromRepository - userRepository.hasCachedValue(): " + userRepository.hasCachedValue());
             if (userRepository.hasCachedValue()) {
                 handleSuccessCase(userRepository.getUser());
             } else {
-                userRepository.loadFromApi(searchValue.get());
+                userRepository.load(searchValue.get());
             }
         } else {
             final RequestError requestError = RequestError.create(RequestError.ERROR_CODE_NO_SEARCH_INPUT);

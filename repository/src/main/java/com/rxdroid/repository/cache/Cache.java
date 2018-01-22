@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.data.cache;
+package com.rxdroid.repository.cache;
 
 
 public abstract class Cache<T> {

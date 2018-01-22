@@ -1188,6 +1188,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/cache/TimeLimitedCache.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/cache/UserCache.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/di/DataComponent.java">
           <value>
             <set />

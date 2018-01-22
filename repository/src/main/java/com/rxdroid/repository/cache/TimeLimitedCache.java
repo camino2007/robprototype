@@ -1,8 +1,7 @@
-package fup.prototype.robprototype.data.cache;
-
-import java.util.concurrent.TimeUnit;
+package com.rxdroid.repository.cache;
 
 import io.reactivex.annotations.NonNull;
+import java.util.concurrent.TimeUnit;
 
 public abstract class TimeLimitedCache<T> extends Cache<T> {
 
@@ -31,5 +30,7 @@ public abstract class TimeLimitedCache<T> extends Cache<T> {
         final long currentTimeStamp = getCurrentTimeStamp();
         return currentTimeStamp < savedTimeStamp + maxValidDuration;
     }
+
+    public abstract boolean isSameObjectCached(T t);
 
 }

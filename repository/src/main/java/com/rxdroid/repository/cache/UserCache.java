@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.data.cache;
+package com.rxdroid.repository.cache;
 
 import com.rxdroid.repository.model.User;
 import io.reactivex.annotations.NonNull;
@@ -10,7 +10,8 @@ public class UserCache extends TimeLimitedCache<User> {
         super(timeOut, timeUnit);
     }
 
-    public boolean isSameUserCached(@NonNull final String userLogin) {
-        return hasCachedData() && getData().getLogin().equalsIgnoreCase(userLogin);
+    @Override
+    public boolean isSameObjectCached(final User user) {
+        return hasCachedData() && getData().equals(user);
     }
 }
