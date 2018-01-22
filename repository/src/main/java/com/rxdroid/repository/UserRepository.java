@@ -13,7 +13,9 @@ import com.rxdroid.repository.model.User;
 import fup.prototype.data.DatabaseAdapter;
 import fup.prototype.data.DatabaseState;
 import fup.prototype.data.main.UserDatabaseProviderImpl;
-import fup.prototype.data.main.UserEntity;
+import fup.prototype.data.main.UserDto;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -42,18 +44,18 @@ public class UserRepository implements Repository {
     }
 
     @Override
-    public void loadFromApi(@NonNull final String userName) {
-        currentSearchValue = userName;
-        final Observable<Response<GitHubUserModel>> observable = apiGitHubProvider.loadGitHubUser(userName);
+    public void loadFromApi(@NonNull final String searchValue) {
+        Log.d(TAG, "loadFromApi: " + searchValue);
+        currentSearchValue = searchValue;
+        final Observable<Response<GitHubUserModel>> observable = apiGitHubProvider.loadGitHubUser(searchValue);
         apiGitHubProvider.execute(observable, Schedulers.io(), AndroidSchedulers.mainThread());
     }
 
     @Override
     public void loadFromDatabase(@NonNull final String userName) {
-        final UserEntity userEntity = userDatabaseProvider.loadForSearchValue(userName);
-        //userDatabaseProvider.executeRead(observable, Schedulers.io(), AndroidSchedulers.mainThread());
-        final User user = User.fromEntity(userEntity);
-        Log.d(TAG, "loadFromDatabase - user.getLogin(): " + user.getLogin());
+        Log.d(TAG, "loadFromDatabase: " + userName);
+        Maybe<UserDto> maybe = userDatabaseProvider.getForSearchValue(userName);
+        userDatabaseProvider.executeRead(maybe, Schedulers.io(), AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -70,14 +72,14 @@ public class UserRepository implements Repository {
     }
 
     private void insertOrUpdateDatabase(final User user) {
-        final UserEntity userEntity = new UserEntity.Builder().login(user.getLogin())
-                                                              .name(user.getName())
-                                                              .publicGistCount(user.getPublicGistCount())
-                                                              .publicRepoCount(user.getPublicRepoCount())
-                                                              .build();
-        userDatabaseProvider.storeOrUpdate(userEntity);
-    /*    final Observable<Boolean> observable = userDatabaseProvider.storeOrUpdate(userEntity);
-        userDatabaseProvider.executeWrite(observable, Schedulers.trampoline(), Schedulers.trampoline());*/
+        Log.d(TAG, "insertOrUpdateDatabase: " + user.getLogin());
+        final UserDto userDto = new UserDto();
+        userDto.name = user.getName();
+        userDto.login = user.getLogin();
+        userDto.publicRepoCount = user.getPublicRepoCount();
+        userDto.publicGistCount = user.getPublicGistCount();
+        Completable completable = userDatabaseProvider.insertOrUpdate(userDto);
+        userDatabaseProvider.executeWrite(completable, Schedulers.io(), Schedulers.io());
     }
 
     public void load(@Nullable final String searchValue) {
@@ -162,7 +164,7 @@ public class UserRepository implements Repository {
         void onLoadingStateChanged(@NonNull final LoadingState loadingState);
     }
 
-    private class DatabaseUserAdapter extends DatabaseAdapter<UserEntity> {
+    private class DatabaseUserAdapter extends DatabaseAdapter<UserDto> {
 
         @Override
         public void onDatabaseStateChanged(final DatabaseState databaseState) {
@@ -172,14 +174,14 @@ public class UserRepository implements Repository {
         @Override
         public void onStoreOrUpdateDatabaseDone(final boolean isSuccess) {
             Log.d(TAG, "onStoreOrUpdateDatabaseDone: " + isSuccess);
-            if (isSuccess) {
+            /*if (isSuccess) {
                 loadFromDatabase(currentSearchValue);
-            }
+            }*/
         }
 
         @Override
-        public void onLoadDone(final UserEntity userEntity) {
-            Log.d(TAG, "onLoadDone: " + userEntity.getLogin());
+        public void onLoadDone(final UserDto userDto) {
+            Log.d(TAG, "onLoadDone: " + userDto.login);
         }
 
         @Override

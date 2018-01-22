@@ -99,7 +99,7 @@ public abstract class User implements Serializable {
                    .setName(userEntity.getName())
                    .setPublicGistCount(userEntity.getPublicGistCount())
                    .setPublicRepoCount(userEntity.getPublicRepoCount())
-                   .setRepositoryList(Repository.fromEntityList(userEntity.getRepositories()))
+                   //.setRepositoryList(Repository.fromEntityList(userEntity.getRepositories()))
                    .build();
     }
 }

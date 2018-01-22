@@ -23,6 +23,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/api/src/androidTest/java/com/rxdroid/api/ExampleInstrumentedTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/api/src/main/AndroidManifest.xml">
           <value>
             <set />
@@ -753,12 +758,27 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/data/build/generated/source/apt/debug/fup/prototype/data/dao/UserDao_Impl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/data/build/intermediates/res/merged/debug/values/values.xml">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/data/src/main/AndroidManifest.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/AppDataBase.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/AppDatabase.java">
           <value>
             <set />
           </value>
@@ -843,6 +863,26 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/dao/RepositoryDao.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/dao/UserDao.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/details/RepositoryEntity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/details/RepositoryEntityNew.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/di/DataComponent.java">
           <value>
             <set />
@@ -873,7 +913,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/main/UserDto.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/main/UserEntity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/main/UserEntityNew.java">
           <value>
             <set />
           </value>
@@ -929,6 +979,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/models/main/UserEntity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/realm/RealmService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/realm/RealmTable.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/room/Converters.java">
           <value>
             <set />
           </value>

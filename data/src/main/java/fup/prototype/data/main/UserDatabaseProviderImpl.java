@@ -1,36 +1,50 @@
 package fup.prototype.data.main;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import dagger.Reusable;
 import fup.prototype.data.DatabaseProvider;
-import fup.prototype.data.realm.RealmService;
-import fup.prototype.data.realm.RealmTable;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Function;
 import javax.inject.Inject;
 
 @Reusable
-public class UserDatabaseProviderImpl extends DatabaseProvider<UserEntity> implements UserDatabaseProvider {
+public class UserDatabaseProviderImpl extends DatabaseProvider<UserDto> implements UserDatabaseProvider {
 
     @Inject
-    public UserDatabaseProviderImpl(final RealmService realmService) {
-        super(realmService);
+    public UserDatabaseProviderImpl(final Context context) {
+        super(context);
     }
 
     @Override
-    public void storeOrUpdate(@NonNull final UserEntity userEntity) {
-        getRealmService().getRealm().beginTransaction();
-        getRealmService().getRealm().copyToRealmOrUpdate(userEntity);
-        getRealmService().getRealm().commitTransaction();
-    }
-
-    @Override
-    public UserEntity loadForSearchValue(@NonNull final String value) {
-/*        return Observable.just(value).map(new Function<String, UserEntity>() {
+    public Completable insertOrUpdate(@NonNull final UserDto userDto) {
+        return Completable.fromAction(new Action() {
             @Override
-            public UserEntity apply(final String searchValue) throws Exception {
-                return getRealmService().getRealm().where(UserEntity.class).equalTo(RealmTable.User.LOGIN, searchValue).findFirst();
+            public void run() throws Exception {
+                final UserEntity userEntity = new UserEntity.Builder().login(userDto.login)
+                                                                      .publicGistCount(userDto.publicGistCount)
+                                                                      .name(userDto.name)
+                                                                      .publicRepoCount(userDto.publicRepoCount)
+                                                                      .build();
+                getAppDatabase().userDao().insert(userEntity);
             }
-        });*/
+        });
+    }
 
-        return getRealmService().getRealm().where(UserEntity.class).equalTo(RealmTable.User.LOGIN, value).findFirst();
+    @Override
+    public Maybe<UserDto> getForSearchValue(@NonNull final String searchValue) {
+        return getAppDatabase().userDao().findByLogin(searchValue).map(new Function<UserEntity, UserDto>() {
+            @Override
+            public UserDto apply(final UserEntity userEntity) throws Exception {
+                final UserDto userDto = new UserDto();
+                userDto.login = userEntity.getLogin();
+                userDto.name = userEntity.getName();
+                userDto.publicGistCount = userEntity.getPublicGistCount();
+                userDto.publicRepoCount = userEntity.getPublicRepoCount();
+                return userDto;
+            }
+        });
     }
 }

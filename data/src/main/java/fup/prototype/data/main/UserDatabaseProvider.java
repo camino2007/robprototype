@@ -1,10 +1,12 @@
 package fup.prototype.data.main;
 
 import android.support.annotation.NonNull;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
 
 public interface UserDatabaseProvider {
 
-    void storeOrUpdate(@NonNull final UserEntity userEntity);
+    Completable insertOrUpdate(@NonNull final UserDto userDto);
 
-    UserEntity loadForSearchValue(@NonNull String searchValue);
+    Maybe<UserDto> getForSearchValue(@NonNull String searchValue);
 }

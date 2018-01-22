@@ -4,8 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
 import com.rxdroid.api.github.model.GitHubRepoModel;
-import fup.prototype.data.details.RepositoryEntity;
-import io.realm.RealmList;
+import fup.prototype.data.details.RepositoryEntityNew;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,19 +45,19 @@ public abstract class Repository implements Serializable {
         return repositories;
     }
 
-    public static List<Repository> fromEntityList(@Nullable final RealmList<RepositoryEntity> realmRepositories) {
+    public static List<Repository> fromEntityList(@Nullable final List<RepositoryEntityNew> realmRepositories) {
         final List<Repository> repositories = new ArrayList<>();
-        if (realmRepositories != null && !realmRepositories.isEmpty()) {
+     /*   if (realmRepositories != null && !realmRepositories.isEmpty()) {
             for (RepositoryEntity repositoryEntity : realmRepositories) {
                 final Repository repository = createFromEntity(repositoryEntity);
                 repositories.add(repository);
-            }
-        }
+            }*/
+
         return repositories;
     }
 
     @NonNull
-    private static Repository createFromEntity(RepositoryEntity repositoryEntity) {
+    private static Repository createFromEntity(RepositoryEntityNew repositoryEntity) {
         return Repository.builder().setId(repositoryEntity.getIdRep()).setName(repositoryEntity.getName()).setFullName(repositoryEntity.getFullName()).build();
     }
 

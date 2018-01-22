@@ -71,6 +71,18 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
     public void addViewListener() {
         addSearchInputListener();
         addSearchButtonListener();
+        addLoadDbButtonListener();
+    }
+
+    private void addLoadDbButtonListener() {
+        final Disposable clickDisposable = RxView.clicks(getViewBinding().loadFromDbButton).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(@NonNull Object o) throws Exception {
+                hideKeyboard();
+                getViewModel().loadFromDb();
+            }
+        });
+        addRxDisposable(clickDisposable);
     }
 
     private void addSearchInputListener() {

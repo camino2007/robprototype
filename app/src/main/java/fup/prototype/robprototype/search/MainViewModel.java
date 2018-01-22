@@ -5,6 +5,7 @@ import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import com.rxdroid.api.LoadingState;
 import com.rxdroid.api.RequestError;
 import com.rxdroid.repository.UserRepository;
@@ -15,6 +16,8 @@ import fup.prototype.robprototype.view.base.viewmodels.ViewState;
 import javax.inject.Inject;
 
 public class MainViewModel extends BaseViewModel {
+
+    private static final String TAG = "MainViewModel";
 
     public ObservableField<String> userName = new ObservableField<>();
     public ObservableField<String> searchValue = new ObservableField<>();
@@ -37,6 +40,10 @@ public class MainViewModel extends BaseViewModel {
         loadUserFromRepository();
     }
 
+    public void loadFromDb() {
+        userRepository.loadFromDatabase(searchValue.get());
+    }
+
     private void showUserData(final User user) {
         if (user != null) {
             userName.set(user.getName());
@@ -46,6 +53,7 @@ public class MainViewModel extends BaseViewModel {
     }
 
     private void loadUserFromRepository() {
+        Log.d(TAG, "loadUserFromRepository: " + searchValue.get());
         if (!TextUtils.isEmpty(searchValue.get())) {
             if (userRepository.hasCachedValue()) {
                 handleSuccessCase(userRepository.getUser());

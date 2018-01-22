@@ -1,34 +1,34 @@
 package fup.prototype.data;
 
-import android.util.Log;
-import fup.prototype.data.realm.RealmService;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
+import android.content.Context;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.MaybeObserver;
 import io.reactivex.Scheduler;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 
 public abstract class DatabaseProvider<T> {
 
-    private static final String TAG = "DatabaseProvider";
-
-    @NonNull
-    private final RealmService realmService;
-
     private DatabaseState databaseState = DatabaseState.IDLE;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     private OnDatabaseListener<T> databaseListener;
 
-    public DatabaseProvider(@NonNull final RealmService realmService) {
-        this.realmService = realmService;
+    @NonNull
+    private AppDatabase appDatabase;
+
+    public DatabaseProvider(@NonNull final Context context) {
+        appDatabase = AppDatabase.getInstance(context);
+    }
+
+    public AppDatabase getAppDatabase() {
+        return appDatabase;
     }
 
     @NonNull
-    public RealmService getRealmService() {
-        return realmService;
-    }
-
     public DatabaseState getDatabaseState() {
         return databaseState;
     }
@@ -37,25 +37,21 @@ public abstract class DatabaseProvider<T> {
         this.databaseListener = databaseListener;
     }
 
-    public void executeRead(@NonNull final Observable<T> observable,
-                            @NonNull final Scheduler subscribeOnScheduler,
-                            @NonNull final Scheduler observeOnScheduler) {
-        Log.d(TAG, "executeRead - getLoadingState(): " + getDatabaseState());
+    public void executeRead(@NonNull final Maybe<T> maybe, @NonNull final Scheduler subscribeOnScheduler, @NonNull final Scheduler observeOnScheduler) {
         if (getDatabaseState() != DatabaseState.LOADING) {
             loadingStateChanged(DatabaseState.LOADING);
-            observable.subscribeOn(subscribeOnScheduler).observeOn(observeOnScheduler).subscribe(new ReadObserver());
+            maybe.subscribeOn(subscribeOnScheduler).observeOn(observeOnScheduler).subscribe(new ReadObserver());
         } else {
             notifyProviderBusy();
         }
     }
 
-    public void executeWrite(@NonNull final Observable<Boolean> observable,
+    public void executeWrite(@NonNull final Completable completable,
                              @NonNull final Scheduler subscribeOnScheduler,
                              @NonNull final Scheduler observeOnScheduler) {
-        Log.d(TAG, "executeWrite - getLoadingState(): " + getDatabaseState());
         if (getDatabaseState() != DatabaseState.LOADING) {
             loadingStateChanged(DatabaseState.LOADING);
-            observable.subscribeOn(subscribeOnScheduler).observeOn(observeOnScheduler).subscribe(new WriteObserver());
+            completable.subscribeOn(subscribeOnScheduler).observeOn(observeOnScheduler).subscribe(new WriteObserver());
         } else {
             notifyProviderBusy();
         }
@@ -99,33 +95,22 @@ public abstract class DatabaseProvider<T> {
         }
     }
 
-    private class WriteObserver implements Observer<Boolean> {
-
-        @Override
-        public void onSubscribe(final Disposable d) {
-            compositeDisposable.add(d);
-        }
-
-        @Override
-        public void onNext(final Boolean aBoolean) {
-            loadingStateChanged(DatabaseState.DONE);
-            wasStoreOrUpdatesSuccessful(true);
-        }
+    private class WriteObserver extends DisposableCompletableObserver {
 
         @Override
         public void onError(final Throwable e) {
-            Log.e(TAG, "onError: ", e);
             loadingStateChanged(DatabaseState.ERROR);
             wasStoreOrUpdatesSuccessful(false);
         }
 
         @Override
         public void onComplete() {
-
+            loadingStateChanged(DatabaseState.DONE);
+            wasStoreOrUpdatesSuccessful(true);
         }
     }
 
-    private class ReadObserver implements Observer<T> {
+    private class ReadObserver implements MaybeObserver<T> {
 
         @Override
         public void onSubscribe(final Disposable d) {
@@ -133,24 +118,19 @@ public abstract class DatabaseProvider<T> {
         }
 
         @Override
-        public void onNext(final T t) {
+        public void onSuccess(final T t) {
             loadingStateChanged(DatabaseState.DONE);
             loadDone(t);
         }
 
         @Override
         public void onError(final Throwable e) {
-            Log.e(TAG, "onError: ", e);
             loadingStateChanged(DatabaseState.ERROR);
             loadError();
         }
 
         @Override
         public void onComplete() {
-
         }
     }
-
-
-
 }

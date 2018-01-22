@@ -1,72 +1,92 @@
 package fup.prototype.data.main;
 
-import fup.prototype.data.details.RepositoryEntity;
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.Index;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 
-public class UserEntity extends RealmObject {
-
-    @Index
-    @PrimaryKey
-    private long id;
-
-    @Required
-    public String login;
-
-    public String name;
-
-    public int publicRepoCount;
-
-    public int publicGistCount;
-
-    public RealmList<RepositoryEntity> repositories;
+@Entity(tableName = "UserEntity", indices = {@Index("login")})
+public class UserEntity {
 
     public UserEntity() {
     }
 
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+
+    @ColumnInfo(name = "login")
+    private String login;
+
+    @ColumnInfo(name = "name")
+    public String name;
+
+    @ColumnInfo(name = "public_repo_count")
+    private int publicRepoCount;
+
+    @ColumnInfo(name = "public_gist_count")
+    private int publicGistCount;
+
     private UserEntity(final Builder builder) {
-        login = builder.login;
-        name = builder.name;
-        publicRepoCount = builder.publicRepoCount;
-        publicGistCount = builder.publicGistCount;
-        repositories = builder.repositories;
+        setId(builder.id);
+        setLogin(builder.login);
+        setName(builder.name);
+        setPublicRepoCount(builder.publicRepoCount);
+        setPublicGistCount(builder.publicGistCount);
     }
 
     public long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public void setId(final long id) {
+        this.id = id;
     }
 
     public String getLogin() {
         return login;
     }
 
+    public void setLogin(final String login) {
+        this.login = login;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
     public int getPublicRepoCount() {
         return publicRepoCount;
+    }
+
+    public void setPublicRepoCount(final int count) {
+        this.publicRepoCount = count;
     }
 
     public int getPublicGistCount() {
         return publicGistCount;
     }
 
-    public RealmList<RepositoryEntity> getRepositories() {
-        return repositories;
+    public void setPublicGistCount(final int count) {
+        this.publicGistCount = count;
     }
 
     public static final class Builder {
+        private long id;
         private String login;
         private String name;
         private int publicRepoCount;
         private int publicGistCount;
-        private RealmList<RepositoryEntity> repositories;
 
         public Builder() {
+        }
+
+        public Builder id(final long val) {
+            id = val;
+            return this;
         }
 
         public Builder login(final String val) {
@@ -86,11 +106,6 @@ public class UserEntity extends RealmObject {
 
         public Builder publicGistCount(final int val) {
             publicGistCount = val;
-            return this;
-        }
-
-        public Builder repositories(final RealmList<RepositoryEntity> val) {
-            repositories = val;
             return this;
         }
 
