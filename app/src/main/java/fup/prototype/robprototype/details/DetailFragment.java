@@ -6,16 +6,22 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.rxdroid.api.RequestError;
+import com.rxdroid.repository.GithubDetailsUiRepository;
 import com.rxdroid.repository.model.User;
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.FragmentDetailsBinding;
+import fup.prototype.robprototype.di.AppComponent;
 import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.base.fragments.DataFragment;
+import javax.inject.Inject;
 
 public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailViewModel> {
 
     private static final String KEY_USER = "keyUser";
     private static final String KEY_USER_SAVE = "keyUserSave";
+
+    @Inject
+    protected GithubDetailsUiRepository githubDetailsUiRepository;
 
     public static DetailFragment newInstance(@NonNull final Bundle bundle) {
         final DetailFragment detailFragment = new DetailFragment();
@@ -35,7 +41,7 @@ public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailV
 
     @Override
     public DetailViewModel createViewModel() {
-        return new DetailViewModel();
+        return new DetailViewModel(githubDetailsUiRepository);
     }
 
     @Override
@@ -68,6 +74,11 @@ public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailV
     public void onResume() {
         super.onResume();
         getViewModel().loadOrShowData();
+    }
+
+    @Override
+    protected void injectComponent(final AppComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override

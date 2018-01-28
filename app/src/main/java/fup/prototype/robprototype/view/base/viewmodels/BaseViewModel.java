@@ -13,10 +13,6 @@ public abstract class BaseViewModel extends BaseObservable {
 
     private PublishSubject<RequestError> errorSubject = PublishSubject.create();
 
-    public BaseViewModel() {
-        injectDependencies();
-    }
-
     public void setViewState(@NonNull final ViewState viewState) {
         this.viewState.set(viewState);
     }
@@ -45,8 +41,6 @@ public abstract class BaseViewModel extends BaseObservable {
     public boolean isOnLoading() {
         return this.viewState.get() == ViewState.ON_LOADING;
     }
-
-    protected abstract void injectDependencies();
 
     public abstract void loadOrShowData();
 }

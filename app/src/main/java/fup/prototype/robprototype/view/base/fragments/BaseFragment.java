@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import fup.prototype.robprototype.di.AppComponent;
+import fup.prototype.robprototype.di.HasComponent;
 import fup.prototype.robprototype.view.ViewProvider;
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
 import fup.prototype.robprototype.view.base.viewmodels.ViewState;
@@ -30,6 +32,12 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
     private B viewBinding;
 
     private VM viewModel;
+
+    @Override
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        injectComponent(getComponent(AppComponent.class));
+    }
 
     @Nullable
     @Override
@@ -83,6 +91,14 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
         }
     }
 
+    /**
+     * Gets a component for dependency injection by its type.
+     */
+    @SuppressWarnings("unchecked")
+    protected <C> C getComponent(Class<C> componentType) {
+        return componentType.cast(((HasComponent<C>) getActivity()).getAppComponent());
+    }
+
     private void removeViewListener() {
         compositeDisposable.clear();
     }
@@ -90,6 +106,8 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
     protected void addRxDisposable(@NonNull final Disposable disposable) {
         compositeDisposable.add(disposable);
     }
+
+    protected abstract void injectComponent(AppComponent appComponent);
 
     protected abstract void storeViewModelValues(@NonNull final Bundle outState);
 

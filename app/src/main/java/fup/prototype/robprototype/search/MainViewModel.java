@@ -2,13 +2,14 @@ package fup.prototype.robprototype.search;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import com.jakewharton.rxrelay2.PublishRelay;
 import com.rxdroid.api.RequestError;
 import com.rxdroid.repository.UserUiRepository;
 import com.rxdroid.repository.model.User;
 import com.rxdroid.repository.model.UserResponse;
-import fup.prototype.robprototype.ProtoApplication;
+import dagger.Reusable;
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
 import fup.prototype.robprototype.view.base.viewmodels.ViewState;
 import io.reactivex.Observable;
@@ -22,6 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
+@Reusable
 public class MainViewModel extends BaseViewModel {
 
     private static final String TAG = "MainViewModel";
@@ -36,10 +38,12 @@ public class MainViewModel extends BaseViewModel {
     private PublishRelay<String> publishRelay = PublishRelay.create();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    @Inject
-    UserUiRepository userRepository;
+    private final UserUiRepository userRepository;
 
-    public MainViewModel() {
+    @Inject
+    public MainViewModel(@NonNull  final UserUiRepository userRepository) {
+        this.userRepository = userRepository;
+
         publishRelay.debounce(DEBOUNCE_TIME_OUT, TimeUnit.MILLISECONDS).filter(new Predicate<CharSequence>() {
             @Override
             public boolean test(final CharSequence charSequence) throws Exception {
@@ -50,14 +54,9 @@ public class MainViewModel extends BaseViewModel {
             public Observable<UserResponse> apply(final String searchValue) throws Exception {
                 Log.d(TAG, "MainViewModel - apply - searchValue: " + searchValue);
                 changeLoadingState(true);
-                return userRepository.loadBySearchValue(searchValue);
+                return MainViewModel.this.userRepository.loadBySearchValue(searchValue);
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new UserObserver());
-    }
-
-    @Override
-    protected void injectDependencies() {
-        ProtoApplication.getAppComponent().inject(this);
     }
 
     @Override

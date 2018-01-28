@@ -8,18 +8,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.rxdroid.api.RequestError;
+import com.rxdroid.repository.UserUiRepository;
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.FragmentMainBinding;
+import fup.prototype.robprototype.di.AppComponent;
 import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.base.fragments.DataFragment;
 import fup.prototype.robprototype.view.base.viewmodels.ViewState;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import java.net.HttpURLConnection;
+import javax.inject.Inject;
 
 public class MainFragment extends DataFragment<FragmentMainBinding, MainViewModel> {
 
     private static final String KEY_SEARCH_VALUE = "keySearchValue";
+
+    @Inject
+    protected UserUiRepository userUiRepository;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -41,7 +47,7 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
 
     @Override
     public MainViewModel createViewModel() {
-        return new MainViewModel();
+        return new MainViewModel(userUiRepository);
     }
 
     @Override
@@ -64,6 +70,11 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
         if (getViewModel().viewState.get() == ViewState.ON_LOADED) {
             getViewModel().loadOrShowData();
         }
+    }
+
+    @Override
+    protected void injectComponent(final AppComponent appComponent) {
+        appComponent.inject(this);
     }
 
     @Override

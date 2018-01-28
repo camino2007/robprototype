@@ -8,7 +8,7 @@ import com.rxdroid.repository.GithubDetailsUiRepository;
 import com.rxdroid.repository.model.Repository;
 import com.rxdroid.repository.model.RepositoryResponse;
 import com.rxdroid.repository.model.User;
-import fup.prototype.robprototype.ProtoApplication;
+import dagger.Reusable;
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
 import fup.prototype.robprototype.view.base.viewmodels.ViewState;
 import io.reactivex.Observer;
@@ -19,6 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import javax.inject.Inject;
 
+@Reusable
 public class DetailViewModel extends BaseViewModel {
 
     private static final String TAG = "DetailViewModel";
@@ -30,22 +31,17 @@ public class DetailViewModel extends BaseViewModel {
 
     private User user;
 
-    @Inject
-    GithubDetailsUiRepository detailsUiRepository;
+    private final GithubDetailsUiRepository detailsUiRepository;
 
-    @Override
-    protected void injectDependencies() {
-        ProtoApplication.getAppComponent().inject(this);
+    @Inject
+    public DetailViewModel(final GithubDetailsUiRepository detailsUiRepository) {
+        this.detailsUiRepository = detailsUiRepository;
     }
 
     @Override
     public void loadOrShowData() {
-        Log.d(TAG, "loadOrShowData: ");
         if (user != null) {
-            detailsUiRepository.loadBySearchValue(user.getLogin())
-                               .subscribeOn(Schedulers.io())
-                               .observeOn(AndroidSchedulers.mainThread())
-                               .subscribe(new RepositoryObserver());
+            detailsUiRepository.loadBySearchValue(user.getLogin()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new RepositoryObserver());
         }
     }
 
@@ -67,7 +63,6 @@ public class DetailViewModel extends BaseViewModel {
 
         @Override
         public void onNext(final RepositoryResponse repositoryResponse) {
-            Log.d(TAG, "onNext: ");
             changeLoadingState(false);
             if (repositoryResponse.getRequestError() != null) {
                 items.clear();

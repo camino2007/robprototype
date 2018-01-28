@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
 import com.rxdroid.api.github.model.GitHubRepoModel;
-import fup.prototype.data.details.RepositoryEntityNew;
+import fup.prototype.data.details.RepositoryEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ public abstract class Repository implements Serializable {
         return repositories;
     }
 
-    public static List<Repository> fromEntityList(@Nullable final List<RepositoryEntityNew> realmRepositories) {
+    public static List<Repository> fromEntityList(@Nullable final List<RepositoryEntity> realmRepositories) {
         final List<Repository> repositories = new ArrayList<>();
      /*   if (realmRepositories != null && !realmRepositories.isEmpty()) {
             for (RepositoryEntity repositoryEntity : realmRepositories) {
@@ -57,7 +57,7 @@ public abstract class Repository implements Serializable {
     }
 
     @NonNull
-    private static Repository createFromEntity(RepositoryEntityNew repositoryEntity) {
+    private static Repository createFromEntity(RepositoryEntity repositoryEntity) {
         return Repository.builder().setId(repositoryEntity.getIdRep()).setName(repositoryEntity.getName()).setFullName(repositoryEntity.getFullName()).build();
     }
 

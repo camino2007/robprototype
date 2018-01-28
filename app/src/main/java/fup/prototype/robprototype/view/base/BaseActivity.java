@@ -5,10 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import fup.prototype.robprototype.ProtoApplication;
 import fup.prototype.robprototype.R;
+import fup.prototype.robprototype.di.AppComponent;
+import fup.prototype.robprototype.di.HasComponent;
 import fup.prototype.robprototype.view.base.fragments.BaseFragment;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements HasComponent<AppComponent> {
 
     private static final String KEY_FRAGMENT = "keyFragment";
 
@@ -43,6 +46,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putString(KEY_FRAGMENT, baseFragment.getKey());
         getSupportFragmentManager().putFragment(outState, baseFragment.getKey(), baseFragment);
+    }
+
+    @Override
+    public AppComponent getAppComponent() {
+        return ProtoApplication.getAppComponent();
     }
 
     protected abstract int getLayoutId();

@@ -6,8 +6,8 @@ import com.rxdroid.repository.di.RepositoryModule;
 import dagger.BindsInstance;
 import dagger.Component;
 import fup.prototype.data.di.DataModule;
-import fup.prototype.robprototype.details.DetailViewModel;
-import fup.prototype.robprototype.search.MainViewModel;
+import fup.prototype.robprototype.details.DetailFragment;
+import fup.prototype.robprototype.search.MainFragment;
 import javax.inject.Singleton;
 
 @Singleton
@@ -22,7 +22,8 @@ public interface AppComponent {
         AppComponent build();
     }
 
-    void inject(MainViewModel mainViewModel);
+    void inject(MainFragment mainFragment);
 
-    void inject(DetailViewModel detailViewModel);
+    void inject(DetailFragment detailFragment);
+
 }

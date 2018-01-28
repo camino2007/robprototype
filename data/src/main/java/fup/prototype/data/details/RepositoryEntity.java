@@ -4,14 +4,15 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 import fup.prototype.data.search.UserEntity;
 
-@Entity(foreignKeys = @ForeignKey(entity = UserEntity.class, parentColumns = "id", childColumns = "user_id"))
-public class RepositoryEntityNew {
+@Entity(tableName = "RepositoryEntity", foreignKeys = @ForeignKey(entity = UserEntity.class, parentColumns = "id", childColumns = "user_id"))
+public class RepositoryEntity {
 
-    @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+
+    @ColumnInfo(name = "id_rep")
     private String idRep;
 
     @ColumnInfo(name = "user_id")
@@ -22,6 +23,14 @@ public class RepositoryEntityNew {
 
     @ColumnInfo(name = "full_name")
     private String fullName;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(final long id) {
+        this.id = id;
+    }
 
     public String getIdRep() {
         return idRep;
