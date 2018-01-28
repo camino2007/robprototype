@@ -9,7 +9,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public abstract class ApiProvider<T> {
+public abstract class ApiProviderOld<T> {
 
     private static final String TAG = "ApiProvider";
 
@@ -20,7 +20,7 @@ public abstract class ApiProvider<T> {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private OnApiCallListener<T> apiCallListener;
 
-    public ApiProvider(@NonNull final GitHubApi gitHubApi) {
+    public ApiProviderOld(@NonNull final GitHubApi gitHubApi) {
         this.gitHubApi = gitHubApi;
     }
 

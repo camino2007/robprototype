@@ -1,6 +1,6 @@
 package com.rxdroid.api.github.provider;
 
-import com.rxdroid.api.ApiProvider;
+import com.rxdroid.api.ApiProviderOld;
 import com.rxdroid.api.github.GitHubApi;
 import com.rxdroid.api.github.model.GitHubRepoModel;
 import com.rxdroid.api.github.model.GitHubUserModel;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import retrofit2.Response;
 
-public class OldGitHubProvider extends ApiProvider<Map<GitHubUserModel, List<GitHubRepoModel>>> {
+public class OldGitHubProvider extends ApiProviderOld<Map<GitHubUserModel, List<GitHubRepoModel>>> {
 
     public OldGitHubProvider(@NonNull GitHubApi gitHubApi) {
         super(gitHubApi);

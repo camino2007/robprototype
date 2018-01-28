@@ -67,6 +67,7 @@ dependencies {
     compile appDependencies.rxJava
     compile appDependencies.rxAndroid
     compile appDependencies.rxBinding
+    compile appDependencies.rxRelay
     compile appDependencies.constraintLayout
     annotationProcessor appDependencies.autoValue
     provided appDependencies.autoValueAnnotations

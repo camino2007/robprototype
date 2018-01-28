@@ -1,4 +1,4 @@
-package fup.prototype.data.main;
+package fup.prototype.data.search;
 
 public class UserDto {
 

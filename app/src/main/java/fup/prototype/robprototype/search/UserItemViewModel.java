@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.main.viewmodels;
+package fup.prototype.robprototype.search;
 
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;

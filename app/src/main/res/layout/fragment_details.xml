@@ -9,7 +9,7 @@
 
         <variable
                 name="viewModel"
-                type="fup.prototype.robprototype.view.details.DetailViewModel"/>
+                type="fup.prototype.robprototype.details.DetailViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout

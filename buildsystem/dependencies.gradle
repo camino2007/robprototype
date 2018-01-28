@@ -11,6 +11,7 @@ ext {
     daggerVersion = '2.11'
     rxJavaVersion = '2.1.1'
     rxAndroidVersion = '2.0.1'
+    rxRelayVersion = '2.0.0'
     constraintLayoutVersion = '1.0.2'
     retrofitVersion = '2.3.0'
     okHttpVersion = '3.8.1'
@@ -28,6 +29,7 @@ ext {
             daggerAndroidProcessor : "com.google.dagger:dagger-android-processor:$daggerVersion",
             rxJava                 : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxAndroid              : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxRelay                : "com.jakewharton.rxrelay2:rxrelay:${rxRelayVersion}",
             rxBinding              : "com.jakewharton.rxbinding2:rxbinding:2.0.0",
             constraintLayout       : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
             autoValue              : "com.google.auto.value:auto-value:${autoValueVersion}",
@@ -35,7 +37,6 @@ ext {
             androidSupportAppCompat: "com.android.support:appcompat-v7:${supportLibraryVersion}",
             androidSupportDesgin   : "com.android.support:design:${supportLibraryVersion}",
             androidSupportCardView : "com.android.support:cardview-v7:${supportLibraryVersion}",
-
     ]
 
     repositoryDepedencies = [
@@ -59,9 +60,7 @@ ext {
             rxAndroid              : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             roomRuntime            : "android.arch.persistence.room:runtime:${roomVersion}",
             roomCompiler           : "android.arch.persistence.room:compiler:${roomVersion}",
-            roomRxJava2        : "android.arch.persistence.room:rxjava2:${roomVersion}",
-
-
+            roomRxJava2            : "android.arch.persistence.room:rxjava2:${roomVersion}",
 
 
     ]

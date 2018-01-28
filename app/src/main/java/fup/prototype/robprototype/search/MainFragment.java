@@ -1,11 +1,11 @@
 package fup.prototype.robprototype.search;
 
+import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.rxdroid.api.RequestError;
 import fup.prototype.robprototype.R;
@@ -13,7 +13,6 @@ import fup.prototype.robprototype.databinding.FragmentMainBinding;
 import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.base.fragments.DataFragment;
 import fup.prototype.robprototype.view.base.viewmodels.ViewState;
-import fup.prototype.robprototype.view.main.UserAdapter;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import java.net.HttpURLConnection;
@@ -69,41 +68,29 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
 
     @Override
     public void addViewListener() {
+        addKeyboardListener();
         addSearchInputListener();
-        addSearchButtonListener();
-        addLoadDbButtonListener();
     }
 
-    private void addLoadDbButtonListener() {
-        final Disposable clickDisposable = RxView.clicks(getViewBinding().loadFromDbButton).subscribe(new Consumer<Object>() {
+    private void addKeyboardListener() {
+        getViewModel().isInProgress.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
-            public void accept(@NonNull Object o) throws Exception {
-                hideKeyboard();
-                getViewModel().loadFromDb();
+            public void onPropertyChanged(final Observable observable, final int i) {
+                if (getViewModel().isInProgress.get()) {
+                    hideKeyboard();
+                }
             }
         });
-        addRxDisposable(clickDisposable);
     }
 
     private void addSearchInputListener() {
-        final Disposable searchDisposable = RxTextView.textChanges(getViewBinding().input).skipInitialValue().subscribe(new Consumer<CharSequence>() {
+        final Disposable searchDisposable = RxTextView.textChanges(getViewBinding().input).subscribe(new Consumer<CharSequence>() {
             @Override
             public void accept(@NonNull CharSequence charSequence) throws Exception {
-                getViewModel().searchValue.set(charSequence.toString());
+                getViewModel().getPublishRelay().accept(charSequence.toString());
             }
         });
         addRxDisposable(searchDisposable);
-    }
-
-    private void addSearchButtonListener() {
-        final Disposable clickDisposable = RxView.clicks(getViewBinding().searchButton).subscribe(new Consumer<Object>() {
-            @Override
-            public void accept(@NonNull Object o) throws Exception {
-                hideKeyboard();
-                getViewModel().loadOrShowData();
-            }
-        });
-        addRxDisposable(clickDisposable);
     }
 
     @Override

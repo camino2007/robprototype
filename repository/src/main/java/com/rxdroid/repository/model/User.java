@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
 import com.rxdroid.api.github.model.GitHubUserModel;
 import com.squareup.haha.guava.collect.ImmutableList;
-import fup.prototype.data.main.UserEntity;
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,6 +18,7 @@ public abstract class User implements Serializable {
     @Nullable
     public abstract String getName();
 
+    @Nullable
     public abstract String getType();
 
     public abstract boolean getIsSiteAdmin();
@@ -89,17 +89,6 @@ public abstract class User implements Serializable {
                    .setIsSiteAdmin(gitHubUser.isSiteAdmin())
                    .setPublicGistCount(gitHubUser.getPublicGists())
                    .setPublicRepoCount(gitHubUser.getPublicRepos())
-                   .build();
-    }
-
-    @NonNull
-    public static User fromEntity(final UserEntity userEntity) {
-        return User.builder()
-                   .setLogin(userEntity.getLogin())
-                   .setName(userEntity.getName())
-                   .setPublicGistCount(userEntity.getPublicGistCount())
-                   .setPublicRepoCount(userEntity.getPublicRepoCount())
-                   //.setRepositoryList(Repository.fromEntityList(userEntity.getRepositories()))
                    .build();
     }
 }

@@ -5,7 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-import fup.prototype.data.main.UserEntity;
+import fup.prototype.data.search.UserEntity;
 
 @Entity(foreignKeys = @ForeignKey(entity = UserEntity.class, parentColumns = "id", childColumns = "user_id"))
 public class RepositoryEntityNew {

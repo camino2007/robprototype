@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.details;
+package fup.prototype.robprototype.details;
 
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;

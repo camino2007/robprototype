@@ -2,32 +2,57 @@ package fup.prototype.robprototype.search;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
-import com.rxdroid.api.LoadingState;
+import com.jakewharton.rxrelay2.PublishRelay;
 import com.rxdroid.api.RequestError;
-import com.rxdroid.repository.UserRepository;
+import com.rxdroid.repository.UserUiRepository;
 import com.rxdroid.repository.model.User;
+import com.rxdroid.repository.model.UserResponse;
 import fup.prototype.robprototype.ProtoApplication;
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
 import fup.prototype.robprototype.view.base.viewmodels.ViewState;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 public class MainViewModel extends BaseViewModel {
 
     private static final String TAG = "MainViewModel";
 
+    private static final int MIN_LENGTH_SEARCH = 3;
+    private static final int DEBOUNCE_TIME_OUT = 650;
+
     public ObservableField<String> userName = new ObservableField<>();
     public ObservableField<String> searchValue = new ObservableField<>();
     public ObservableArrayList<User> items = new ObservableArrayList<>();
 
+    private PublishRelay<String> publishRelay = PublishRelay.create();
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     @Inject
-    UserRepository userRepository;
+    UserUiRepository userRepository;
 
     public MainViewModel() {
-        this.userRepository.setUserListener(new UserListener());
+        publishRelay.debounce(DEBOUNCE_TIME_OUT, TimeUnit.MILLISECONDS).filter(new Predicate<CharSequence>() {
+            @Override
+            public boolean test(final CharSequence charSequence) throws Exception {
+                return charSequence.length() >= MIN_LENGTH_SEARCH;
+            }
+        }).distinctUntilChanged().switchMap(new Function<String, Observable<UserResponse>>() {
+            @Override
+            public Observable<UserResponse> apply(final String searchValue) throws Exception {
+                Log.d(TAG, "MainViewModel - apply - searchValue: " + searchValue);
+                changeLoadingState(true);
+                return userRepository.loadBySearchValue(searchValue);
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new UserObserver());
     }
 
     @Override
@@ -37,34 +62,11 @@ public class MainViewModel extends BaseViewModel {
 
     @Override
     public void loadOrShowData() {
-        loadUserFromRepository();
+        Log.d(TAG, "loadOrShowData: ");
     }
 
-    public void loadFromDb() {
-        userRepository.loadFromDatabase(searchValue.get());
-    }
-
-    private void showUserData(final User user) {
-        if (user != null) {
-            userName.set(user.getName());
-            items.clear();
-            items.add(user);
-        }
-    }
-
-    private void loadUserFromRepository() {
-        Log.d(TAG, "loadUserFromRepository: " + searchValue.get());
-        if (!TextUtils.isEmpty(searchValue.get())) {
-            Log.d(TAG, "loadUserFromRepository - userRepository.hasCachedValue(): " + userRepository.hasCachedValue());
-            if (userRepository.hasCachedValue()) {
-                handleSuccessCase(userRepository.getUser());
-            } else {
-                userRepository.load(searchValue.get());
-            }
-        } else {
-            final RequestError requestError = RequestError.create(RequestError.ERROR_CODE_NO_SEARCH_INPUT);
-            handleErrorCase(requestError);
-        }
+    public PublishRelay<String> getPublishRelay() {
+        return publishRelay;
     }
 
     private void handleSuccessCase(final User user) {
@@ -76,21 +78,42 @@ public class MainViewModel extends BaseViewModel {
         }
     }
 
-    private class UserListener implements UserRepository.OnUserListener {
+    private void showUserData(final User user) {
+        if (user != null) {
+            userName.set(user.getName());
+            items.clear();
+            items.add(user);
+        }
+    }
+
+    private class UserObserver implements Observer<UserResponse> {
 
         @Override
-        public void onUserLoaded(@Nullable final User user) {
-            handleSuccessCase(user);
+        public void onSubscribe(final Disposable d) {
+            compositeDisposable.add(d);
         }
 
         @Override
-        public void onError(@NonNull final RequestError requestError) {
-            handleErrorCase(requestError);
+        public void onNext(final UserResponse userResponse) {
+            changeLoadingState(false);
+            if (userResponse.getRequestError() != null) {
+                items.clear();
+                handleErrorCase(userResponse.getRequestError());
+            } else {
+                handleSuccessCase(userResponse.getUser());
+            }
         }
 
         @Override
-        public void onLoadingStateChanged(@NonNull LoadingState loadingState) {
-            changeLoadingState(loadingState == LoadingState.LOADING);
+        public void onError(final Throwable e) {
+            Log.e(TAG, "onError: ", e);
+            items.clear();
+            changeLoadingState(false);
+            handleErrorCase(RequestError.create(null, e));
+        }
+
+        @Override
+        public void onComplete() {
         }
     }
 }

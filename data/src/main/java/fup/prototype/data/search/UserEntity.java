@@ -1,4 +1,4 @@
-package fup.prototype.data.main;
+package fup.prototype.data.search;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

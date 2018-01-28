@@ -7,11 +7,11 @@
 
         <variable
                 name="handler"
-                type="fup.prototype.robprototype.view.main.viewmodels.UserItemHandler"/>
+                type="fup.prototype.robprototype.search.UserItemHandler"/>
 
         <variable
                 name="viewModel"
-                type="fup.prototype.robprototype.view.main.viewmodels.UserItemViewModel"/>
+                type="fup.prototype.robprototype.search.UserItemViewModel"/>
     </data>
 
 

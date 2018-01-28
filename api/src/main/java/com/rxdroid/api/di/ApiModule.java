@@ -5,8 +5,9 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rxdroid.api.github.GitHubApi;
-import com.rxdroid.api.github.provider.ApiGitHubProvider;
-import com.rxdroid.api.github.provider.ApiGitHubProviderImpl;
+import com.rxdroid.api.github.provider.ApiProvider;
+import com.rxdroid.api.github.provider.GitHubRepositoryProvider;
+import com.rxdroid.api.github.provider.GitHubUserProvider;
 import dagger.Module;
 import dagger.Provides;
 import java.util.concurrent.TimeUnit;
@@ -65,8 +66,13 @@ public class ApiModule {
     }
 
     @Provides
-    ApiGitHubProvider provideApiGitHubProvider(final ApiGitHubProviderImpl apiGitHubProvider) {
-        return apiGitHubProvider;
+    ApiProvider provideGitHubUserProvider(final GitHubUserProvider gitHubUserProvider) {
+        return gitHubUserProvider;
+    }
+
+    @Provides
+    ApiProvider provideGitHubRepositoryProvider(final GitHubRepositoryProvider gitHubRepositoryProvider) {
+        return gitHubRepositoryProvider;
     }
 }
 

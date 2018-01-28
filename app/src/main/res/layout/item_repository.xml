@@ -7,11 +7,11 @@
 
         <variable
                 name="handler"
-                type="fup.prototype.robprototype.view.details.RepoItemHandler"/>
+                type="fup.prototype.robprototype.details.RepoItemHandler"/>
 
         <variable
                 name="viewModel"
-                type="fup.prototype.robprototype.view.details.RepoItemViewModel"/>
+                type="fup.prototype.robprototype.details.RepoItemViewModel"/>
     </data>
 
 

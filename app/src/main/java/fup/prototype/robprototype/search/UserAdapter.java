@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.main;
+package fup.prototype.robprototype.search;
 
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
@@ -8,8 +8,6 @@ import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.ItemUserBinding;
 import fup.prototype.robprototype.view.ItemViewModelFactory;
 import fup.prototype.robprototype.view.base.adapters.RecyclerViewBaseAdapter;
-import fup.prototype.robprototype.view.main.viewmodels.UserItemHandler;
-import fup.prototype.robprototype.view.main.viewmodels.UserItemViewModel;
 
 public class UserAdapter extends RecyclerViewBaseAdapter<User, ItemUserBinding> {
 

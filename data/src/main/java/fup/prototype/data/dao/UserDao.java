@@ -5,7 +5,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
-import fup.prototype.data.main.UserEntity;
+import fup.prototype.data.search.UserEntity;
 import io.reactivex.Maybe;
 import java.util.List;
 

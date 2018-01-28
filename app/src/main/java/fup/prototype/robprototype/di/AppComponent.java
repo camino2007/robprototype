@@ -6,8 +6,8 @@ import com.rxdroid.repository.di.RepositoryModule;
 import dagger.BindsInstance;
 import dagger.Component;
 import fup.prototype.data.di.DataModule;
+import fup.prototype.robprototype.details.DetailViewModel;
 import fup.prototype.robprototype.search.MainViewModel;
-import fup.prototype.robprototype.view.details.DetailViewModel;
 import javax.inject.Singleton;
 
 @Singleton

@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.rxdroid.repository.model.Repository;
 import com.rxdroid.repository.model.User;
-import fup.prototype.robprototype.view.details.RepoAdapter;
-import fup.prototype.robprototype.view.main.UserAdapter;
+import fup.prototype.robprototype.details.RepoAdapter;
+import fup.prototype.robprototype.search.UserAdapter;
 import java.util.List;
 
 public class Bindings {

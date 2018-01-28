@@ -8,8 +8,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import fup.prototype.data.dao.UserDao;
 import fup.prototype.data.details.RepositoryEntityNew;
-import fup.prototype.data.main.UserEntity;
 import fup.prototype.data.room.Converters;
+import fup.prototype.data.search.UserEntity;
 
 @Database(entities = {UserEntity.class, RepositoryEntityNew.class}, version = 1)
 @TypeConverters({Converters.class})

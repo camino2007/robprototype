@@ -17,17 +17,4 @@ public class AppModule {
     Context provideContext(Application application) {
         return application.getApplicationContext();
     }
-
-
-/*    @Provides
-    @Singleton
-    UserRepository provideUserRepository(@NonNull final GitHubUserProvider gitHubUserProvider, @NonNull final UserRealmProvider userRealmProvider) {
-        return new UserRepository(gitHubUserProvider, userRealmProvider);
-    }*/
-
-/*    @Provides
-    @Singleton
-    GitHubRepoRepository provideGitHubRepoRepository(@NonNull final GitHubRepoProvider gitHubRepoProvider, @NonNull final UserRealmProvider userRealmProvider) {
-        return new GitHubRepoRepository(gitHubRepoProvider, userRealmProvider);
-    }*/
 }

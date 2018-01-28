@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.view.details;
+package fup.prototype.robprototype.details;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

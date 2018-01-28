@@ -1,20 +1,22 @@
-package fup.prototype.data.main;
+package fup.prototype.data.search;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import dagger.Reusable;
 import fup.prototype.data.DatabaseProvider;
+import fup.prototype.data.room.RoomDatabaseProvider;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Function;
+import java.util.List;
 import javax.inject.Inject;
 
 @Reusable
-public class UserDatabaseProviderImpl extends DatabaseProvider<UserDto> implements UserDatabaseProvider {
+public class UserDatabaseProvider extends RoomDatabaseProvider implements DatabaseProvider<UserDto> {
 
     @Inject
-    public UserDatabaseProviderImpl(final Context context) {
+    public UserDatabaseProvider(final Context context) {
         super(context);
     }
 
@@ -46,5 +48,10 @@ public class UserDatabaseProviderImpl extends DatabaseProvider<UserDto> implemen
                 return userDto;
             }
         });
+    }
+
+    @Override
+    public Maybe<List<UserDto>> getAll() {
+        return null;
     }
 }
