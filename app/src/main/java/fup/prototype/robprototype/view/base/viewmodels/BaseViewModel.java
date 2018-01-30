@@ -2,8 +2,11 @@ package fup.prototype.robprototype.view.base.viewmodels;
 
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
+
 import com.rxdroid.api.RequestError;
+
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.PublishSubject;
 
 public abstract class BaseViewModel extends BaseObservable {
@@ -12,6 +15,7 @@ public abstract class BaseViewModel extends BaseObservable {
     public ObservableField<Boolean> isInProgress = new ObservableField<>(false);
 
     private PublishSubject<RequestError> errorSubject = PublishSubject.create();
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public void setViewState(@NonNull final ViewState viewState) {
         this.viewState.set(viewState);
@@ -32,6 +36,14 @@ public abstract class BaseViewModel extends BaseObservable {
 
     public PublishSubject<RequestError> getErrorSubject() {
         return errorSubject;
+    }
+
+    public CompositeDisposable getCompositeDisposable() {
+        return compositeDisposable;
+    }
+
+    public void clear() {
+        compositeDisposable.clear();
     }
 
     public boolean isOnError() {

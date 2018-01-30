@@ -1,19 +1,13 @@
 package com.rxdroid.repository.cache;
 
+public interface Cache<T> {
 
-public abstract class Cache<T> {
+    void setData(T data);
 
-    private T data;
+    T getData();
 
-    public boolean hasCachedData() {
-        return data != null;
-    }
+    boolean hasValidCachedData();
 
-    public T getData() {
-        return data;
-    }
+    boolean isSameObjectCached(T t);
 
-    public void setData(T data) {
-        this.data = data;
-    }
 }

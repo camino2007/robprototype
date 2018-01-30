@@ -2,20 +2,39 @@ package com.rxdroid.repository.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import com.google.auto.value.AutoValue;
+
 import com.rxdroid.api.RequestError;
 
-@AutoValue
-public abstract class UserResponse {
+
+public class UserResponse {
 
     @Nullable
-    public abstract User getUser();
+    private User user;
 
     @Nullable
-    public abstract RequestError getRequestError();
+    private RequestError requestError;
+
+    public UserResponse(@Nullable final User user, @Nullable final RequestError requestError) {
+        this.user = user;
+        this.requestError = requestError;
+    }
+
+    @Nullable
+    public User getUser() {
+        return user;
+    }
+
+    @Nullable
+    public RequestError getRequestError() {
+        return requestError;
+    }
+
+    public boolean hasError() {
+        return requestError != null;
+    }
 
     @NonNull
-    public static UserResponse create(@Nullable User user, @Nullable RequestError requestError) {
-        return new AutoValue_UserResponse(user, requestError);
+    public static UserResponse create(@Nullable final User user, @Nullable final RequestError requestError) {
+        return new UserResponse(user, requestError);
     }
 }

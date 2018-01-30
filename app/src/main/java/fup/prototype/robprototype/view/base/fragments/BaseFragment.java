@@ -8,11 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+
 import fup.prototype.robprototype.di.AppComponent;
 import fup.prototype.robprototype.di.HasComponent;
 import fup.prototype.robprototype.view.ViewProvider;
@@ -22,8 +22,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends Fragment implements ViewProvider<B, VM> {
-
-    private static final String TAG = "BaseFragment";
 
     private static final String KEY_VIEW_MODEL_STATE = "keyViewModelState";
 
@@ -54,7 +52,6 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
         }
         if (savedInstanceState != null) {
             final ViewState viewState = (ViewState) savedInstanceState.getSerializable(KEY_VIEW_MODEL_STATE);
-            Log.d(TAG, "onActivityCreated - viewState: " + viewState);
             this.viewModel.setViewState(viewState);
             restoreViewModelValues(savedInstanceState);
         }

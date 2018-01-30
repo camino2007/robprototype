@@ -6,19 +6,23 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.rxdroid.api.RequestError;
 import com.rxdroid.repository.UserUiRepository;
+
+import java.net.HttpURLConnection;
+
+import javax.inject.Inject;
+
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.FragmentMainBinding;
 import fup.prototype.robprototype.di.AppComponent;
 import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.base.fragments.DataFragment;
-import fup.prototype.robprototype.view.base.viewmodels.ViewState;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import java.net.HttpURLConnection;
-import javax.inject.Inject;
 
 public class MainFragment extends DataFragment<FragmentMainBinding, MainViewModel> {
 
@@ -52,6 +56,7 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
 
     @Override
     public void initBinding(final FragmentMainBinding binding) {
+        Log.d(getKey(), "initBinding");
         binding.setViewModel(getViewModel());
         setupUserAdapter();
     }
@@ -67,9 +72,8 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
     @Override
     public void onResume() {
         super.onResume();
-        if (getViewModel().viewState.get() == ViewState.ON_LOADED) {
-            getViewModel().loadOrShowData();
-        }
+        Log.d(getKey(), "onResume");
+        getViewModel().loadOrShowData();
     }
 
     @Override
@@ -98,7 +102,7 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
         final Disposable searchDisposable = RxTextView.textChanges(getViewBinding().input).subscribe(new Consumer<CharSequence>() {
             @Override
             public void accept(@NonNull CharSequence charSequence) throws Exception {
-                getViewModel().getPublishRelay().accept(charSequence.toString());
+                getViewModel().updateSearchInput(charSequence.toString());
             }
         });
         addRxDisposable(searchDisposable);
@@ -112,6 +116,7 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
     @Override
     protected void restoreViewModelValues(@NonNull final Bundle savedInstanceState) {
         final String searchValue = savedInstanceState.getString(KEY_SEARCH_VALUE);
+        Log.d(getKey(), "restoreViewModelValues: " + searchValue);
         getViewModel().searchValue.set(searchValue);
     }
 

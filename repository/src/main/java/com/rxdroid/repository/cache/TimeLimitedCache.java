@@ -1,9 +1,10 @@
 package com.rxdroid.repository.cache;
 
-import io.reactivex.annotations.NonNull;
 import java.util.concurrent.TimeUnit;
 
-public abstract class TimeLimitedCache<T> extends Cache<T> {
+import io.reactivex.annotations.NonNull;
+
+public abstract class TimeLimitedCache<T> implements Cache<T> {
 
     private long savedTimeStamp = -1L;
 
@@ -18,7 +19,6 @@ public abstract class TimeLimitedCache<T> extends Cache<T> {
 
     @Override
     public void setData(T data) {
-        super.setData(data);
         this.savedTimeStamp = getCurrentTimeStamp();
     }
 
@@ -26,11 +26,9 @@ public abstract class TimeLimitedCache<T> extends Cache<T> {
         return System.currentTimeMillis();
     }
 
-    public boolean isCacheValid() {
+    public boolean isCachedTimingValid() {
         final long currentTimeStamp = getCurrentTimeStamp();
         return currentTimeStamp < savedTimeStamp + maxValidDuration;
     }
-
-    public abstract boolean isSameObjectCached(T t);
 
 }

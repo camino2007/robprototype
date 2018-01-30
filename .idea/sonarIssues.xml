@@ -583,6 +583,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/adapters/ObserverAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/adapters/ResponseObserver.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/fragments/BaseFragment.java">
           <value>
             <set />
@@ -1253,6 +1263,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/Lce.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/Repository.java">
           <value>
             <set />
@@ -1279,6 +1294,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/UserUiRepository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/cache/Cache.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/cache/CacheOld.java">
           <value>
             <set />
           </value>
