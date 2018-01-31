@@ -5,7 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(tableName = "UserEntity", indices = {@Index("login")})
+@Entity(tableName = "UserEntity", indices = {@Index(value = "login", unique = true)})
 public class UserEntity {
 
     public UserEntity() {
@@ -18,7 +18,10 @@ public class UserEntity {
     private String login;
 
     @ColumnInfo(name = "name")
-    public String name;
+    private String name;
+
+    @ColumnInfo(name = "github_user_id")
+    private int githubUserId;
 
     @ColumnInfo(name = "public_repo_count")
     private int publicRepoCount;
@@ -26,13 +29,13 @@ public class UserEntity {
     @ColumnInfo(name = "public_gist_count")
     private int publicGistCount;
 
-    private UserEntity(final Builder builder) {
-        setId(builder.id);
+  /* private UserEntity(final Builder builder) {
+    //    setId(builder.id);
         setLogin(builder.login);
         setName(builder.name);
         setPublicRepoCount(builder.publicRepoCount);
         setPublicGistCount(builder.publicGistCount);
-    }
+    }*/
 
     public long getId() {
         return id;
@@ -58,6 +61,14 @@ public class UserEntity {
         this.name = name;
     }
 
+    public int getGithubUserId() {
+        return githubUserId;
+    }
+
+    public void setGithubUserId(int githubUserId) {
+        this.githubUserId = githubUserId;
+    }
+
     public int getPublicRepoCount() {
         return publicRepoCount;
     }
@@ -74,7 +85,7 @@ public class UserEntity {
         this.publicGistCount = count;
     }
 
-    public static final class Builder {
+   /* public static final class Builder {
         private long id;
         private String login;
         private String name;
@@ -112,5 +123,5 @@ public class UserEntity {
         public UserEntity build() {
             return new UserEntity(this);
         }
-    }
+    }*/
 }

@@ -6,12 +6,14 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import fup.prototype.data.dao.UserDao;
+
 import fup.prototype.data.details.RepositoryEntity;
 import fup.prototype.data.room.Converters;
+import fup.prototype.data.room.dao.RepositoryRoomDao;
+import fup.prototype.data.room.dao.UserRoomDao;
 import fup.prototype.data.search.UserEntity;
 
-@Database(entities = {UserEntity.class, RepositoryEntity.class}, version = 1)
+@Database(entities = {UserEntity.class, RepositoryEntity.class}, version = 2)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -29,5 +31,7 @@ public abstract class AppDatabase extends RoomDatabase {
         return Room.databaseBuilder(context, AppDatabase.class, DB_NAME).fallbackToDestructiveMigration().build();
     }
 
-    public abstract UserDao userDao();
+    public abstract UserRoomDao userDao();
+
+    public abstract RepositoryRoomDao repositoryRoomDao();
 }

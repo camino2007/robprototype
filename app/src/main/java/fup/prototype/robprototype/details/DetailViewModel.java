@@ -19,8 +19,10 @@ import dagger.Reusable;
 import fup.prototype.robprototype.view.base.adapters.ObserverAdapter;
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
 import fup.prototype.robprototype.view.base.viewmodels.ViewState;
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @Reusable
@@ -72,14 +74,36 @@ public class DetailViewModel extends BaseViewModel {
         if (!repositories.isEmpty()) {
             setViewState(ViewState.ON_LOADED);
             showRepositories(repositories);
+            storeToDatabase(repositories);
         } else {
             setViewState(ViewState.ON_NO_DATA);
         }
     }
 
+    private void storeToDatabase(List<Repository> repositories) {
+        final Completable completable = detailsUiRepository.updateDatabase(repositories, user.getId());
+        completable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DatabaseWriteObserver());
+    }
+
     private void showRepositories(final List<Repository> repositories) {
         items.clear();
         items.addAll(repositories);
+    }
+
+    private class DatabaseWriteObserver extends DisposableCompletableObserver {
+
+        @Override
+        public void onError(final Throwable e) {
+            //Database write transaction failed due of reasons ...
+            Log.e(TAG, "DatabaseWriteObserver - onError: ", e);
+        }
+
+        @Override
+        public void onComplete() {
+            Log.d(TAG, "DatabaseWriteObserver - onComplete: ");
+        }
     }
 
     private class RepositoryObserver extends ObserverAdapter<RepositoryResponse> {

@@ -828,6 +828,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/data/build/generated/source/apt/debug/fup/prototype/data/di/DataModule_ProvideUserDatabaseProviderFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/build/generated/source/apt/debug/fup/prototype/data/room/dao/RepositoryRoomDao_Impl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/data/build/intermediates/res/merged/debug/values/values.xml">
           <value>
             <set />
@@ -849,6 +859,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/DatabaseAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/DatabaseDao.java">
           <value>
             <set />
           </value>
@@ -943,6 +958,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/details/RepositoryDatabaseProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/details/RepositoryDto.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/details/RepositoryEntity.java">
           <value>
             <set />
@@ -959,6 +984,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/di/DataModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/entities/UserWithRepos.java">
           <value>
             <set />
           </value>
@@ -1078,7 +1108,37 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/room/dao/RepositoryDao.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/room/dao/RepositoryRoomDao.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/room/dao/UserDao.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/room/dao/UserRoomDao.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/search/UserDatabaseProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/search/UserDto.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/data/src/main/java/fup/prototype/data/search/UserEntity.java">
           <value>
             <set />
           </value>

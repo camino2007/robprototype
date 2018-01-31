@@ -2,21 +2,22 @@ package fup.prototype.data.details;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
-import fup.prototype.data.search.UserEntity;
 
-@Entity(tableName = "RepositoryEntity", foreignKeys = @ForeignKey(entity = UserEntity.class, parentColumns = "id", childColumns = "user_id"))
+@Entity(tableName = "RepositoryEntity")
 public class RepositoryEntity {
+
+    public RepositoryEntity() {
+    }
 
     @PrimaryKey(autoGenerate = true)
     private long id;
 
+    @ColumnInfo(name = "github_user_id")
+    private int githubUserId;
+
     @ColumnInfo(name = "id_rep")
     private String idRep;
-
-    @ColumnInfo(name = "user_id")
-    private int userId;
 
     @ColumnInfo(name = "name")
     private String name;
@@ -40,12 +41,12 @@ public class RepositoryEntity {
         this.idRep = idRep;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getGithubUserId() {
+        return githubUserId;
     }
 
-    public void setUserId(final int userId) {
-        this.userId = userId;
+    public void setGithubUserId(int githubUserId) {
+        this.githubUserId = githubUserId;
     }
 
     public String getName() {

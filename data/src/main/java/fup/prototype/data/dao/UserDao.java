@@ -1,32 +1,20 @@
 package fup.prototype.data.dao;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
-import fup.prototype.data.search.UserEntity;
-import io.reactivex.Maybe;
+
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
-@Dao
-public interface UserDao {
+import fup.prototype.data.DatabaseDao;
+import fup.prototype.data.search.UserDto;
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
 
-    @Query("SELECT * FROM UserEntity")
-    Maybe<List<UserEntity>> getAll();
+public interface UserDao extends DatabaseDao {
 
-    @Query("SELECT * FROM UserEntity WHERE login LIKE :loginValue LIMIT 1")
-    Maybe<UserEntity> findByLogin(String loginValue);
+    Completable insertOrUpdate(@NonNull final UserDto userDto);
 
-    @Insert
-    void insertAll(UserEntity... users);
+    Maybe<UserDto> getUserForSearchValue(@NonNull final String searchValue);
 
-    @Insert
-    void insert(UserEntity userEntity);
-
-    @Update
-    void update(UserEntity userEntity);
-
-    @Delete
-    void delete(UserEntity user);
+    Maybe<List<UserDto>> getAllUserDto();
 }

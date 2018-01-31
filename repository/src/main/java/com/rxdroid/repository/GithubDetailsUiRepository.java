@@ -10,11 +10,15 @@ import com.rxdroid.api.github.provider.GitHubRepositoryProvider;
 import com.rxdroid.repository.model.Repository;
 import com.rxdroid.repository.model.RepositoryResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import fup.prototype.data.details.RepositoryDatabaseProvider;
+import fup.prototype.data.details.RepositoryDto;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import retrofit2.Response;
@@ -28,13 +32,31 @@ public class GithubDetailsUiRepository implements UiRepository<RepositoryRespons
     @NonNull
     private final GitHubRepositoryProvider gitHubRepositoryProvider;
 
+    @NonNull
+    private final RepositoryDatabaseProvider repositoryDatabaseProvider;
+
     @Inject
-    public GithubDetailsUiRepository(@NonNull final GitHubRepositoryProvider gitHubRepositoryProvider) {
+    public GithubDetailsUiRepository(@NonNull final GitHubRepositoryProvider gitHubRepositoryProvider,
+                                     @NonNull final RepositoryDatabaseProvider repositoryDatabaseProvider) {
         this.gitHubRepositoryProvider = gitHubRepositoryProvider;
+        this.repositoryDatabaseProvider = repositoryDatabaseProvider;
     }
 
     public boolean hasValidCacheValue(@NonNull final String currentSearchValue) {
         return repositoryResponse != null && TextUtils.equals(lastSearchValue, currentSearchValue);
+    }
+
+    public Completable updateDatabase(@NonNull final List<Repository> repositories, final int githubUserId) {
+        final List<RepositoryDto> repositoryDtos = new ArrayList<>();
+        for (Repository repository : repositories) {
+            RepositoryDto dto = new RepositoryDto();
+            dto.name = repository.getName();
+            dto.githubUserId = githubUserId;
+            dto.fullName = repository.getFullName();
+            dto.idRep = repository.getId();
+            repositoryDtos.add(dto);
+        }
+        return repositoryDatabaseProvider.insertOrUpdate(repositoryDtos);
     }
 
     @Override

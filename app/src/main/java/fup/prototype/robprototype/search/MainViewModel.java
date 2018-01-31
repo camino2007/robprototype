@@ -19,11 +19,13 @@ import dagger.Reusable;
 import fup.prototype.robprototype.view.base.adapters.ObserverAdapter;
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
 import fup.prototype.robprototype.view.base.viewmodels.ViewState;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @Reusable
@@ -86,9 +88,18 @@ public class MainViewModel extends BaseViewModel {
         if (user != null) {
             setViewState(ViewState.ON_LOADED);
             showUserData(user);
+            storeToDatabase(user);
         } else {
             setViewState(ViewState.ON_NO_DATA);
         }
+    }
+
+    private void storeToDatabase(@NonNull final User user) {
+        Log.d(TAG, "storeToDatabase - user.getLogin(): " + user.getLogin());
+        final Completable completable = userUiRepository.updateDatabase(user);
+        completable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DatabaseWriteObserver());
     }
 
     private void showUserData(final User user) {
@@ -102,6 +113,20 @@ public class MainViewModel extends BaseViewModel {
     public void updateSearchInput(final String search) {
         searchValue.set(search);
         publishRelay.accept(search);
+    }
+
+    private class DatabaseWriteObserver extends DisposableCompletableObserver {
+
+        @Override
+        public void onError(final Throwable e) {
+            //Database write transaction failed due of reasons ...
+            Log.e(TAG, "DatabaseWriteObserver - onError: ", e);
+        }
+
+        @Override
+        public void onComplete() {
+            Log.d(TAG, "DatabaseWriteObserver - onComplete: ");
+        }
     }
 
     private class UserObserver extends ObserverAdapter<UserResponse> {
