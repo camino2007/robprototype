@@ -303,6 +303,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/ActivityModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/AppComponent.java">
           <value>
             <set />
@@ -328,7 +333,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/BuildersModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/FragmentBuildersModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/FragmentModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/FragmentSubComponent.java">
           <value>
             <set />
           </value>
@@ -339,6 +359,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/Injectable.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/MainActivitySubComponent.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/MainActivitySubcomponent.java">
           <value>
             <set />
           </value>
@@ -443,6 +473,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/NewMainFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/NewMainViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/util/AutoClearedValue.java">
           <value>
             <set />
@@ -493,6 +533,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/LiveDataViewModelFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/MainActivity.java">
           <value>
             <set />
@@ -504,6 +549,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/MainViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/NewViewProvider.java">
           <value>
             <set />
           </value>
@@ -593,6 +643,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/NewBaseActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/NewViewProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/adapters/ObserverAdapter.java">
           <value>
             <set />
@@ -609,6 +669,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/fragments/DataFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/fragments/NewBaseFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/fragments/NewDataFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/viewmodels/BaseLiveDataViewModel.java">
           <value>
             <set />
           </value>
@@ -789,6 +864,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_main.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_main_new.xml">
           <value>
             <set />
           </value>

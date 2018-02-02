@@ -4,14 +4,16 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import fup.prototype.robprototype.R;
-import fup.prototype.robprototype.view.base.BaseActivity;
-import fup.prototype.robprototype.view.base.fragments.BaseFragment;
 
-public class MainActivity extends BaseActivity {
+import fup.prototype.robprototype.R;
+import fup.prototype.robprototype.view.base.NewBaseActivity;
+import fup.prototype.robprototype.view.base.fragments.NewBaseFragment;
+
+public class MainActivity extends NewBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -23,8 +25,9 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected BaseFragment createInitialContentFragment() {
-        return MainFragment.newInstance();
+    protected NewBaseFragment createInitialContentFragment() {
+        //  return MainFragment.newInstance();
+        return NewMainFragment.newInstance();
     }
 
     @Override

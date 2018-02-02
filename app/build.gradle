@@ -74,6 +74,11 @@ dependencies {
     compile appDependencies.androidSupportAppCompat
     compile appDependencies.androidSupportDesgin
     compile appDependencies.androidSupportCardView
+    // ViewModel and LiveData
+    implementation appDependencies.lifeCycleExtentions
+    implementation appDependencies.lifeCycleRxStreams
+
+    annotationProcessor appDependencies.lifeCycleCompiler
 
     //Development
     compile developmentDependencies.leakCanary

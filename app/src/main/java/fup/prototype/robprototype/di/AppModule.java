@@ -2,16 +2,25 @@ package fup.prototype.robprototype.di;
 
 import android.app.Application;
 import android.content.Context;
+
 import com.rxdroid.api.di.ApiComponent;
 import com.rxdroid.repository.di.RepositoryComponent;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import fup.prototype.data.di.DataComponent;
 import fup.prototype.robprototype.details.DetailViewModel;
-import fup.prototype.robprototype.search.MainViewModel;
-import javax.inject.Singleton;
 
-@Module(subcomponents = {RepositoryComponent.class, ApiComponent.class, DataComponent.class})
+
+/**
+ * This is where you will inject application-wide dependencies.
+ */
+@Module(subcomponents = {
+        RepositoryComponent.class,
+        ApiComponent.class,
+        DataComponent.class})
 public class AppModule {
 
     @Provides
@@ -20,10 +29,6 @@ public class AppModule {
         return application.getApplicationContext();
     }
 
-    @Provides
-    MainViewModel provideMainViewModel(final MainViewModel mainViewModel) {
-        return mainViewModel;
-    }
 
     @Provides
     DetailViewModel provideDetailViewModel(final DetailViewModel detailViewModel) {

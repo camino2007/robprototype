@@ -1,22 +1,32 @@
 package fup.prototype.robprototype;
 
+import android.app.Activity;
 import android.app.Application;
-import fup.prototype.robprototype.di.AppComponent;
+
+import javax.inject.Inject;
+
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
 import fup.prototype.robprototype.di.DaggerAppComponent;
 
-public class ProtoApplication extends Application {
+public class ProtoApplication extends Application implements HasActivityInjector {
 
-    private static AppComponent appComponent;
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if (appComponent == null) {
-            appComponent = DaggerAppComponent.builder().application(this).build();
-        }
+        // DaggerAppComponent.builder().application(this).build();
+        DaggerAppComponent
+                .builder()
+                .application(this)
+                .build()
+                .inject(this);
     }
 
-    public static AppComponent getAppComponent() {
-        return appComponent;
+    @Override
+    public DispatchingAndroidInjector<Activity> activityInjector() {
+        return dispatchingAndroidInjector;
     }
 }

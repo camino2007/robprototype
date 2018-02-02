@@ -81,7 +81,7 @@ public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailV
 
     @Override
     protected void injectComponent(final AppComponent appComponent) {
-        appComponent.inject(this);
+        //  appComponent.inject(this);
     }
 
     @Override

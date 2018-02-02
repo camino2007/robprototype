@@ -17,6 +17,7 @@ ext {
     okHttpVersion = '3.8.1'
     autoValueVersion = '1.5'
     roomVersion = '1.0.0'
+    architectureComponentsVersion = '1.1.0'
 
     //developer
     leakCanaryVersion = '1.5.1'
@@ -37,6 +38,9 @@ ext {
             androidSupportAppCompat: "com.android.support:appcompat-v7:${supportLibraryVersion}",
             androidSupportDesgin   : "com.android.support:design:${supportLibraryVersion}",
             androidSupportCardView : "com.android.support:cardview-v7:${supportLibraryVersion}",
+            lifeCycleExtentions    : "android.arch.lifecycle:extensions:${architectureComponentsVersion}",
+            lifeCycleCompiler      : "android.arch.lifecycle:compiler:${architectureComponentsVersion}",
+            lifeCycleRxStreams     : "android.arch.lifecycle:reactivestreams:${architectureComponentsVersion}",
     ]
 
     repositoryDepedencies = [

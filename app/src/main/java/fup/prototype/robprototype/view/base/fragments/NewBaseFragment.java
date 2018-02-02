@@ -13,15 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
-import dagger.android.support.HasSupportFragmentInjector;
-import fup.prototype.robprototype.di.AppComponent;
-import fup.prototype.robprototype.view.ViewProvider;
-import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
+import dagger.android.support.AndroidSupportInjection;
+import fup.prototype.robprototype.view.NewViewProvider;
+import fup.prototype.robprototype.view.base.viewmodels.BaseLiveDataViewModel;
 import fup.prototype.robprototype.view.base.viewmodels.ViewState;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends Fragment implements ViewProvider<B, VM> {
+
+public abstract class NewBaseFragment<B extends ViewDataBinding, LVM extends BaseLiveDataViewModel>
+        extends Fragment implements
+        NewViewProvider<B, LVM> {
 
     private static final String KEY_VIEW_MODEL_STATE = "keyViewModelState";
 
@@ -29,16 +31,12 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
 
     private B viewBinding;
 
-    private VM viewModel;
+    private LVM viewModel;
 
     @Override
-    public void onCreate(@Nullable final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //  injectComponent(getComponent(AppComponent.class));
-
-        injectComponent(getComponent(AppComponent.class));
-
-
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Nullable
@@ -96,9 +94,9 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
      * Gets a component for dependency injection by its type.
      */
     @SuppressWarnings("unchecked")
-    protected <C> C getComponent(Class<C> componentType) {
+/*    protected <C> C getComponent(Class<C> componentType) {
         return componentType.cast(((HasSupportFragmentInjector) getActivity()).supportFragmentInjector());
-    }
+    }*/
 
     private void removeViewListener() {
         compositeDisposable.clear();
@@ -108,7 +106,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
         compositeDisposable.add(disposable);
     }
 
-    protected abstract void injectComponent(AppComponent appComponent);
+    // protected abstract void injectComponent(AppComponent appComponent);
 
     protected abstract void storeViewModelValues(@NonNull final Bundle outState);
 
@@ -118,9 +116,10 @@ public abstract class BaseFragment<B extends ViewDataBinding, VM extends BaseVie
         return viewBinding;
     }
 
-    public VM getViewModel() {
+    public LVM getViewModel() {
         return viewModel;
     }
 
     public abstract String getKey();
+
 }

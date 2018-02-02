@@ -1,17 +1,25 @@
 package fup.prototype.robprototype.di;
 
 import android.app.Application;
+
 import com.rxdroid.api.di.ApiModule;
 import com.rxdroid.repository.di.RepositoryModule;
-import dagger.BindsInstance;
-import dagger.Component;
-import fup.prototype.data.di.DataModule;
-import fup.prototype.robprototype.details.DetailFragment;
-import fup.prototype.robprototype.search.MainFragment;
+
 import javax.inject.Singleton;
 
+import dagger.BindsInstance;
+import dagger.Component;
+import dagger.android.support.AndroidSupportInjectionModule;
+import fup.prototype.data.di.DataModule;
+import fup.prototype.robprototype.ProtoApplication;
+
 @Singleton
-@Component(modules = {AppModule.class, RepositoryModule.class, ApiModule.class, DataModule.class})
+@Component(modules = {AndroidSupportInjectionModule.class,
+        AppModule.class,
+        BuildersModule.class,
+        RepositoryModule.class,
+        ApiModule.class,
+        DataModule.class})
 public interface AppComponent {
 
     @Component.Builder
@@ -22,8 +30,6 @@ public interface AppComponent {
         AppComponent build();
     }
 
-    void inject(MainFragment mainFragment);
-
-    void inject(DetailFragment detailFragment);
+    void inject(ProtoApplication protoApplication);
 
 }

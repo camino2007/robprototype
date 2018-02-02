@@ -78,7 +78,7 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
 
     @Override
     protected void injectComponent(final AppComponent appComponent) {
-        appComponent.inject(this);
+        //  appComponent.inject(this);
     }
 
     @Override
