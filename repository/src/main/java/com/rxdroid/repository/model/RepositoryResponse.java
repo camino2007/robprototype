@@ -2,8 +2,10 @@ package com.rxdroid.repository.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import com.google.auto.value.AutoValue;
-import com.rxdroid.api.RequestError;
+import com.rxdroid.api.error.RequestError;
+
 import java.util.List;
 
 @AutoValue

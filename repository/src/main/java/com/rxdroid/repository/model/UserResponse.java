@@ -3,7 +3,7 @@ package com.rxdroid.repository.model;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.rxdroid.api.RequestError;
+import com.rxdroid.api.error.RequestError;
 
 
 public class UserResponse {

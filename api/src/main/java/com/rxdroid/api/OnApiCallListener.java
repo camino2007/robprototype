@@ -1,5 +1,7 @@
 package com.rxdroid.api;
 
+import com.rxdroid.api.error.RequestError;
+
 import io.reactivex.annotations.NonNull;
 
 public interface OnApiCallListener<T> {

@@ -4,7 +4,7 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 
-import com.rxdroid.api.RequestError;
+import com.rxdroid.api.error.RequestError;
 
 import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;

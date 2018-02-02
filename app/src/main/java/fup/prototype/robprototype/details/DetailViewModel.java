@@ -5,7 +5,7 @@ import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.rxdroid.api.RequestError;
+import com.rxdroid.api.error.RequestError;
 import com.rxdroid.repository.GithubDetailsUiRepository;
 import com.rxdroid.repository.model.Repository;
 import com.rxdroid.repository.model.RepositoryResponse;
@@ -74,7 +74,6 @@ public class DetailViewModel extends BaseViewModel {
         if (!repositories.isEmpty()) {
             setViewState(ViewState.ON_LOADED);
             showRepositories(repositories);
-            storeToDatabase(repositories);
         } else {
             setViewState(ViewState.ON_NO_DATA);
         }
@@ -120,6 +119,7 @@ public class DetailViewModel extends BaseViewModel {
                 items.clear();
                 handleErrorCase(repositoryResponse.getRequestError());
             } else {
+                storeToDatabase(repositoryResponse.getRepositories());
                 handleSuccessCase(repositoryResponse.getRepositories());
             }
         }

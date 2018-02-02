@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.rxdroid.api.RequestError;
+import com.rxdroid.api.error.RequestError;
 import com.rxdroid.api.github.model.GitHubRepoModel;
 import com.rxdroid.api.github.provider.GitHubRepositoryProvider;
 import com.rxdroid.repository.model.Repository;

@@ -5,15 +5,18 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import com.rxdroid.api.RequestError;
+
+import com.rxdroid.api.error.RequestError;
 import com.rxdroid.repository.GithubDetailsUiRepository;
 import com.rxdroid.repository.model.User;
+
+import javax.inject.Inject;
+
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.FragmentDetailsBinding;
 import fup.prototype.robprototype.di.AppComponent;
 import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.base.fragments.DataFragment;
-import javax.inject.Inject;
 
 public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailViewModel> {
 

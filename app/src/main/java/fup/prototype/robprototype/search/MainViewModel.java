@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.jakewharton.rxrelay2.PublishRelay;
-import com.rxdroid.api.RequestError;
+import com.rxdroid.api.error.RequestError;
 import com.rxdroid.repository.UserUiRepository;
 import com.rxdroid.repository.model.User;
 import com.rxdroid.repository.model.UserResponse;
@@ -88,13 +88,13 @@ public class MainViewModel extends BaseViewModel {
         if (user != null) {
             setViewState(ViewState.ON_LOADED);
             showUserData(user);
-            storeToDatabase(user);
+
         } else {
             setViewState(ViewState.ON_NO_DATA);
         }
     }
 
-    private void storeToDatabase(@NonNull final User user) {
+    private void storeToDatabase(final User user) {
         Log.d(TAG, "storeToDatabase - user.getLogin(): " + user.getLogin());
         final Completable completable = userUiRepository.updateDatabase(user);
         completable.subscribeOn(Schedulers.io())
@@ -142,6 +142,7 @@ public class MainViewModel extends BaseViewModel {
             if (userResponse.hasError()) {
                 handleErrorCase(userResponse.getRequestError());
             } else {
+                storeToDatabase(userResponse.getUser());
                 handleSuccessCase(userResponse.getUser());
             }
         }

@@ -3,7 +3,7 @@ package fup.prototype.robprototype.view.base.viewmodels;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
 
-import com.rxdroid.api.RequestError;
+import com.rxdroid.api.error.RequestError;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;

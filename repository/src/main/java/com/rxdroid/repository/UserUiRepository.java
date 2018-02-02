@@ -3,8 +3,9 @@ package com.rxdroid.repository;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.rxdroid.api.RequestError;
+import com.rxdroid.api.error.RequestError;
 import com.rxdroid.api.github.model.GitHubUserModel;
 import com.rxdroid.api.github.provider.GitHubUserProvider;
 import com.rxdroid.repository.cache.UserCache;
@@ -26,6 +27,8 @@ import retrofit2.Response;
 @Singleton
 public class UserUiRepository implements UiRepository<UserResponse> {
 
+    private static final String TAG = "UserUiRepository";
+
     @NonNull
     private final GitHubUserProvider gitHubUserProvider;
 
@@ -46,6 +49,7 @@ public class UserUiRepository implements UiRepository<UserResponse> {
 
     @Override
     public Observable<UserResponse> loadBySearchValue(@NonNull final String searchValue) {
+        Log.d(TAG, "loadBySearchValue: " + searchValue);
         if (TextUtils.isEmpty(searchValue)) {
             return Observable.just(UserResponse.create(null, RequestError.create(RequestError.ERROR_CODE_NO_SEARCH_INPUT)));
         }

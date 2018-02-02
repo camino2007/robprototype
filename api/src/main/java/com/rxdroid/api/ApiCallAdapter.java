@@ -1,6 +1,9 @@
 package com.rxdroid.api;
 
 import android.support.annotation.Nullable;
+
+import com.rxdroid.api.error.RequestError;
+
 import io.reactivex.annotations.NonNull;
 
 /**

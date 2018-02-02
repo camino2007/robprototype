@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
-import com.rxdroid.api.RequestError;
+import com.rxdroid.api.error.RequestError;
 import com.rxdroid.repository.UserUiRepository;
 
 import java.net.HttpURLConnection;

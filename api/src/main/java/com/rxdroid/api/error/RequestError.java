@@ -1,10 +1,14 @@
-package com.rxdroid.api;
+package com.rxdroid.api.error;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import java.net.ConnectException;
+import java.net.UnknownHostException;
+
 import retrofit2.Response;
 
-public class RequestError {
+public abstract class RequestError {
 
     public static final int ERROR_CODE_NO_SEARCH_INPUT = 102;
 
@@ -19,7 +23,7 @@ public class RequestError {
      */
     private int errorCode;
 
-    private RequestError(@Nullable Response<?> response, @Nullable Throwable throwable, final int errorCode) {
+    protected RequestError(@Nullable Response<?> response, @Nullable Throwable throwable, final int errorCode) {
         this.response = response;
         this.throwable = throwable;
         this.errorCode = errorCode;
@@ -27,12 +31,20 @@ public class RequestError {
 
     @NonNull
     public static RequestError create(@Nullable final Response<?> response, @Nullable final Throwable throwable) {
-        return new RequestError(response, throwable, -1);
+        if (throwable != null) {
+            // handle some other important exceptions when no response is available
+
+            if (throwable instanceof ConnectException || throwable instanceof UnknownHostException) {
+                return new NoConnectionRequestError(throwable);
+            }
+        }
+
+        return new GeneralRequestError(response, throwable);
     }
 
     @NonNull
     public static RequestError create(final int errorCode) {
-        return new RequestError(null, null, errorCode);
+        return new CustomRequestError(errorCode);
     }
 
     @Nullable
