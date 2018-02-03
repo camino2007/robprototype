@@ -1,23 +1,21 @@
 package fup.prototype.robprototype.search;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.databinding.ObservableArrayList;
-import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.jakewharton.rxrelay2.PublishRelay;
 import com.rxdroid.api.error.RequestError;
 import com.rxdroid.repository.UserUiRepository;
+import com.rxdroid.repository.model.Resource;
+import com.rxdroid.repository.model.Status;
 import com.rxdroid.repository.model.User;
-import com.rxdroid.repository.model.UserResponse;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
-
-import dagger.Reusable;
 import fup.prototype.robprototype.view.base.adapters.ObserverAdapter;
-import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
+import fup.prototype.robprototype.view.base.viewmodels.BaseLiveDataViewModel;
 import fup.prototype.robprototype.view.base.viewmodels.ViewState;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -28,16 +26,16 @@ import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-@Reusable
-public class MainViewModel extends BaseViewModel {
+public class MainViewModel extends BaseLiveDataViewModel {
 
-    private static final String TAG = "MainViewModel";
 
     private static final int MIN_LENGTH_SEARCH = 3;
     private static final int DEBOUNCE_TIME_OUT = 650;
 
-    public ObservableField<String> userName = new ObservableField<>();
-    public ObservableField<String> searchValue = new ObservableField<>();
+    private static final String TAG = "NewMainViewModel";
+
+    private MutableLiveData<String> searchValueLiveData = new MutableLiveData<>();
+    public MutableLiveData<String> userName = new MutableLiveData<>();
     public ObservableArrayList<User> items = new ObservableArrayList<>();
 
     private PublishRelay<String> publishRelay = PublishRelay.create();
@@ -45,8 +43,7 @@ public class MainViewModel extends BaseViewModel {
     @NonNull
     private final UserUiRepository userUiRepository;
 
-    @Inject
-    public MainViewModel(@NonNull  final UserUiRepository userUiRepository) {
+    public MainViewModel(@NonNull final UserUiRepository userUiRepository) {
         this.userUiRepository = userUiRepository;
         addRepositoryDisposable();
     }
@@ -56,16 +53,14 @@ public class MainViewModel extends BaseViewModel {
                 .distinctUntilChanged()
                 .filter(new Predicate<String>() {
                     @Override
-                    public boolean test(final String searchValue) throws Exception {
+                    public boolean test(final String searchValue) {
                         return searchValue.length() >= MIN_LENGTH_SEARCH;
                     }
                 })
-                .switchMap(new Function<String, Observable<UserResponse>>() {
+                .switchMap(new Function<String, Observable<Resource<User>>>() {
                     @Override
-                    public Observable<UserResponse> apply(final String searchValue) throws Exception {
-                        changeLoadingState(true);
-                        //return userUiRepository.loadBySearchValue(searchValue);
-                        return null;
+                    public Observable<Resource<User>> apply(final String searchValue) {
+                        return Observable.concat(getLoadingObservable(), userUiRepository.loadBySearchValue(searchValue));
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -73,47 +68,77 @@ public class MainViewModel extends BaseViewModel {
                 .subscribe(new UserObserver());
     }
 
-    @Override
-    public void loadOrShowData() {
-        if (userUiRepository.hasValidCacheValue(searchValue.get())) {
-           /* if (userUiRepository.getCachedValue().getRequestError() != null) {
-                items.clear();
-                handleErrorCase(userUiRepository.getCachedValue().getRequestError());
-            } else {
-                handleSuccessCase(userUiRepository.getCachedValue().getUser());
-            }*/
-        }
+    private Observable<Resource<User>> getLoadingObservable() {
+        return Observable.just(new Resource<User>(Status.LOADING, null, null));
+    }
+
+    public MutableLiveData<String> getSearchValueLiveData() {
+        return searchValueLiveData;
+    }
+
+    public void updateSearchInput(final String search) {
+        Log.d(TAG, "updateSearchInput: " + search);
+        searchValueLiveData.postValue(search);
+        publishRelay.accept(search);
     }
 
     private void handleSuccessCase(final User user) {
         if (user != null) {
             setViewState(ViewState.ON_LOADED);
             showUserData(user);
-
         } else {
             setViewState(ViewState.ON_NO_DATA);
         }
     }
 
+    private void showUserData(final User user) {
+        if (user != null) {
+            userName.postValue(user.getName());
+            items.clear();
+            items.add(user);
+        }
+    }
+
     private void storeToDatabase(final User user) {
-        Log.d(TAG, "storeToDatabase - user.getLogin(): " + user.getLogin());
         final Completable completable = userUiRepository.updateDatabase(user);
         completable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DatabaseWriteObserver());
     }
 
-    private void showUserData(final User user) {
-        if (user != null) {
-            userName.set(user.getName());
-            items.clear();
-            items.add(user);
-        }
-    }
+    private class UserObserver extends ObserverAdapter<Resource<User>> {
 
-    public void updateSearchInput(final String search) {
-        searchValue.set(search);
-        publishRelay.accept(search);
+        @Override
+        public void onSubscribe(final Disposable d) {
+            getCompositeDisposable().add(d);
+        }
+
+        @Override
+        public void onNext(final Resource<User> userResource) {
+            Log.d(TAG, "onNext: " + userResource.status);
+            changeLoadingState(userResource.status == Status.LOADING);
+            switch (userResource.status) {
+                case ERROR:
+                    items.clear();
+                    handleErrorCase(userResource.requestError);
+                    break;
+                case SUCCESS:
+                    storeToDatabase(userResource.data);
+                    handleSuccessCase(userResource.data);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public void onError(final Throwable e) {
+            Log.e(TAG, "onError: ", e);
+            items.clear();
+            changeLoadingState(false);
+            handleErrorCase(RequestError.create(null, e));
+        }
+
     }
 
     private class DatabaseWriteObserver extends DisposableCompletableObserver {
@@ -128,34 +153,6 @@ public class MainViewModel extends BaseViewModel {
         public void onComplete() {
             Log.d(TAG, "DatabaseWriteObserver - onComplete: ");
         }
-    }
-
-    private class UserObserver extends ObserverAdapter<UserResponse> {
-
-        @Override
-        public void onSubscribe(final Disposable d) {
-            getCompositeDisposable().add(d);
-        }
-
-        @Override
-        public void onNext(final UserResponse userResponse) {
-            changeLoadingState(false);
-            if (userResponse.hasError()) {
-                handleErrorCase(userResponse.getRequestError());
-            } else {
-                storeToDatabase(userResponse.getUser());
-                handleSuccessCase(userResponse.getUser());
-            }
-        }
-
-        @Override
-        public void onError(final Throwable e) {
-            Log.e(TAG, "onError: ", e);
-            items.clear();
-            changeLoadingState(false);
-            handleErrorCase(RequestError.create(null, e));
-        }
-
     }
 
 }

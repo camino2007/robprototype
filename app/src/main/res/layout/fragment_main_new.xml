@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="fup.prototype.robprototype.search.NewMainViewModel" />
+            type="fup.prototype.robprototype.search.MainViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

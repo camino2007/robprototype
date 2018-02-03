@@ -1,15 +1,17 @@
 package fup.prototype.robprototype.view;
 
 import android.databinding.ViewDataBinding;
-import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
 
-public interface ViewProvider<B extends ViewDataBinding, VM extends BaseViewModel> {
+import fup.prototype.robprototype.view.base.viewmodels.BaseLiveDataViewModel;
 
-    VM createViewModel();
+public interface ViewProvider<B extends ViewDataBinding, LVM extends BaseLiveDataViewModel> {
+
+    LVM createViewModel();
 
     void initBinding(B binding);
 
     int getLayoutId();
 
     void addViewListener();
+
 }

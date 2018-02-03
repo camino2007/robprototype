@@ -16,9 +16,9 @@ import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.FragmentDetailsBinding;
 import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.LiveDataViewModelFactory;
-import fup.prototype.robprototype.view.base.fragments.NewDataFragment;
+import fup.prototype.robprototype.view.base.fragments.DataFragment;
 
-public class DetailFragment extends NewDataFragment<FragmentDetailsBinding, DetailViewModel> {
+public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailViewModel> {
 
     private static final String KEY_USER = "keyUser";
     private static final String KEY_USER_SAVE = "keyUserSave";

@@ -6,10 +6,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import fup.prototype.robprototype.R;
-import fup.prototype.robprototype.view.base.NewBaseActivity;
-import fup.prototype.robprototype.view.base.fragments.NewBaseFragment;
+import fup.prototype.robprototype.view.base.BaseActivity;
+import fup.prototype.robprototype.view.base.fragments.BaseFragment;
 
-public class MainActivity extends NewBaseActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +25,9 @@ public class MainActivity extends NewBaseActivity {
     }
 
     @Override
-    protected NewBaseFragment createInitialContentFragment() {
+    protected BaseFragment createInitialContentFragment() {
         //  return MainFragment.newInstance();
-        return NewMainFragment.newInstance();
+        return MainFragment.newInstance();
     }
 
     @Override

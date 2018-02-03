@@ -7,21 +7,12 @@ import android.support.v7.app.AlertDialog;
 import com.rxdroid.api.error.RequestError;
 
 import fup.prototype.robprototype.util.DialogUtils;
-import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
+import fup.prototype.robprototype.view.base.viewmodels.BaseLiveDataViewModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
-/**
- * Has support to show an error dialog when an API error happens
- *
- * @param <B>
- * @param <VM>
- */
-public abstract class DataFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends BaseFragment<B, VM> {
-
-    //TODO store RequestError in onSaveInstance
-    private static final String KEY_REQUEST_ERROR = "keyRequestError";
+public abstract class DataFragment<B extends ViewDataBinding, LVM extends BaseLiveDataViewModel> extends BaseFragment<B, LVM> {
 
     private AlertDialog errorDialog;
 
@@ -44,9 +35,9 @@ public abstract class DataFragment<B extends ViewDataBinding, VM extends BaseVie
     @Override
     public void onPause() {
         DialogUtils.dismiss(errorDialog);
-        getViewModel().clear();
         super.onPause();
     }
 
     protected abstract AlertDialog createErrorDialog(@NonNull final RequestError requestError);
+
 }

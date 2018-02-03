@@ -7,10 +7,10 @@ import android.support.annotation.NonNull;
 import com.rxdroid.repository.model.User;
 
 import fup.prototype.robprototype.R;
-import fup.prototype.robprototype.view.base.NewBaseActivity;
-import fup.prototype.robprototype.view.base.fragments.NewBaseFragment;
+import fup.prototype.robprototype.view.base.BaseActivity;
+import fup.prototype.robprototype.view.base.fragments.BaseFragment;
 
-public class DetailsActivity extends NewBaseActivity {
+public class DetailsActivity extends BaseActivity {
 
     private static final String KEY_USER = "keyUser";
     private static final String KEY_BUNDLE = "keyBundle";
@@ -28,7 +28,7 @@ public class DetailsActivity extends NewBaseActivity {
     }
 
     @Override
-    protected NewBaseFragment createInitialContentFragment() {
+    protected BaseFragment createInitialContentFragment() {
         final Intent intent = getIntent();
         return DetailFragment.newInstance(intent.getBundleExtra(KEY_BUNDLE));
     }

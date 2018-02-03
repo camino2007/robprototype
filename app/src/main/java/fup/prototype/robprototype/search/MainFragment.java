@@ -1,5 +1,6 @@
 package fup.prototype.robprototype.search;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,55 +11,47 @@ import android.util.Log;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.rxdroid.api.error.RequestError;
-import com.rxdroid.repository.UserUiRepository;
 
 import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
 
 import fup.prototype.robprototype.R;
-import fup.prototype.robprototype.databinding.FragmentMainBinding;
-import fup.prototype.robprototype.di.AppComponent;
+import fup.prototype.robprototype.databinding.FragmentMainNewBinding;
 import fup.prototype.robprototype.util.DialogUtils;
+import fup.prototype.robprototype.view.LiveDataViewModelFactory;
 import fup.prototype.robprototype.view.base.fragments.DataFragment;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
-public class MainFragment extends DataFragment<FragmentMainBinding, MainViewModel> {
+
+public class MainFragment extends DataFragment<FragmentMainNewBinding, MainViewModel> {
 
     private static final String KEY_SEARCH_VALUE = "keySearchValue";
 
     @Inject
-    protected UserUiRepository userUiRepository;
+    protected LiveDataViewModelFactory liveDataViewModelFactory;
 
     public static MainFragment newInstance() {
         return new MainFragment();
     }
 
-    public MainFragment() {
-        // Requires empty public constructor
+    @Override
+    public MainViewModel createViewModel() {
+        return ViewModelProviders.of(this, liveDataViewModelFactory).get(MainViewModel.class);
+    }
+
+    @Override
+    public void initBinding(FragmentMainNewBinding binding) {
+        Log.d(getKey(), "initBinding: ");
+        binding.setViewModel(getViewModel());
+        binding.setLifecycleOwner(this);
+        setupUserAdapter();
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_main;
-    }
-
-    @Override
-    public String getKey() {
-        return MainFragment.class.getSimpleName();
-    }
-
-    @Override
-    public MainViewModel createViewModel() {
-        return new MainViewModel(userUiRepository);
-    }
-
-    @Override
-    public void initBinding(final FragmentMainBinding binding) {
-        Log.d(getKey(), "initBinding");
-        binding.setViewModel(getViewModel());
-        setupUserAdapter();
+        return R.layout.fragment_main_new;
     }
 
     private void setupUserAdapter() {
@@ -73,12 +66,36 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
     public void onResume() {
         super.onResume();
         Log.d(getKey(), "onResume");
-        getViewModel().loadOrShowData();
     }
 
     @Override
-    protected void injectComponent(final AppComponent appComponent) {
-        //  appComponent.inject(this);
+    protected AlertDialog createErrorDialog(@NonNull RequestError requestError) {
+        if (requestError.getResponse() != null && requestError.getResponse().code() == HttpURLConnection.HTTP_NOT_FOUND) {
+            return DialogUtils.createOkCancelDialog(getContext(), "Möp", "User not found", "Ok", "Fuck it", null, null);
+        }
+        if (requestError.getErrorCode() == RequestError.ERROR_CODE_NO_SEARCH_INPUT) {
+            final String errorText = "If you leave this field blank, sooner or later I'll load all users.";
+            return DialogUtils.createOkCancelDialog(getContext(), "ToDo", errorText, "Ok", "Fuck it", null, null);
+        }
+        return DialogUtils.createOkCancelDialog(getContext(), "Möp", "A wild error occurred", "Ok", "Fuck it", null, null);
+
+    }
+
+    @Override
+    protected void storeViewModelValues(@NonNull Bundle outState) {
+        outState.putString(KEY_SEARCH_VALUE, getViewModel().getSearchValueLiveData().getValue());
+    }
+
+    @Override
+    protected void restoreViewModelValues(@NonNull Bundle savedInstanceState) {
+        final String searchValue = savedInstanceState.getString(KEY_SEARCH_VALUE);
+        Log.d(getKey(), "restoreViewModelValues: " + searchValue);
+        getViewModel().getSearchValueLiveData().postValue(searchValue);
+    }
+
+    @Override
+    public String getKey() {
+        return MainFragment.class.getSimpleName();
     }
 
     @Override
@@ -108,27 +125,4 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
         addRxDisposable(searchDisposable);
     }
 
-    @Override
-    protected void storeViewModelValues(@NonNull final Bundle outState) {
-        outState.putString(KEY_SEARCH_VALUE, getViewModel().searchValue.get());
-    }
-
-    @Override
-    protected void restoreViewModelValues(@NonNull final Bundle savedInstanceState) {
-        final String searchValue = savedInstanceState.getString(KEY_SEARCH_VALUE);
-        Log.d(getKey(), "restoreViewModelValues: " + searchValue);
-        getViewModel().searchValue.set(searchValue);
-    }
-
-    @Override
-    protected AlertDialog createErrorDialog(@NonNull final RequestError requestError) {
-        if (requestError.getResponse() != null && requestError.getResponse().code() == HttpURLConnection.HTTP_NOT_FOUND) {
-            return DialogUtils.createOkCancelDialog(getContext(), "Möp", "User not found", "Ok", "Fuck it", null, null);
-        }
-        if (requestError.getErrorCode() == RequestError.ERROR_CODE_NO_SEARCH_INPUT) {
-            final String errorText = "If you leave this field blank, sooner or later I'll load all users.";
-            return DialogUtils.createOkCancelDialog(getContext(), "ToDo", errorText, "Ok", "Fuck it", null, null);
-        }
-        return DialogUtils.createOkCancelDialog(getContext(), "Möp", "A wild error occurred", "Ok", "Fuck it", null, null);
-    }
 }
