@@ -1,28 +1,33 @@
 package fup.prototype.robprototype.search;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.rxdroid.api.error.RequestError;
+
+import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
 
-import dagger.android.support.HasSupportFragmentInjector;
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.FragmentMainNewBinding;
+import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.LiveDataViewModelFactory;
 import fup.prototype.robprototype.view.base.fragments.NewDataFragment;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 
 public class NewMainFragment extends NewDataFragment<FragmentMainNewBinding, NewMainViewModel> {
+
+    private static final String KEY_SEARCH_VALUE = "keySearchValue";
 
     @Inject
     protected LiveDataViewModelFactory liveDataViewModelFactory;
@@ -40,19 +45,8 @@ public class NewMainFragment extends NewDataFragment<FragmentMainNewBinding, New
     public void initBinding(FragmentMainNewBinding binding) {
         Log.d(getKey(), "initBinding: ");
         binding.setViewModel(getViewModel());
+        binding.setLifecycleOwner(this);
         setupUserAdapter();
-        getViewModel().getSearchValueLiveData().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                Log.d(getKey(), "onChanged: " + s);
-            }
-        });
-        getViewModel().searchValue.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                Log.d(getTag(), "onPropertyChanged: ");
-            }
-        });
     }
 
     @Override
@@ -76,17 +70,27 @@ public class NewMainFragment extends NewDataFragment<FragmentMainNewBinding, New
 
     @Override
     protected AlertDialog createErrorDialog(@NonNull RequestError requestError) {
-        return null;
+        if (requestError.getResponse() != null && requestError.getResponse().code() == HttpURLConnection.HTTP_NOT_FOUND) {
+            return DialogUtils.createOkCancelDialog(getContext(), "Möp", "User not found", "Ok", "Fuck it", null, null);
+        }
+        if (requestError.getErrorCode() == RequestError.ERROR_CODE_NO_SEARCH_INPUT) {
+            final String errorText = "If you leave this field blank, sooner or later I'll load all users.";
+            return DialogUtils.createOkCancelDialog(getContext(), "ToDo", errorText, "Ok", "Fuck it", null, null);
+        }
+        return DialogUtils.createOkCancelDialog(getContext(), "Möp", "A wild error occurred", "Ok", "Fuck it", null, null);
+
     }
 
     @Override
     protected void storeViewModelValues(@NonNull Bundle outState) {
-        Log.d(getKey(), "storeViewModelValues: ");
+        outState.putString(KEY_SEARCH_VALUE, getViewModel().getSearchValueLiveData().getValue());
     }
 
     @Override
     protected void restoreViewModelValues(@NonNull Bundle savedInstanceState) {
-        Log.d(getKey(), "restoreViewModelValues: ");
+        final String searchValue = savedInstanceState.getString(KEY_SEARCH_VALUE);
+        Log.d(getKey(), "restoreViewModelValues: " + searchValue);
+        getViewModel().getSearchValueLiveData().postValue(searchValue);
     }
 
     @Override
@@ -112,17 +116,13 @@ public class NewMainFragment extends NewDataFragment<FragmentMainNewBinding, New
     }
 
     private void addSearchInputListener() {
-     /*   final Disposable searchDisposable = RxTextView.textChanges(getViewBinding().input).subscribe(new Consumer<CharSequence>() {
+        final Disposable searchDisposable = RxTextView.textChanges(getViewBinding().input).subscribe(new Consumer<CharSequence>() {
             @Override
             public void accept(@NonNull CharSequence charSequence) throws Exception {
                 getViewModel().updateSearchInput(charSequence.toString());
             }
         });
-        addRxDisposable(searchDisposable);*/
-    }
-
-    protected <C> C getComponent(Class<C> componentType) {
-        return componentType.cast(((HasSupportFragmentInjector) getActivity()).supportFragmentInjector());
+        addRxDisposable(searchDisposable);
     }
 
 }

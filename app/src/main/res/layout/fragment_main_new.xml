@@ -37,7 +37,7 @@
                 android:hint="Search for GitHub User"
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
-                android:text="@{viewModel.searchValue}"
+                android:text="@{viewModel.searchValueLiveData}"
                 tools:text="google" />
 
         </android.support.design.widget.TextInputLayout>

@@ -6,7 +6,7 @@ import fup.prototype.robprototype.search.MainActivity;
 import fup.prototype.robprototype.search.NewMainFragment;
 
 @Module
-public abstract class BuildersModule {
+public abstract class SearchModule {
 
     @ContributesAndroidInjector
     abstract MainActivity bindMainActivity();

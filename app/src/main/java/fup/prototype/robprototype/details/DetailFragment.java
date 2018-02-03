@@ -1,5 +1,6 @@
 package fup.prototype.robprototype.details;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -7,24 +8,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.rxdroid.api.error.RequestError;
-import com.rxdroid.repository.GithubDetailsUiRepository;
 import com.rxdroid.repository.model.User;
 
 import javax.inject.Inject;
 
 import fup.prototype.robprototype.R;
 import fup.prototype.robprototype.databinding.FragmentDetailsBinding;
-import fup.prototype.robprototype.di.AppComponent;
 import fup.prototype.robprototype.util.DialogUtils;
-import fup.prototype.robprototype.view.base.fragments.DataFragment;
+import fup.prototype.robprototype.view.LiveDataViewModelFactory;
+import fup.prototype.robprototype.view.base.fragments.NewDataFragment;
 
-public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailViewModel> {
+public class DetailFragment extends NewDataFragment<FragmentDetailsBinding, DetailViewModel> {
 
     private static final String KEY_USER = "keyUser";
     private static final String KEY_USER_SAVE = "keyUserSave";
 
     @Inject
-    protected GithubDetailsUiRepository githubDetailsUiRepository;
+    protected LiveDataViewModelFactory liveDataViewModelFactory;
 
     public static DetailFragment newInstance(@NonNull final Bundle bundle) {
         final DetailFragment detailFragment = new DetailFragment();
@@ -44,7 +44,7 @@ public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailV
 
     @Override
     public DetailViewModel createViewModel() {
-        return new DetailViewModel(githubDetailsUiRepository);
+        return ViewModelProviders.of(this, liveDataViewModelFactory).get(DetailViewModel.class);
     }
 
     @Override
@@ -77,11 +77,6 @@ public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailV
     public void onResume() {
         super.onResume();
         getViewModel().loadOrShowData();
-    }
-
-    @Override
-    protected void injectComponent(final AppComponent appComponent) {
-        //  appComponent.inject(this);
     }
 
     @Override

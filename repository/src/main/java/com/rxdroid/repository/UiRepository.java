@@ -2,12 +2,14 @@ package com.rxdroid.repository;
 
 import android.support.annotation.NonNull;
 
+import com.rxdroid.repository.model.Resource;
+
 import io.reactivex.Observable;
 
 public interface UiRepository<T> {
 
-    Observable<T> loadBySearchValue(@NonNull final String searchValue);
+    Observable<Resource<T>> loadBySearchValue(@NonNull final String searchValue);
 
-    T getCachedValue();
+    Resource<T> getCachedValue();
 
 }

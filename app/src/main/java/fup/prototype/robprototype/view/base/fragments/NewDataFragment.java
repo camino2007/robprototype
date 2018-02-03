@@ -35,7 +35,6 @@ public abstract class NewDataFragment<B extends ViewDataBinding, LVM extends Bas
     @Override
     public void onPause() {
         DialogUtils.dismiss(errorDialog);
-        getViewModel().clear();
         super.onPause();
     }
 

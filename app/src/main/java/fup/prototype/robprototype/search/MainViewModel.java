@@ -64,7 +64,8 @@ public class MainViewModel extends BaseViewModel {
                     @Override
                     public Observable<UserResponse> apply(final String searchValue) throws Exception {
                         changeLoadingState(true);
-                        return userUiRepository.loadBySearchValue(searchValue);
+                        //return userUiRepository.loadBySearchValue(searchValue);
+                        return null;
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -75,12 +76,12 @@ public class MainViewModel extends BaseViewModel {
     @Override
     public void loadOrShowData() {
         if (userUiRepository.hasValidCacheValue(searchValue.get())) {
-            if (userUiRepository.getCachedValue().getRequestError() != null) {
+           /* if (userUiRepository.getCachedValue().getRequestError() != null) {
                 items.clear();
                 handleErrorCase(userUiRepository.getCachedValue().getRequestError());
             } else {
                 handleSuccessCase(userUiRepository.getCachedValue().getUser());
-            }
+            }*/
         }
     }
 

@@ -3,12 +3,14 @@ package fup.prototype.robprototype.details;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import com.rxdroid.repository.model.User;
-import fup.prototype.robprototype.R;
-import fup.prototype.robprototype.view.base.BaseActivity;
-import fup.prototype.robprototype.view.base.fragments.BaseFragment;
 
-public class DetailsActivity extends BaseActivity {
+import com.rxdroid.repository.model.User;
+
+import fup.prototype.robprototype.R;
+import fup.prototype.robprototype.view.base.NewBaseActivity;
+import fup.prototype.robprototype.view.base.fragments.NewBaseFragment;
+
+public class DetailsActivity extends NewBaseActivity {
 
     private static final String KEY_USER = "keyUser";
     private static final String KEY_BUNDLE = "keyBundle";
@@ -26,7 +28,7 @@ public class DetailsActivity extends BaseActivity {
     }
 
     @Override
-    protected BaseFragment createInitialContentFragment() {
+    protected NewBaseFragment createInitialContentFragment() {
         final Intent intent = getIntent();
         return DetailFragment.newInstance(intent.getBundleExtra(KEY_BUNDLE));
     }

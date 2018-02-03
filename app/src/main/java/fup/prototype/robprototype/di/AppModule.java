@@ -11,7 +11,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import fup.prototype.data.di.DataComponent;
-import fup.prototype.robprototype.details.DetailViewModel;
 
 
 /**
@@ -29,9 +28,4 @@ public class AppModule {
         return application.getApplicationContext();
     }
 
-
-    @Provides
-    DetailViewModel provideDetailViewModel(final DetailViewModel detailViewModel) {
-        return detailViewModel;
-    }
 }

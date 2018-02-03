@@ -1,9 +1,7 @@
 package fup.prototype.robprototype.view.base.viewmodels;
 
 import android.arch.lifecycle.ViewModel;
-import android.databinding.Observable;
 import android.databinding.ObservableField;
-import android.databinding.PropertyChangeRegistry;
 import android.support.annotation.NonNull;
 
 import com.rxdroid.api.error.RequestError;
@@ -11,9 +9,7 @@ import com.rxdroid.api.error.RequestError;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.PublishSubject;
 
-public abstract class BaseLiveDataViewModel extends ViewModel implements Observable {
-
-    private transient PropertyChangeRegistry mCallbacks;
+public abstract class BaseLiveDataViewModel extends ViewModel {
 
     public ObservableField<ViewState> viewState = new ObservableField<>(ViewState.ON_INIT);
     public ObservableField<Boolean> isInProgress = new ObservableField<>(false);
@@ -37,28 +33,18 @@ public abstract class BaseLiveDataViewModel extends ViewModel implements Observa
         return compositeDisposable;
     }
 
-    public void clear() {
+    public void changeLoadingState(final boolean isLoading) {
+        isInProgress.set(isLoading);
+    }
+
+    public void handleErrorCase(final RequestError requestError) {
+        setViewState(ViewState.ON_DATA_ERROR);
+        this.errorSubject.onNext(requestError);
+    }
+
+    @Override
+    protected void onCleared() {
         compositeDisposable.clear();
-    }
-
-    @Override
-    public void addOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-        synchronized (this) {
-            if (mCallbacks == null) {
-                mCallbacks = new PropertyChangeRegistry();
-            }
-        }
-        mCallbacks.add(callback);
-    }
-
-    @Override
-    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-        synchronized (this) {
-            if (mCallbacks == null) {
-                return;
-            }
-        }
-        mCallbacks.remove(callback);
     }
 
 }

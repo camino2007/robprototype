@@ -16,7 +16,8 @@ import fup.prototype.robprototype.ProtoApplication;
 @Singleton
 @Component(modules = {AndroidSupportInjectionModule.class,
         AppModule.class,
-        BuildersModule.class,
+        SearchModule.class,
+        SearchDetailsModule.class,
         RepositoryModule.class,
         ApiModule.class,
         DataModule.class})

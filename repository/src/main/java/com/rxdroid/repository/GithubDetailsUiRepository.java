@@ -1,14 +1,13 @@
 package com.rxdroid.repository;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.rxdroid.api.error.RequestError;
 import com.rxdroid.api.github.model.GitHubRepoModel;
 import com.rxdroid.api.github.provider.GitHubRepositoryProvider;
 import com.rxdroid.repository.model.Repository;
-import com.rxdroid.repository.model.RepositoryResponse;
+import com.rxdroid.repository.model.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +23,9 @@ import io.reactivex.functions.Function;
 import retrofit2.Response;
 
 @Singleton
-public class GithubDetailsUiRepository implements UiRepository<RepositoryResponse> {
+public class GithubDetailsUiRepository implements UiRepository<List<Repository>> {
 
-    private RepositoryResponse repositoryResponse;
+    private Resource<List<Repository>> listResource;
     private String lastSearchValue;
 
     @NonNull
@@ -43,7 +42,7 @@ public class GithubDetailsUiRepository implements UiRepository<RepositoryRespons
     }
 
     public boolean hasValidCacheValue(@NonNull final String currentSearchValue) {
-        return repositoryResponse != null && TextUtils.equals(lastSearchValue, currentSearchValue);
+        return listResource != null && TextUtils.equals(lastSearchValue, currentSearchValue);
     }
 
     public Completable updateDatabase(@NonNull final List<Repository> repositories, final int githubUserId) {
@@ -60,35 +59,32 @@ public class GithubDetailsUiRepository implements UiRepository<RepositoryRespons
     }
 
     @Override
-    public Observable<RepositoryResponse> loadBySearchValue(@NonNull final String searchValue) {
-
-        if (hasValidCacheValue(searchValue)) {
-            repositoryResponse = createRepositoryResponse(repositoryResponse.getRepositories(), null);
-            return Observable.just(repositoryResponse);
+    public Observable<Resource<List<Repository>>> loadBySearchValue(@NonNull final String searchValue) {
+        if (hasValidCacheValue(searchValue) && listResource.data != null) {
+            listResource = Resource.success(listResource.data);
+            return Observable.just(listResource);
         }
         lastSearchValue = searchValue;
 
         return gitHubRepositoryProvider.loadBySearchValue(searchValue)
-                .map(new Function<Response<List<GitHubRepoModel>>, RepositoryResponse>() {
+                .map(new Function<Response<List<GitHubRepoModel>>, Resource<List<Repository>>>() {
                     @Override
-                    public RepositoryResponse apply(final Response<List<GitHubRepoModel>> listResponse) throws Exception {
+                    public Resource<List<Repository>> apply(final Response<List<GitHubRepoModel>> listResponse) {
                         if (listResponse != null && listResponse.isSuccessful()) {
                             final List<Repository> repositories = Repository.fromApiList(listResponse.body());
-                            repositoryResponse = createRepositoryResponse(repositories, null);
+                            listResource = Resource.success(repositories);
                         } else {
-                            repositoryResponse = createRepositoryResponse(null, RequestError.create(listResponse, null));
+                            final RequestError requestError = RequestError.create(listResponse, null);
+                            listResource = Resource.error(requestError, null);
                         }
-                        return repositoryResponse;
+                        return listResource;
                     }
                 });
     }
 
-    private RepositoryResponse createRepositoryResponse(@Nullable final List<Repository> repositories, @Nullable final RequestError requestError) {
-        return RepositoryResponse.create(repositories, requestError);
+    @Override
+    public Resource<List<Repository>> getCachedValue() {
+        return listResource;
     }
 
-    @Override
-    public RepositoryResponse getCachedValue() {
-        return repositoryResponse;
-    }
 }

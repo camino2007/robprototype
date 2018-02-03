@@ -288,6 +288,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/details/DetailsActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/details/RepoAdapter.java">
           <value>
             <set />
@@ -369,6 +374,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/MainActivitySubcomponent.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/SearchDetailsModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/SearchModule.java">
           <value>
             <set />
           </value>
@@ -1494,6 +1509,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/model/RepositoryResponse.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/model/Resource.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/model/Status.java">
           <value>
             <set />
           </value>

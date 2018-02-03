@@ -1,7 +1,6 @@
 package com.rxdroid.repository;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -9,8 +8,8 @@ import com.rxdroid.api.error.RequestError;
 import com.rxdroid.api.github.model.GitHubUserModel;
 import com.rxdroid.api.github.provider.GitHubUserProvider;
 import com.rxdroid.repository.cache.UserCache;
+import com.rxdroid.repository.model.Resource;
 import com.rxdroid.repository.model.User;
-import com.rxdroid.repository.model.UserResponse;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,7 +24,7 @@ import io.reactivex.functions.Function;
 import retrofit2.Response;
 
 @Singleton
-public class UserUiRepository implements UiRepository<UserResponse> {
+public class UserUiRepository implements UiRepository<User> {
 
     private static final String TAG = "UserUiRepository";
 
@@ -38,7 +37,8 @@ public class UserUiRepository implements UiRepository<UserResponse> {
     private String lastSearchValue;
     private UserCache userCache;
 
-    private UserResponse userResponse;
+    private Resource<User> userResource;
+
 
     @Inject
     public UserUiRepository(@NonNull final GitHubUserProvider gitHubUserProvider, @NonNull final UserDatabaseProvider userDatabaseProvider) {
@@ -48,42 +48,41 @@ public class UserUiRepository implements UiRepository<UserResponse> {
     }
 
     @Override
-    public Observable<UserResponse> loadBySearchValue(@NonNull final String searchValue) {
+    public Observable<Resource<User>> loadBySearchValue(@NonNull String searchValue) {
         Log.d(TAG, "loadBySearchValue: " + searchValue);
         if (TextUtils.isEmpty(searchValue)) {
-            return Observable.just(UserResponse.create(null, RequestError.create(RequestError.ERROR_CODE_NO_SEARCH_INPUT)));
+            userResource = Resource.error(RequestError.create(RequestError.ERROR_CODE_NO_SEARCH_INPUT), null);
+            return Observable.just(userResource);
         }
-        if (hasValidCacheValue(searchValue)) {
-            return Observable.just(UserResponse.create(userResponse.getUser(), null));
+        if (hasValidCacheValue(searchValue) && userResource.data != null) {
+            userResource = Resource.success(userResource.data);
+            return Observable.just(userResource);
         }
         lastSearchValue = searchValue;
-        return gitHubUserProvider.loadBySearchValue(searchValue).map(new Function<Response<GitHubUserModel>, UserResponse>() {
+        return gitHubUserProvider.loadBySearchValue(searchValue).map(new Function<Response<GitHubUserModel>, Resource<User>>() {
             @Override
-            public UserResponse apply(final Response<GitHubUserModel> gitHubUserModelResponse) throws Exception {
+            public Resource<User> apply(final Response<GitHubUserModel> gitHubUserModelResponse) {
                 if (gitHubUserModelResponse != null && gitHubUserModelResponse.isSuccessful()) {
                     final User user = User.fromApi(gitHubUserModelResponse.body());
                     userCache.setData(user);
-                    userResponse = createUserResponse(user, null);
+                    userResource = Resource.success(user);
                 } else {
-                    userResponse = createUserResponse(null, RequestError.create(gitHubUserModelResponse, null));
+                    final RequestError requestError = RequestError.create(gitHubUserModelResponse, null);
+                    userResource = Resource.error(requestError, null);
                 }
-                return userResponse;
+                return userResource;
             }
         });
     }
 
 
     @Override
-    public UserResponse getCachedValue() {
-        return userResponse;
-    }
-
-    private UserResponse createUserResponse(@Nullable User user, @Nullable RequestError requestError) {
-        return UserResponse.create(user, requestError);
+    public Resource<User> getCachedValue() {
+        return userResource;
     }
 
     public boolean hasValidCacheValue(@NonNull final String currentSearchValue) {
-        return userResponse != null && TextUtils.equals(lastSearchValue, currentSearchValue) && userCache.hasValidCachedData();
+        return userResource != null && TextUtils.equals(lastSearchValue, currentSearchValue) && userCache.hasValidCachedData();
     }
 
     public Completable updateDatabase(@NonNull final User user) {

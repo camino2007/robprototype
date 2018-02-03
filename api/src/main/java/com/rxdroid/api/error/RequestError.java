@@ -11,6 +11,7 @@ import retrofit2.Response;
 public abstract class RequestError {
 
     public static final int ERROR_CODE_NO_SEARCH_INPUT = 102;
+    public static final int ERROR_CODE_NO_RESULTS = 103;
 
     @Nullable
     private final Response<?> response;
