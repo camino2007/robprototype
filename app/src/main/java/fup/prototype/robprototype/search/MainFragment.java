@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.rxdroid.api.error.RequestError;
@@ -17,7 +16,7 @@ import java.net.HttpURLConnection;
 import javax.inject.Inject;
 
 import fup.prototype.robprototype.R;
-import fup.prototype.robprototype.databinding.FragmentMainNewBinding;
+import fup.prototype.robprototype.databinding.FragmentMainBinding;
 import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.LiveDataViewModelFactory;
 import fup.prototype.robprototype.view.base.fragments.DataFragment;
@@ -25,7 +24,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 
-public class MainFragment extends DataFragment<FragmentMainNewBinding, MainViewModel> {
+public class MainFragment extends DataFragment<FragmentMainBinding, MainViewModel> {
 
     private static final String KEY_SEARCH_VALUE = "keySearchValue";
 
@@ -42,8 +41,7 @@ public class MainFragment extends DataFragment<FragmentMainNewBinding, MainViewM
     }
 
     @Override
-    public void initBinding(FragmentMainNewBinding binding) {
-        Log.d(getKey(), "initBinding: ");
+    public void initBinding(FragmentMainBinding binding) {
         binding.setViewModel(getViewModel());
         binding.setLifecycleOwner(this);
         setupUserAdapter();
@@ -51,7 +49,7 @@ public class MainFragment extends DataFragment<FragmentMainNewBinding, MainViewM
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_main_new;
+        return R.layout.fragment_main;
     }
 
     private void setupUserAdapter() {
@@ -60,12 +58,6 @@ public class MainFragment extends DataFragment<FragmentMainNewBinding, MainViewM
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(repoAdapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(getKey(), "onResume");
     }
 
     @Override
@@ -89,7 +81,6 @@ public class MainFragment extends DataFragment<FragmentMainNewBinding, MainViewM
     @Override
     protected void restoreViewModelValues(@NonNull Bundle savedInstanceState) {
         final String searchValue = savedInstanceState.getString(KEY_SEARCH_VALUE);
-        Log.d(getKey(), "restoreViewModelValues: " + searchValue);
         getViewModel().getSearchValueLiveData().postValue(searchValue);
     }
 
@@ -116,12 +107,13 @@ public class MainFragment extends DataFragment<FragmentMainNewBinding, MainViewM
     }
 
     private void addSearchInputListener() {
-        final Disposable searchDisposable = RxTextView.textChanges(getViewBinding().input).subscribe(new Consumer<CharSequence>() {
-            @Override
-            public void accept(@NonNull CharSequence charSequence) throws Exception {
-                getViewModel().updateSearchInput(charSequence.toString());
-            }
-        });
+        final Disposable searchDisposable = RxTextView.textChanges(getViewBinding().input)
+                .subscribe(new Consumer<CharSequence>() {
+                    @Override
+                    public void accept(@NonNull CharSequence charSequence) {
+                        getViewModel().updateSearchInput(charSequence.toString());
+                    }
+                });
         addRxDisposable(searchDisposable);
     }
 
