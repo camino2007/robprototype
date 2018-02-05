@@ -7,7 +7,6 @@ public interface ApiComponent {
 
     @Subcomponent.Builder
     interface Builder {
-        Builder requestModule(ApiModule module);
 
         ApiComponent build();
     }

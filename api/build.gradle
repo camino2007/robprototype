@@ -39,22 +39,26 @@ android {
 
 dependencies {
 
-    compile apiDependencies.dagger
-    annotationProcessor apiDependencies.daggerCompiler
-    compile apiDependencies.retrofit
-    compile apiDependencies.retrofitGsonConverter
-    compile apiDependencies.retrofitRxAdapter
-    compile apiDependencies.okHttp
-    compile apiDependencies.okHttpLogging
-    compile apiDependencies.rxAndroid
-    compile apiDependencies.rxJava
-    compile apiDependencies.androidSupportAppCompat
-    compile apiDependencies.androidSupportDesgin
+    def globalDependencies = rootProject.ext.globalDependencies
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation globalDependencies.dagger
+    annotationProcessor globalDependencies.daggerCompiler
+    implementation globalDependencies.rxAndroid
+    implementation globalDependencies.rxJava
+    implementation globalDependencies.androidSupportDesgin
+
+    def apiDependencies = rootProject.ext.apiDependencies
+
+    implementation apiDependencies.retrofit
+    api apiDependencies.retrofitGsonConverter
+    implementation apiDependencies.retrofitRxAdapter
+    api apiDependencies.okHttp
+    implementation apiDependencies.okHttpLogging
+
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 
 }

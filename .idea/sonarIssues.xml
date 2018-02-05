@@ -163,6 +163,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/build/generated/source/apt/debug/fup/prototype/robprototype/di/DaggerAppComponent.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/build/generated/source/apt/debug/fup/prototype/robprototype/di/component/DaggerAppComponent.java">
           <value>
             <set />
