@@ -46,22 +46,25 @@ android {
 
 dependencies {
 
+    def globalDependencies = rootProject.ext.globalDependencies
+
+    implementation globalDependencies.dagger
+    annotationProcessor globalDependencies.daggerCompiler
+    implementation globalDependencies.rxAndroid
+    implementation globalDependencies.rxJava
+    implementation globalDependencies.androidSupportDesgin
+
     def dataDependencies = rootProject.ext.dataDependencies
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile dataDependencies.androidSupportAppCompat
-    compile dataDependencies.androidSupportDesgin
-    compile dataDependencies.dagger
-    annotationProcessor dataDependencies.daggerCompiler
-    compile dataDependencies.rxAndroid
-    compile dataDependencies.rxJava
     implementation dataDependencies.roomRuntime
     annotationProcessor dataDependencies.roomCompiler
     implementation dataDependencies.roomRxJava2
 
-    testCompile 'junit:junit:4.12'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    testImplementation 'junit:junit:4.12'
 
 
 }
