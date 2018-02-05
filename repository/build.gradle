@@ -42,23 +42,31 @@ dependencies {
     api project(path: ':api')
     api project(path: ':data')
 
-    def repositoryDepedencies = rootProject.ext.repositoryDepedencies
+    def globalDependencies = rootProject.ext.globalDependencies
+
+    implementation globalDependencies.dagger
+    annotationProcessor globalDependencies.daggerCompiler
+    implementation globalDependencies.rxAndroid
+    implementation globalDependencies.rxJava
+    implementation globalDependencies.androidSupportDesgin
+
+    def repositoryDependencies = rootProject.ext.repositoryDependencies
+
+    annotationProcessor repositoryDependencies.autoValue
+    compileOnly repositoryDependencies.autoValueAnnotations
+    implementation repositoryDependencies.retrofit
+
     def developmentDependencies = rootProject.ext.developmentDependencies
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation developmentDependencies.leakCanary
+    releaseImplementation developmentDependencies.leakCanaryNoOp
+    testImplementation developmentDependencies.leakCanaryNoOp
+
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile repositoryDepedencies.dagger
-    annotationProcessor repositoryDepedencies.daggerAndroid
-    compile repositoryDepedencies.androidSupportAppCompat
-    compile repositoryDepedencies.androidSupportDesgin
-    annotationProcessor repositoryDepedencies.autoValue
-    provided repositoryDepedencies.autoValueAnnotations
-
-    compile developmentDependencies.leakCanary
-
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 
 }
 
