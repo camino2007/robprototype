@@ -1,10 +1,11 @@
 package com.rxdroid.repository.cache;
 
+import android.support.annotation.NonNull;
+
 import com.rxdroid.repository.model.User;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.annotations.NonNull;
 
 public class UserCache extends TimeLimitedCache<User> {
 

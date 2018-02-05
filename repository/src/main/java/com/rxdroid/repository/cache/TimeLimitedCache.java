@@ -1,8 +1,9 @@
 package com.rxdroid.repository.cache;
 
+import android.support.annotation.NonNull;
+
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.annotations.NonNull;
 
 public abstract class TimeLimitedCache<T> implements Cache<T> {
 

@@ -48,9 +48,7 @@ android {
 
 dependencies {
 
-    compile project(path: ':repository')
-    compile project(path: ':api')
-    compile project(path: ':data')
+    implementation project(path: ':repository')
 
     def appDependencies = rootProject.ext.appDependencies
     def developmentDependencies = rootProject.ext.developmentDependencies
