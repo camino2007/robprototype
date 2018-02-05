@@ -50,39 +50,41 @@ dependencies {
 
     implementation project(path: ':repository')
 
+    def globalDependencies = rootProject.ext.globalDependencies
+
+    implementation globalDependencies.dagger
+    annotationProcessor globalDependencies.daggerCompiler
+    implementation globalDependencies.rxAndroid
+    implementation globalDependencies.rxJava
+    implementation globalDependencies.androidSupportDesgin
+
     def appDependencies = rootProject.ext.appDependencies
-    def developmentDependencies = rootProject.ext.developmentDependencies
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    compile appDependencies.dagger
-    compile appDependencies.daggerAndroid
-    compile appDependencies.daggerAndroidSupport
-    annotationProcessor appDependencies.daggerCompiler
+    implementation appDependencies.daggerAndroid
+    implementation appDependencies.daggerAndroidSupport
     annotationProcessor appDependencies.daggerAndroidProcessor
-    compile appDependencies.rxJava
-    compile appDependencies.rxAndroid
-    compile appDependencies.rxBinding
-    compile appDependencies.rxRelay
-    compile appDependencies.constraintLayout
+    implementation appDependencies.rxBinding
+    implementation appDependencies.rxRelay
+    implementation appDependencies.constraintLayout
     annotationProcessor appDependencies.autoValue
-    provided appDependencies.autoValueAnnotations
-    compile appDependencies.androidSupportAppCompat
-    compile appDependencies.androidSupportDesgin
-    compile appDependencies.androidSupportCardView
+    compileOnly appDependencies.autoValueAnnotations
+    implementation appDependencies.androidSupportAppCompat
+    implementation appDependencies.androidSupportCardView
     // ViewModel and LiveData
     implementation appDependencies.lifeCycleExtentions
     implementation appDependencies.lifeCycleRxStreams
-
     annotationProcessor appDependencies.lifeCycleCompiler
 
-    //Development
-    compile developmentDependencies.leakCanary
-    releaseCompile developmentDependencies.leakCanaryNoOp
-    testCompile developmentDependencies.leakCanaryNoOp
+    def developmentDependencies = rootProject.ext.developmentDependencies
 
-    testCompile 'junit:junit:4.12'
+    implementation developmentDependencies.leakCanary
+    releaseImplementation developmentDependencies.leakCanaryNoOp
+    testImplementation developmentDependencies.leakCanaryNoOp
+
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    testImplementation 'junit:junit:4.12'
 
 }
