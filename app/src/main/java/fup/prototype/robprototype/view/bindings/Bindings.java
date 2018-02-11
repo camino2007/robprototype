@@ -3,11 +3,14 @@ package fup.prototype.robprototype.view.bindings;
 import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import com.rxdroid.repository.model.Repository;
 import com.rxdroid.repository.model.User;
+
+import java.util.List;
+
 import fup.prototype.robprototype.details.RepoAdapter;
 import fup.prototype.robprototype.search.UserAdapter;
-import java.util.List;
 
 public class Bindings {
 
@@ -31,4 +34,5 @@ public class Bindings {
             repoAdapter.replace(items);
         }
     }
+
 }

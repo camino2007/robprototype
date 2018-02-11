@@ -1,5 +1,6 @@
 package fup.prototype.robprototype.view.base.fragments;
 
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -22,10 +23,7 @@ import io.reactivex.disposables.Disposable;
 
 
 public abstract class BaseFragment<B extends ViewDataBinding, LVM extends BaseLiveDataViewModel>
-        extends Fragment implements
-        ViewProvider<B, LVM> {
-
-    private static final String KEY_VIEW_MODEL_STATE = "keyViewModelState";
+        extends Fragment implements ViewProvider<B, LVM> {
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -52,17 +50,22 @@ public abstract class BaseFragment<B extends ViewDataBinding, LVM extends BaseLi
         if (viewModel == null) {
             viewModel = createViewModel();
         }
-        if (savedInstanceState != null) {
-            final ViewState viewState = (ViewState) savedInstanceState.getSerializable(KEY_VIEW_MODEL_STATE);
-            this.viewModel.setViewState(viewState);
-            restoreViewModelValues(savedInstanceState);
-        }
         initBinding(viewBinding);
+    }
+
+    protected void addLiveDataListener() {
+        getViewModel().getViewState().observe(this, new Observer<ViewState>() {
+            @Override
+            public void onChanged(@Nullable ViewState viewState) {
+                getViewModel().getViewState().postValue(viewState);
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        addLiveDataListener();
         addViewListener();
     }
 
@@ -70,13 +73,6 @@ public abstract class BaseFragment<B extends ViewDataBinding, LVM extends BaseLi
     public void onPause() {
         removeViewListener();
         super.onPause();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_VIEW_MODEL_STATE, this.viewModel.getViewState());
-        storeViewModelValues(outState);
     }
 
     protected void hideKeyboard() {
@@ -90,14 +86,6 @@ public abstract class BaseFragment<B extends ViewDataBinding, LVM extends BaseLi
         }
     }
 
-    /**
-     * Gets a component for dependency injection by its type.
-     */
-    @SuppressWarnings("unchecked")
-/*    protected <C> C getComponent(Class<C> componentType) {
-        return componentType.cast(((HasSupportFragmentInjector) getActivity()).supportFragmentInjector());
-    }*/
-
     private void removeViewListener() {
         compositeDisposable.clear();
     }
@@ -105,12 +93,6 @@ public abstract class BaseFragment<B extends ViewDataBinding, LVM extends BaseLi
     protected void addRxDisposable(@NonNull final Disposable disposable) {
         compositeDisposable.add(disposable);
     }
-
-    // protected abstract void injectComponent(AppComponent appComponent);
-
-    protected abstract void storeViewModelValues(@NonNull final Bundle outState);
-
-    protected abstract void restoreViewModelValues(@NonNull final Bundle savedInstanceState);
 
     public B getViewBinding() {
         return viewBinding;

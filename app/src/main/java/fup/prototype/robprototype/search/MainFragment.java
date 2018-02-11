@@ -1,17 +1,21 @@
 package fup.prototype.robprototype.search;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.Observable;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.rxdroid.api.error.RequestError;
+import com.rxdroid.repository.model.User;
 
 import java.net.HttpURLConnection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,10 +30,12 @@ import io.reactivex.functions.Consumer;
 
 public class MainFragment extends DataFragment<FragmentMainBinding, MainViewModel> {
 
-    private static final String KEY_SEARCH_VALUE = "keySearchValue";
+    private static final String TAG = "MainFragment";
 
     @Inject
     protected LiveDataViewModelFactory liveDataViewModelFactory;
+
+    private UserAdapter userAdapter;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -43,6 +49,7 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
     @Override
     public void initBinding(FragmentMainBinding binding) {
         binding.setViewModel(getViewModel());
+        Log.d(TAG, "initBinding: " + getViewModel().getViewState().getValue());
         binding.setLifecycleOwner(this);
         setupUserAdapter();
     }
@@ -54,34 +61,35 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
 
     private void setupUserAdapter() {
         final RecyclerView recyclerView = getViewBinding().recyclerView;
-        final UserAdapter repoAdapter = new UserAdapter();
+        userAdapter = new UserAdapter();
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(repoAdapter);
+        recyclerView.setAdapter(userAdapter);
     }
 
     @Override
     protected AlertDialog createErrorDialog(@NonNull RequestError requestError) {
         if (requestError.getResponse() != null && requestError.getResponse().code() == HttpURLConnection.HTTP_NOT_FOUND) {
-            return DialogUtils.createOkCancelDialog(getContext(), "Möp", "User not found", "Ok", "Fuck it", null, null);
+            return DialogUtils.createOkCancelDialog(getContext(), "Möp", "User not found", "Ok", "F*ck it", null, null);
         }
         if (requestError.getErrorCode() == RequestError.ERROR_CODE_NO_SEARCH_INPUT) {
             final String errorText = "If you leave this field blank, sooner or later I'll load all users.";
             return DialogUtils.createOkCancelDialog(getContext(), "ToDo", errorText, "Ok", "Fuck it", null, null);
         }
         return DialogUtils.createOkCancelDialog(getContext(), "Möp", "A wild error occurred", "Ok", "Fuck it", null, null);
-
     }
 
     @Override
-    protected void storeViewModelValues(@NonNull Bundle outState) {
-        outState.putString(KEY_SEARCH_VALUE, getViewModel().getSearchValueLiveData().getValue());
-    }
-
-    @Override
-    protected void restoreViewModelValues(@NonNull Bundle savedInstanceState) {
-        final String searchValue = savedInstanceState.getString(KEY_SEARCH_VALUE);
-        getViewModel().getSearchValueLiveData().postValue(searchValue);
+    protected void addLiveDataListener() {
+        super.addLiveDataListener();
+        getViewModel().items.observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable List<User> users) {
+                if (users != null && !users.isEmpty()) {
+                    userAdapter.replace(users);
+                }
+            }
+        });
     }
 
     @Override

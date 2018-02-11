@@ -503,6 +503,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/NewUserAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/UserItemViewHolder.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/util/AutoClearedValue.java">
           <value>
             <set />
@@ -899,6 +909,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/item_user.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/item_user_new.xml">
           <value>
             <set />
           </value>

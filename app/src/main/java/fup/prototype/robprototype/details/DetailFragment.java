@@ -85,17 +85,6 @@ public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailV
     }
 
     @Override
-    protected void storeViewModelValues(@NonNull final Bundle outState) {
-        outState.putSerializable(KEY_USER_SAVE, getViewModel().getUser());
-    }
-
-    @Override
-    protected void restoreViewModelValues(@NonNull final Bundle savedInstanceState) {
-        final User user = (User) savedInstanceState.getSerializable(KEY_USER);
-        getViewModel().setUser(user);
-    }
-
-    @Override
     public String getKey() {
         return DetailFragment.class.getSimpleName();
     }

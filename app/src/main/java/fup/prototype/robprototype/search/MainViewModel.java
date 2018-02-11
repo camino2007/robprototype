@@ -1,7 +1,6 @@
 package fup.prototype.robprototype.search;
 
 import android.arch.lifecycle.MutableLiveData;
-import android.databinding.ObservableArrayList;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -12,6 +11,8 @@ import com.rxdroid.repository.model.Resource;
 import com.rxdroid.repository.model.Status;
 import com.rxdroid.repository.model.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import fup.prototype.robprototype.view.base.adapters.ObserverAdapter;
@@ -36,7 +37,7 @@ public class MainViewModel extends BaseLiveDataViewModel {
 
     private MutableLiveData<String> searchValueLiveData = new MutableLiveData<>();
     public MutableLiveData<String> userName = new MutableLiveData<>();
-    public ObservableArrayList<User> items = new ObservableArrayList<>();
+    public MutableLiveData<List<User>> items = new MutableLiveData<>();
 
     private PublishRelay<String> publishRelay = PublishRelay.create();
 
@@ -77,7 +78,6 @@ public class MainViewModel extends BaseLiveDataViewModel {
     }
 
     public void updateSearchInput(final String search) {
-        Log.d(TAG, "updateSearchInput: " + search);
         searchValueLiveData.postValue(search);
         publishRelay.accept(search);
     }
@@ -94,8 +94,9 @@ public class MainViewModel extends BaseLiveDataViewModel {
     private void showUserData(final User user) {
         if (user != null) {
             userName.postValue(user.getName());
-            items.clear();
-            items.add(user);
+            final List<User> users = new ArrayList<>();
+            users.add(user);
+            items.postValue(users);
         }
     }
 
@@ -115,11 +116,9 @@ public class MainViewModel extends BaseLiveDataViewModel {
 
         @Override
         public void onNext(final Resource<User> userResource) {
-            Log.d(TAG, "onNext: " + userResource.status);
             changeLoadingState(userResource.status == Status.LOADING);
             switch (userResource.status) {
                 case ERROR:
-                    items.clear();
                     handleErrorCase(userResource.requestError);
                     break;
                 case SUCCESS:
@@ -134,7 +133,6 @@ public class MainViewModel extends BaseLiveDataViewModel {
         @Override
         public void onError(final Throwable e) {
             Log.e(TAG, "onError: ", e);
-            items.clear();
             changeLoadingState(false);
             handleErrorCase(RequestError.create(null, e));
         }
@@ -151,7 +149,8 @@ public class MainViewModel extends BaseLiveDataViewModel {
 
         @Override
         public void onComplete() {
-            Log.d(TAG, "DatabaseWriteObserver - onComplete: ");
+            // In case you want to know, when db write succeeded
+            Log.d(TAG, "DatabaseWriteObserver - onComplete");
         }
     }
 
