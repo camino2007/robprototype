@@ -1,8 +1,8 @@
 package fup.prototype.robprototype.details;
 
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableField;
+import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.rxdroid.api.error.RequestError;
@@ -28,8 +28,8 @@ public class DetailViewModel extends BaseLiveDataViewModel {
 
     private static final String TAG = "DetailViewModel";
 
-    public ObservableField<String> userName = new ObservableField<>();
-    public ObservableArrayList<Repository> items = new ObservableArrayList<>();
+    public MutableLiveData<String> userName = new MutableLiveData<>();
+    public MutableLiveData<List<Repository>> items = new MutableLiveData<>();
 
     private User user;
 
@@ -45,7 +45,6 @@ public class DetailViewModel extends BaseLiveDataViewModel {
         if (user != null) {
             if (detailsUiRepository.hasValidCacheValue(user.getLogin())) {
                 if (detailsUiRepository.getCachedValue().requestError != null) {
-                    items.clear();
                     handleErrorCase(detailsUiRepository.getCachedValue().requestError);
                 } else {
                     handleSuccessCase(detailsUiRepository.getCachedValue().data);
@@ -69,14 +68,15 @@ public class DetailViewModel extends BaseLiveDataViewModel {
 
     public void setUser(final User user) {
         this.user = user;
+        this.userName.postValue(user.getLogin());
     }
 
-    private void handleSuccessCase(final List<Repository> repositories) {
-        if (!repositories.isEmpty()) {
-            setViewState(ViewState.ON_LOADED);
+    private void handleSuccessCase(@Nullable final List<Repository> repositories) {
+        if (repositories != null && !repositories.isEmpty()) {
+            setViewState(ViewState.DATA_LOADED);
             showRepositories(repositories);
         } else {
-            setViewState(ViewState.ON_NO_DATA);
+            setViewState(ViewState.NO_DATA);
         }
     }
 
@@ -87,9 +87,8 @@ public class DetailViewModel extends BaseLiveDataViewModel {
                 .subscribe(new DatabaseWriteObserver());
     }
 
-    private void showRepositories(final List<Repository> repositories) {
-        items.clear();
-        items.addAll(repositories);
+    private void showRepositories(@NonNull final List<Repository> repositories) {
+        items.postValue(repositories);
     }
 
     private class DatabaseWriteObserver extends DisposableCompletableObserver {
@@ -118,7 +117,6 @@ public class DetailViewModel extends BaseLiveDataViewModel {
             changeLoadingState(listResource.status == Status.LOADING);
             switch (listResource.status) {
                 case ERROR:
-                    items.clear();
                     handleErrorCase(listResource.requestError);
                     break;
                 case SUCCESS:
@@ -133,8 +131,6 @@ public class DetailViewModel extends BaseLiveDataViewModel {
         @Override
         public void onError(final Throwable e) {
             Log.e(TAG, "onError: ", e);
-            items.clear();
-            changeLoadingState(false);
             handleErrorCase(RequestError.create(null, e));
         }
 

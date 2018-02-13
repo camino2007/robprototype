@@ -26,6 +26,7 @@ public class LiveDataViewModelFactory implements ViewModelProvider.Factory {
         this.githubDetailsUiRepository = githubDetailsUiRepository;
     }
 
+    @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

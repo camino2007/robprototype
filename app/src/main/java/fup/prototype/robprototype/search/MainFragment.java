@@ -2,13 +2,11 @@ package fup.prototype.robprototype.search;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.databinding.Observable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.rxdroid.api.error.RequestError;
@@ -24,13 +22,12 @@ import fup.prototype.robprototype.databinding.FragmentMainBinding;
 import fup.prototype.robprototype.util.DialogUtils;
 import fup.prototype.robprototype.view.LiveDataViewModelFactory;
 import fup.prototype.robprototype.view.base.fragments.DataFragment;
+import fup.prototype.robprototype.view.base.viewmodels.ViewState;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 
 public class MainFragment extends DataFragment<FragmentMainBinding, MainViewModel> {
-
-    private static final String TAG = "MainFragment";
 
     @Inject
     protected LiveDataViewModelFactory liveDataViewModelFactory;
@@ -49,7 +46,6 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
     @Override
     public void initBinding(FragmentMainBinding binding) {
         binding.setViewModel(getViewModel());
-        Log.d(TAG, "initBinding: " + getViewModel().getViewState().getValue());
         binding.setLifecycleOwner(this);
         setupUserAdapter();
     }
@@ -80,8 +76,24 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
     }
 
     @Override
-    protected void addLiveDataListener() {
-        super.addLiveDataListener();
+    protected void applyLiveDataObserver() {
+        super.applyLiveDataObserver();
+        addUserObserver();
+        addKeyboardObserver();
+    }
+
+    private void addKeyboardObserver() {
+        getViewModel().getViewState().observe(this, new Observer<ViewState>() {
+            @Override
+            public void onChanged(@Nullable ViewState viewState) {
+                if (viewState == ViewState.LOADING) {
+                    hideKeyboard();
+                }
+            }
+        });
+    }
+
+    private void addUserObserver() {
         getViewModel().items.observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(@Nullable List<User> users) {
@@ -99,19 +111,7 @@ public class MainFragment extends DataFragment<FragmentMainBinding, MainViewMode
 
     @Override
     public void addViewListener() {
-        addKeyboardListener();
         addSearchInputListener();
-    }
-
-    private void addKeyboardListener() {
-        getViewModel().isInProgress.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(final Observable observable, final int i) {
-                if (getViewModel().isInProgress.get()) {
-                    hideKeyboard();
-                }
-            }
-        });
     }
 
     private void addSearchInputListener() {

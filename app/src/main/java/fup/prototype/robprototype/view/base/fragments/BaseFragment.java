@@ -1,6 +1,5 @@
 package fup.prototype.robprototype.view.base.fragments;
 
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -17,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import dagger.android.support.AndroidSupportInjection;
 import fup.prototype.robprototype.view.ViewProvider;
 import fup.prototype.robprototype.view.base.viewmodels.BaseLiveDataViewModel;
-import fup.prototype.robprototype.view.base.viewmodels.ViewState;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -53,19 +51,14 @@ public abstract class BaseFragment<B extends ViewDataBinding, LVM extends BaseLi
         initBinding(viewBinding);
     }
 
-    protected void addLiveDataListener() {
-        getViewModel().getViewState().observe(this, new Observer<ViewState>() {
-            @Override
-            public void onChanged(@Nullable ViewState viewState) {
-                getViewModel().getViewState().postValue(viewState);
-            }
-        });
+    protected void applyLiveDataObserver() {
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        addLiveDataListener();
+        applyLiveDataObserver();
         addViewListener();
     }
 
@@ -77,7 +70,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, LVM extends BaseLi
 
     protected void hideKeyboard() {
         final FragmentActivity activity = getActivity();
-        if (activity != null) {
+        if (getContext() != null) {
             final InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             final View view = activity.getCurrentFocus();
             if (view != null && imm != null) {

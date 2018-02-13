@@ -723,6 +723,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/viewmodels/ViewState.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/bindings/Bindings.java">
           <value>
             <set />

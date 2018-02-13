@@ -23,7 +23,7 @@ public abstract class DataFragment<B extends ViewDataBinding, LVM extends BaseLi
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<RequestError>() {
                     @Override
-                    public void accept(@NonNull final RequestError requestError) throws Exception {
+                    public void accept(@NonNull final RequestError requestError) {
                         errorDialog = createErrorDialog(requestError);
                         DialogUtils.showIfPossible(errorDialog);
                     }

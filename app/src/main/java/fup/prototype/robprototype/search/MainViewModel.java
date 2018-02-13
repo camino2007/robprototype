@@ -2,6 +2,7 @@ package fup.prototype.robprototype.search;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.jakewharton.rxrelay2.PublishRelay;
@@ -82,22 +83,20 @@ public class MainViewModel extends BaseLiveDataViewModel {
         publishRelay.accept(search);
     }
 
-    private void handleSuccessCase(final User user) {
+    private void handleSuccessCase(@Nullable final User user) {
         if (user != null) {
-            setViewState(ViewState.ON_LOADED);
+            setViewState(ViewState.DATA_LOADED);
             showUserData(user);
         } else {
-            setViewState(ViewState.ON_NO_DATA);
+            setViewState(ViewState.NO_DATA);
         }
     }
 
-    private void showUserData(final User user) {
-        if (user != null) {
-            userName.postValue(user.getName());
-            final List<User> users = new ArrayList<>();
-            users.add(user);
-            items.postValue(users);
-        }
+    private void showUserData(@NonNull final User user) {
+        userName.postValue(user.getName());
+        final List<User> users = new ArrayList<>();
+        users.add(user);
+        items.postValue(users);
     }
 
     private void storeToDatabase(final User user) {
@@ -105,6 +104,21 @@ public class MainViewModel extends BaseLiveDataViewModel {
         completable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DatabaseWriteObserver());
+    }
+
+    private class DatabaseWriteObserver extends DisposableCompletableObserver {
+
+        @Override
+        public void onError(final Throwable e) {
+            //Database write transaction failed due of reasons ...
+            Log.e(TAG, "DatabaseWriteObserver - onError: ", e);
+        }
+
+        @Override
+        public void onComplete() {
+            // In case you want to know, when db write succeeded
+            Log.d(TAG, "DatabaseWriteObserver - onComplete");
+        }
     }
 
     private class UserObserver extends ObserverAdapter<Resource<User>> {
@@ -133,25 +147,10 @@ public class MainViewModel extends BaseLiveDataViewModel {
         @Override
         public void onError(final Throwable e) {
             Log.e(TAG, "onError: ", e);
-            changeLoadingState(false);
             handleErrorCase(RequestError.create(null, e));
         }
 
     }
 
-    private class DatabaseWriteObserver extends DisposableCompletableObserver {
-
-        @Override
-        public void onError(final Throwable e) {
-            //Database write transaction failed due of reasons ...
-            Log.e(TAG, "DatabaseWriteObserver - onError: ", e);
-        }
-
-        @Override
-        public void onComplete() {
-            // In case you want to know, when db write succeeded
-            Log.d(TAG, "DatabaseWriteObserver - onComplete");
-        }
-    }
 
 }

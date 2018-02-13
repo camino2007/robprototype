@@ -1,14 +1,19 @@
 package fup.prototype.robprototype.details;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.rxdroid.api.error.RequestError;
+import com.rxdroid.repository.model.Repository;
 import com.rxdroid.repository.model.User;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -21,7 +26,8 @@ import fup.prototype.robprototype.view.base.fragments.DataFragment;
 public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailViewModel> {
 
     private static final String KEY_USER = "keyUser";
-    private static final String KEY_USER_SAVE = "keyUserSave";
+
+    private RepoAdapter repoAdapter;
 
     @Inject
     protected LiveDataViewModelFactory liveDataViewModelFactory;
@@ -57,7 +63,7 @@ public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailV
 
     private void setupRepositoryAdapter() {
         final RecyclerView recyclerView = getViewBinding().recyclerView;
-        final RepoAdapter repoAdapter = new RepoAdapter();
+        repoAdapter = new RepoAdapter();
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(repoAdapter);
@@ -71,6 +77,17 @@ public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailV
     @Override
     public void addViewListener() {
         //nothing
+    }
+
+    @Override
+    protected void applyLiveDataObserver() {
+        super.applyLiveDataObserver();
+        getViewModel().items.observe(this, new Observer<List<Repository>>() {
+            @Override
+            public void onChanged(@Nullable List<Repository> repositories) {
+                repoAdapter.replace(repositories);
+            }
+        });
     }
 
     @Override

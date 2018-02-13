@@ -2,8 +2,8 @@ package fup.prototype.robprototype.view.base.viewmodels;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.rxdroid.api.error.RequestError;
 
@@ -12,14 +12,14 @@ import io.reactivex.subjects.PublishSubject;
 
 public abstract class BaseLiveDataViewModel extends ViewModel {
 
-    public ObservableField<Boolean> isInProgress = new ObservableField<>(false);
+    private static final String TAG = "BaseLiveDataViewModel";
 
-    private MutableLiveData<ViewState> viewStateLiveData = new MutableLiveData<>();
+    public MutableLiveData<ViewState> viewStateLiveData = new MutableLiveData<>();
     private PublishSubject<RequestError> errorSubject = PublishSubject.create();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public BaseLiveDataViewModel() {
-        setViewState(ViewState.ON_INIT);
+        setViewState(ViewState.INIT);
     }
 
     public void setViewState(@NonNull final ViewState viewState) {
@@ -40,11 +40,14 @@ public abstract class BaseLiveDataViewModel extends ViewModel {
     }
 
     public void changeLoadingState(final boolean isLoading) {
-        isInProgress.set(isLoading);
+        Log.d(TAG, "changeLoadingState - isLoading: " + isLoading);
+        if (isLoading) {
+            viewStateLiveData.postValue(ViewState.LOADING);
+        }
     }
 
     public void handleErrorCase(final RequestError requestError) {
-        setViewState(ViewState.ON_DATA_ERROR);
+        setViewState(ViewState.DATA_ERROR);
         this.errorSubject.onNext(requestError);
     }
 
