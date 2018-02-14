@@ -478,6 +478,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/KtMainActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/MainActivity.java">
           <value>
             <set />
@@ -488,7 +493,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/MainFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/MainViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/MainViewModel.kt">
           <value>
             <set />
           </value>
@@ -504,6 +519,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/NewUserAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/UserAdapter.java">
           <value>
             <set />
           </value>
@@ -658,6 +678,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/BaseActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/BaseFragment.java">
           <value>
             <set />
@@ -698,7 +723,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/fragments/BaseFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/fragments/DataFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/fragments/KtBaseFragment.kt">
           <value>
             <set />
           </value>
@@ -883,6 +918,36 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/kotlin/fup/prototype/robprototype/BaseViewModel.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/kotlin/fup/prototype/robprototype/KtBaseFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/kotlin/fup/prototype/robprototype/KtDataFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/kotlin/fup/prototype/robprototype/KtSearchFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/kotlin/fup/prototype/robprototype/KtViewProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/kotlin/fup/prototype/robprototype/SearchViewModel.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
           <value>
             <set />
@@ -904,6 +969,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_main_new.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_search.xml">
           <value>
             <set />
           </value>

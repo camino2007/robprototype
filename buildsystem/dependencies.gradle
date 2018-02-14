@@ -28,6 +28,7 @@ ext {
             daggerCompiler      : "com.google.dagger:dagger-compiler:${daggerVersion}",
             rxJava              : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxAndroid           : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+          //  rxKotlin            : "io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}",
             androidSupportDesgin: "com.android.support:design:${supportLibraryVersion}",
     ]
 

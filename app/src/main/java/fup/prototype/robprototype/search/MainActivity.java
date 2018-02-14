@@ -15,7 +15,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
@@ -26,7 +26,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected BaseFragment createInitialContentFragment() {
-        //  return MainFragment.newInstance();
         return MainFragment.newInstance();
     }
 
