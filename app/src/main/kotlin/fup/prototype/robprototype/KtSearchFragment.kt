@@ -1,17 +1,35 @@
 package fup.prototype.robprototype
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import com.jakewharton.rxbinding2.widget.textChanges
 import com.rxdroid.api.error.RequestError
 import fup.prototype.robprototype.databinding.FragmentSearchBinding
+import fup.prototype.robprototype.search.UserAdapter
+import fup.prototype.robprototype.util.DialogUtils
+import fup.prototype.robprototype.view.LiveDataViewModelFactory
+import fup.prototype.robprototype.view.base.viewmodels.ViewState
+import io.reactivex.disposables.Disposable
+import java.net.HttpURLConnection
+import javax.inject.Inject
+
 
 class KtSearchFragment : KtDataFragment<FragmentSearchBinding, SearchViewModel>() {
+
+    @Inject
+    lateinit var liveDataViewModelFactory: LiveDataViewModelFactory
+
+    private var userAdapter: UserAdapter? = null
 
     companion object {
         fun newInstance(): KtSearchFragment = KtSearchFragment()
     }
 
     override fun createViewModel(): SearchViewModel {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return ViewModelProviders.of(this, liveDataViewModelFactory).get(SearchViewModel::class.java)
     }
 
     override fun initBinding(binding: FragmentSearchBinding?) {
@@ -21,7 +39,11 @@ class KtSearchFragment : KtDataFragment<FragmentSearchBinding, SearchViewModel>(
     }
 
     private fun setupUserAdapter() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val recyclerView: RecyclerView? = getViewBinding()?.recyclerView
+        userAdapter = UserAdapter()
+        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerView?.layoutManager = linearLayoutManager
+        recyclerView?.adapter = userAdapter;
     }
 
     override fun getLayoutId(): Int {
@@ -32,13 +54,50 @@ class KtSearchFragment : KtDataFragment<FragmentSearchBinding, SearchViewModel>(
         return KtSearchFragment.toString()
     }
 
-    override fun addViewListener() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun applyLiveDataObserver() {
+        addUserObserver()
+        addKeyboardObserver()
     }
 
+    private fun addKeyboardObserver() {
+        getViewModel()?.viewState?.observe(this, Observer { viewState ->
+            if (viewState == ViewState.LOADING) {
+                hideKeyboard()
+            }
+        })
+    }
+
+    private fun addUserObserver() {
+        getViewModel()?.getItems()?.observe(this, Observer { users ->
+            if (users != null && !users.isEmpty()) {
+                userAdapter?.replace(users)
+            }
+        })
+
+    }
+
+    override fun addViewListener() {
+        addSearchInputListener()
+    }
+
+    private fun addSearchInputListener() {
+        val disposable: Disposable? = getViewBinding()?.input
+                ?.textChanges()
+                ?.subscribe({ chars -> getViewModel()?.updateSearchInput(chars.toString()) })
+        if (disposable != null) {
+            addRxDisposable(disposable)
+        }
+    }
 
     override fun createErrorDialog(requestError: RequestError): AlertDialog {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+        if (requestError.response != null && requestError.response!!.code() == HttpURLConnection.HTTP_NOT_FOUND) {
+            return DialogUtils.createOkCancelDialog(context, "Möp", "User not found", "Ok", "F*ck it", null, null)
+        }
+        if (requestError.errorCode == RequestError.ERROR_CODE_NO_SEARCH_INPUT) {
+            val errorText = "If you leave this field blank, sooner or later I'll load all users."
+            return DialogUtils.createOkCancelDialog(context, "ToDo", errorText, "Ok", "Fuck it", null, null)
+        }
+        return DialogUtils.createOkCancelDialog(context, "Möp", "A wild error occurred", "Ok", "Fuck it", null, null)
 
+    }
 }

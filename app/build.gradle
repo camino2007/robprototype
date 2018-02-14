@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
 
@@ -58,7 +59,7 @@ dependencies {
     def globalDependencies = rootProject.ext.globalDependencies
 
     implementation globalDependencies.dagger
-    annotationProcessor globalDependencies.daggerCompiler
+    kapt globalDependencies.daggerCompiler
     implementation globalDependencies.rxAndroid
     implementation globalDependencies.rxJava
     implementation globalDependencies.androidSupportDesgin
@@ -68,7 +69,8 @@ dependencies {
     implementation appDependencies.daggerAndroid
     implementation appDependencies.daggerAndroidSupport
     annotationProcessor appDependencies.daggerAndroidProcessor
-    implementation appDependencies.rxBinding
+    kapt appDependencies.daggerAndroidSupport
+    implementation appDependencies.rxBindingKotlin
     implementation appDependencies.rxRelay
     implementation appDependencies.constraintLayout
     annotationProcessor appDependencies.autoValue
@@ -92,6 +94,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
 
 }
 repositories {

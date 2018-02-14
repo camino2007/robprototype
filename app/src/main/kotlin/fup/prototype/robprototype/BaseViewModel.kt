@@ -17,12 +17,16 @@ abstract class BaseViewModel : ViewModel() {
         setViewState(ViewState.INIT)
     }
 
-    private fun setViewState(viewState: ViewState) {
+    fun setViewState(viewState: ViewState) {
         this.viewState.postValue(viewState)
     }
 
     fun getErrorSubject(): PublishSubject<RequestError> {
         return errorSubject
+    }
+
+    fun getCompositeDisposable(): CompositeDisposable {
+        return compositeDisposable
     }
 
     fun changeLoadingState(isLoading: Boolean) {

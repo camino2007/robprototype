@@ -11,6 +11,7 @@ import com.rxdroid.repository.UserUiRepository;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import fup.prototype.robprototype.SearchViewModel;
 import fup.prototype.robprototype.details.DetailViewModel;
 import fup.prototype.robprototype.search.MainViewModel;
 
@@ -32,6 +33,9 @@ public class LiveDataViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(MainViewModel.class)) {
             return (T) new MainViewModel(userUiRepository);
+        }
+        if (modelClass.isAssignableFrom(SearchViewModel.class)) {
+            return (T) new SearchViewModel(userUiRepository);
         }
         if (modelClass.isAssignableFrom(DetailViewModel.class)) {
             return (T) new DetailViewModel(githubDetailsUiRepository);
