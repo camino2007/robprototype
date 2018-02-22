@@ -1,3 +1,4 @@
+/*
 package fup.prototype.robprototype.search;
 
 import android.arch.lifecycle.MutableLiveData;
@@ -154,3 +155,4 @@ public class MainViewModel extends BaseLiveDataViewModel {
 
 
 }
+*/

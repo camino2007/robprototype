@@ -1,4 +1,4 @@
-package fup.prototype.robprototype
+package fup.prototype.robprototype.view.base.fragments
 
 import android.content.Context
 import android.databinding.DataBindingUtil
@@ -9,11 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import dagger.android.AndroidInjection
+import dagger.android.support.AndroidSupportInjection
+import fup.prototype.robprototype.view.KtViewProvider
+import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-abstract class KtBaseFragment<B : ViewDataBinding, LVM : BaseViewModel> : Fragment(), KtViewProvider<B, LVM> {
+abstract class BaseFragment<B : ViewDataBinding, out LVM : BaseViewModel> : Fragment(), KtViewProvider<B, LVM> {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -22,7 +24,7 @@ abstract class KtBaseFragment<B : ViewDataBinding, LVM : BaseViewModel> : Fragme
     private var viewModel: LVM? = null
 
     override fun onAttach(context: Context?) {
-        AndroidInjection.inject(this)
+        AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 

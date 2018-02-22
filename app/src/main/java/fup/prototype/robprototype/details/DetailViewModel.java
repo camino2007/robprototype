@@ -1,3 +1,4 @@
+/*
 package fup.prototype.robprototype.details;
 
 import android.arch.lifecycle.MutableLiveData;
@@ -138,3 +139,4 @@ public class DetailViewModel extends BaseLiveDataViewModel {
 
 
 }
+*/

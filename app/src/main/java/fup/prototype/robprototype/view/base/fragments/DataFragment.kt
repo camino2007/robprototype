@@ -1,14 +1,15 @@
-package fup.prototype.robprototype
+package fup.prototype.robprototype.view.base.fragments
 
 import android.databinding.ViewDataBinding
 import android.support.v7.app.AlertDialog
 import com.rxdroid.api.error.RequestError
 import fup.prototype.robprototype.util.DialogUtils
+import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 
 
-abstract class KtDataFragment<B : ViewDataBinding, LVM : BaseViewModel> : KtBaseFragment<B, LVM>() {
+abstract class DataFragment<B : ViewDataBinding, out LVM : BaseViewModel> : BaseFragment<B, LVM>() {
 
     private var errorDialog: AlertDialog? = null
 

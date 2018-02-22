@@ -1,3 +1,4 @@
+/*
 package fup.prototype.robprototype.details;
 
 import android.content.Context;
@@ -33,3 +34,4 @@ public class DetailsActivity extends BaseActivity {
         return DetailFragment.newInstance(intent.getBundleExtra(KEY_BUNDLE));
     }
 }
+*/

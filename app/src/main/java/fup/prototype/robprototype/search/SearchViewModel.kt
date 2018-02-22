@@ -1,4 +1,4 @@
-package fup.prototype.robprototype
+package fup.prototype.robprototype.search
 
 import android.arch.lifecycle.MutableLiveData
 import com.jakewharton.rxrelay2.PublishRelay
@@ -8,6 +8,7 @@ import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
 import fup.prototype.robprototype.view.base.adapters.ObserverAdapter
+import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel
 import fup.prototype.robprototype.view.base.viewmodels.ViewState
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,15 +18,13 @@ import java.util.concurrent.TimeUnit
 
 class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
 
-
     private val MIN_LENGTH_SEARCH: Int = 3
     private val DEBOUNCE_TIME_OUT: Long = 800L
 
-
     private val userUiRepository: UserUiRepository = repository
-    private val searchValue: MutableLiveData<String> = MutableLiveData()
+    val searchValue: MutableLiveData<String> = MutableLiveData()
     private val publishRelay: PublishRelay<String> = PublishRelay.create()
-    private val items: MutableLiveData<List<User>> = MutableLiveData()
+    private val items: MutableLiveData<MutableList<User>> = MutableLiveData()
     val userName: MutableLiveData<String> = MutableLiveData()
 
     init {
@@ -47,7 +46,7 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
         return Observable.just(Resource<User>(Status.LOADING, null, null))
     }
 
-    fun getItems(): MutableLiveData<List<User>> {
+    fun getItems(): MutableLiveData<MutableList<User>> {
         return items
     }
 
@@ -69,29 +68,51 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
 
     private fun showUserData(user: User) {
         userName.postValue(user.name)
-        val users: List<User> = List(1, { user })
+        val users: MutableList<User> = MutableList(1, { user })
         items.postValue(users)
     }
 
-    inner class UserObserver : ObserverAdapter<Resource<User>>() {
+/*    private void storeToDatabase(final User user) {
+        final Completable completable = userUiRepository.updateDatabase(user);
+        completable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DatabaseWriteObserver());
+    }
 
-        override fun onSubscribe(disposable: Disposable) {
-            getCompositeDisposable().add(disposable)
+    private class DatabaseWriteObserver extends DisposableCompletableObserver {
+
+        @Override
+        public void onError(final Throwable e) {
+            //Database write transaction failed due of reasons ...
+            Log.e(TAG, "DatabaseWriteObserver - onError: ", e);
         }
 
-        override fun onNext(userResource: Resource<User>) {
-            changeLoadingState(userResource.status == Status.LOADING)
-            when (userResource.status) {
-                Status.ERROR -> handleErrorCase(userResource.requestError!!)
+        @Override
+        public void onComplete() {
+            // In case you want to know, when db write succeeded
+            Log.d(TAG, "DatabaseWriteObserver - onComplete");
+        }
+    }*/
+
+    inner class UserObserver : ObserverAdapter<Resource<User>>() {
+
+        override fun onSubscribe(d: Disposable) {
+            getCompositeDisposable().add(d)
+        }
+
+        override fun onNext(t: Resource<User>) {
+            changeLoadingState(t.status == Status.LOADING)
+            when (t.status) {
+                Status.ERROR -> handleErrorCase(t.requestError!!)
                 Status.SUCCESS -> {
                     // storeToDatabase(userResource.data)
-                    handleSuccessCase(userResource.data)
+                    handleSuccessCase(t.data)
                 }
             }
         }
 
-        override fun onError(throwable: Throwable) {
-            handleErrorCase(RequestError.create(null, throwable))
+        override fun onError(e: Throwable) {
+            handleErrorCase(RequestError.create(null, e))
         }
     }
 

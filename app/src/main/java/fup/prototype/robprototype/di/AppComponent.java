@@ -1,3 +1,4 @@
+/*
 package fup.prototype.robprototype.di;
 
 import android.app.Application;
@@ -11,7 +12,7 @@ import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.support.AndroidSupportInjectionModule;
 import fup.prototype.data.di.DataModule;
-import fup.prototype.robprototype.ProtoApplication;
+import fup.prototype.robprototype.KtProtoApplication;
 
 @Singleton
 @Component(modules = {AndroidSupportInjectionModule.class,
@@ -31,6 +32,7 @@ public interface AppComponent {
         AppComponent build();
     }
 
-    void inject(ProtoApplication protoApplication);
+    void inject(KtProtoApplication protoApplication);
 
 }
+*/

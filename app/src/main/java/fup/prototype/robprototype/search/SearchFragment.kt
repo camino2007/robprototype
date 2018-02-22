@@ -1,4 +1,4 @@
-package fup.prototype.robprototype
+package fup.prototype.robprototype.search
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -7,29 +7,30 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.rxdroid.api.error.RequestError
+import fup.prototype.robprototype.R
 import fup.prototype.robprototype.databinding.FragmentSearchBinding
-import fup.prototype.robprototype.search.UserAdapter
 import fup.prototype.robprototype.util.DialogUtils
-import fup.prototype.robprototype.view.LiveDataViewModelFactory
+import fup.prototype.robprototype.view.KtViewModelFactory
+import fup.prototype.robprototype.view.base.fragments.DataFragment
 import fup.prototype.robprototype.view.base.viewmodels.ViewState
 import io.reactivex.disposables.Disposable
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
 
-class KtSearchFragment : KtDataFragment<FragmentSearchBinding, SearchViewModel>() {
+class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
 
     @Inject
-    lateinit var liveDataViewModelFactory: LiveDataViewModelFactory
+    lateinit var viewModelFactory: KtViewModelFactory
 
-    private var userAdapter: UserAdapter? = null
+    private var userAdapter = UserAdapter()
 
     companion object {
-        fun newInstance(): KtSearchFragment = KtSearchFragment()
+        fun newInstance(): SearchFragment = SearchFragment()
     }
 
     override fun createViewModel(): SearchViewModel {
-        return ViewModelProviders.of(this, liveDataViewModelFactory).get(SearchViewModel::class.java)
+        return ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel::class.java)
     }
 
     override fun initBinding(binding: FragmentSearchBinding?) {
@@ -40,10 +41,9 @@ class KtSearchFragment : KtDataFragment<FragmentSearchBinding, SearchViewModel>(
 
     private fun setupUserAdapter() {
         val recyclerView: RecyclerView? = getViewBinding()?.recyclerView
-        userAdapter = UserAdapter()
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView?.layoutManager = linearLayoutManager
-        recyclerView?.adapter = userAdapter;
+        recyclerView?.adapter = userAdapter
     }
 
     override fun getLayoutId(): Int {
@@ -51,7 +51,7 @@ class KtSearchFragment : KtDataFragment<FragmentSearchBinding, SearchViewModel>(
     }
 
     override fun getKey(): String {
-        return KtSearchFragment.toString()
+        return SearchFragment.toString()
     }
 
     override fun applyLiveDataObserver() {
@@ -73,7 +73,6 @@ class KtSearchFragment : KtDataFragment<FragmentSearchBinding, SearchViewModel>(
                 userAdapter?.replace(users)
             }
         })
-
     }
 
     override fun addViewListener() {

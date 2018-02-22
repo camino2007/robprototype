@@ -1,8 +1,9 @@
+/*
 package fup.prototype.robprototype.view;
 
 import android.databinding.ViewDataBinding;
 
-import fup.prototype.robprototype.BaseViewModel;
+import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel;
 
 public interface ViewProvider<B extends ViewDataBinding, LVM extends BaseViewModel> {
 
@@ -15,3 +16,4 @@ public interface ViewProvider<B extends ViewDataBinding, LVM extends BaseViewMod
     void addViewListener();
 
 }
+*/

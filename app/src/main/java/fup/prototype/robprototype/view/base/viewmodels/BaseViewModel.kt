@@ -1,9 +1,8 @@
-package fup.prototype.robprototype
+package fup.prototype.robprototype.view.base.viewmodels
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.rxdroid.api.error.RequestError
-import fup.prototype.robprototype.view.base.viewmodels.ViewState
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 

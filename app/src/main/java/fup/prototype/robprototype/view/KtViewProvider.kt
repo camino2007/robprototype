@@ -1,4 +1,4 @@
-package fup.prototype.robprototype
+package fup.prototype.robprototype.view
 
 
 interface KtViewProvider<in B, out LVM> {

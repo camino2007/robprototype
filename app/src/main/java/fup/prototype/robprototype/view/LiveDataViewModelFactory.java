@@ -1,3 +1,4 @@
+/*
 package fup.prototype.robprototype.view;
 
 
@@ -11,7 +12,7 @@ import com.rxdroid.repository.UserUiRepository;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import fup.prototype.robprototype.SearchViewModel;
+import fup.prototype.robprototype.search.SearchViewModel;
 import fup.prototype.robprototype.details.DetailViewModel;
 import fup.prototype.robprototype.search.MainViewModel;
 
@@ -44,3 +45,4 @@ public class LiveDataViewModelFactory implements ViewModelProvider.Factory {
     }
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package fup.prototype.robprototype.details;
 
 import android.arch.lifecycle.Observer;
@@ -106,3 +107,4 @@ public class DetailFragment extends DataFragment<FragmentDetailsBinding, DetailV
         return DetailFragment.class.getSimpleName();
     }
 }
+*/

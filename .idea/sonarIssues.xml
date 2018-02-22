@@ -178,6 +178,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/build/tmp/kapt3/stubs/debug/fup/prototype/robprototype/KtBaseActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/build/tmp/kapt3/stubs/debug/fup/prototype/robprototype/di/KtAppComponent.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/build/tmp/kapt3/stubs/debug/fup/prototype/robprototype/view/base/KtBaseActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <value>
             <set />
@@ -203,7 +218,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/KtProtoApplication.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/ProtoApplication.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/ProtoApplication.kt">
           <value>
             <set />
           </value>
@@ -373,6 +398,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/KtAppComponent.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/KtAppModule.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/KtSearchModule.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/MainActivitySubComponent.java">
           <value>
             <set />
@@ -389,6 +429,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/SearchModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/SearchModule.kt">
           <value>
             <set />
           </value>
@@ -483,6 +528,31 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/KtSearchActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/KtSearchFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/KtUserAdapter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/KtUserItemHandler.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/KtUserItemViewModel.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/MainActivity.java">
           <value>
             <set />
@@ -523,12 +593,37 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/SearchActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/SearchFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/SearchViewModel.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/UserAdapter.java">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/UserItemHandler.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/UserItemViewHolder.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/UserItemViewModel.java">
           <value>
             <set />
           </value>
@@ -539,6 +634,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/util/DialogUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/util/DialogUtils.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/util/DialogUtilsOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/util/DialogUtilsOld.kt">
           <value>
             <set />
           </value>
@@ -579,6 +689,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/ItemViewModelFactory.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/ItemViewModelFactory.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/ItemViewModelFactoryOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/KtViewModelFactory.kt">
           <value>
             <set />
           </value>
@@ -698,6 +823,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/KtBaseActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/NewBaseActivity.java">
           <value>
             <set />
@@ -708,7 +838,42 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/adapters/BaseRecyclerAdapter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/adapters/DataBoundViewHolder.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/adapters/DataBoundViewHolderOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/adapters/KtBaseRecyclerAdapter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/adapters/ObserverAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/adapters/ObserverAdapter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/adapters/ObserverAdapterOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/adapters/RecyclerViewBaseAdapter.java">
           <value>
             <set />
           </value>
@@ -734,6 +899,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/fragments/KtBaseFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/fragments/KtDataFragment.kt">
           <value>
             <set />
           </value>
@@ -764,6 +934,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/bindings/Bindings.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/bindings/Bindings.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/bindings/BindingsOld.java">
           <value>
             <set />
           </value>
@@ -923,12 +1103,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/kotlin/fup/prototype/robprototype/KtBaseActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/kotlin/fup/prototype/robprototype/KtBaseFragment.kt">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/kotlin/fup/prototype/robprototype/KtDataFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/kotlin/fup/prototype/robprototype/KtSearchActivity.kt">
           <value>
             <set />
           </value>

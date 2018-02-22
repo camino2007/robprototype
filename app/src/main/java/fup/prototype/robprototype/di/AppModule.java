@@ -1,3 +1,4 @@
+/*
 package fup.prototype.robprototype.di;
 
 import android.app.Application;
@@ -13,9 +14,11 @@ import dagger.Provides;
 import fup.prototype.data.di.DataComponent;
 
 
+*/
 /**
  * This is where you will inject application-wide dependencies.
- */
+ *//*
+
 @Module(subcomponents = {
         RepositoryComponent.class,
         ApiComponent.class,
@@ -29,3 +32,4 @@ public class AppModule {
     }
 
 }
+*/
