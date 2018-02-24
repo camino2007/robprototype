@@ -14,7 +14,7 @@ import javax.inject.Singleton
  * This is where you will inject application-wide dependencies.
  */
 @Module(subcomponents = arrayOf(RepositoryComponent::class, ApiComponent::class, DataComponent::class))
-abstract class AppModule {
+class AppModule {
 
     @Provides
     @Singleton

@@ -263,6 +263,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/build/generated/source/kapt/debug/fup/prototype/robprototype/databinding/FragmentSearchBinding.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/build/generated/source/kapt/debug/fup/prototype/robprototype/di/DaggerAppComponent.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/build/generated/source/kapt/debug/fup/prototype/robprototype/search/SearchActivity_MembersInjector.java">
           <value>
             <set />
