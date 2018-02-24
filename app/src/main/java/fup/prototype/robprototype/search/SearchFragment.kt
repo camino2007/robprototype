@@ -11,7 +11,7 @@ import com.rxdroid.api.error.RequestError
 import fup.prototype.robprototype.R
 import fup.prototype.robprototype.databinding.FragmentSearchBinding
 import fup.prototype.robprototype.util.DialogUtils
-import fup.prototype.robprototype.view.KtViewModelFactory
+import fup.prototype.robprototype.view.ViewModelFactory
 import fup.prototype.robprototype.view.base.fragments.DataFragment
 import fup.prototype.robprototype.view.base.viewmodels.ViewState
 import io.reactivex.disposables.Disposable
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
 
     @Inject
-    lateinit var viewModelFactory: KtViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
     private var userAdapter = UserAdapter()
 

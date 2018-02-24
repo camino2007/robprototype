@@ -10,12 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import dagger.android.support.AndroidSupportInjection
-import fup.prototype.robprototype.view.KtViewProvider
+import fup.prototype.robprototype.view.ViewProvider
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-abstract class BaseFragment<B : ViewDataBinding, out LVM : BaseViewModel> : Fragment(), KtViewProvider<B, LVM> {
+abstract class BaseFragment<B : ViewDataBinding, out LVM : BaseViewModel> : Fragment(), ViewProvider<B, LVM> {
 
     private val compositeDisposable = CompositeDisposable()
 

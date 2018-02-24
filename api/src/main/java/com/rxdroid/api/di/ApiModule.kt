@@ -1,5 +1,6 @@
 package com.rxdroid.api.di
 
+import android.content.Context
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -22,6 +23,13 @@ import javax.inject.Singleton
 class ApiModule {
 
     private val TIME_OUT = 30L
+
+    @Provides
+    @Singleton
+    fun provideOkHttpCache(context: Context): Cache {
+        val cacheSize = 10 * 1024 * 1024 // 10 MiB
+        return Cache(context.cacheDir, cacheSize.toLong())
+    }
 
     @Provides
     @Singleton

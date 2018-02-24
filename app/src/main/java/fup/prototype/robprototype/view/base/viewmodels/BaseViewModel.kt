@@ -6,7 +6,7 @@ import com.rxdroid.api.error.RequestError
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 
-abstract class BaseViewModel : ViewModel() {
+open class BaseViewModel : ViewModel() {
 
     val viewState: MutableLiveData<ViewState> = MutableLiveData()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()

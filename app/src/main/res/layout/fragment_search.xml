@@ -70,7 +70,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:visibleOrGone="@{viewModel.viewStateLiveData == ViewState.LOADING}" />
+            app:visibleOrGone="@{viewModel.viewState == ViewState.LOADING}" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

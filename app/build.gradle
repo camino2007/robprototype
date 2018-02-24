@@ -45,13 +45,6 @@ android {
     dataBinding {
         enabled = true
     }
-
-/*
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-*/
-
 }
 
 dependencies {
@@ -71,7 +64,7 @@ dependencies {
 
     implementation appDependencies.daggerAndroid
     implementation appDependencies.daggerAndroidSupport
-    annotationProcessor appDependencies.daggerAndroidProcessor
+    kapt appDependencies.daggerAndroidProcessor
     kapt appDependencies.daggerAndroidSupport
     implementation appDependencies.rxBindingKotlin
     implementation appDependencies.rxRelay

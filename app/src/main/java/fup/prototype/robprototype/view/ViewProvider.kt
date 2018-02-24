@@ -1,7 +1,7 @@
 package fup.prototype.robprototype.view
 
 
-interface KtViewProvider<in B, out LVM> {
+interface ViewProvider<in B, out LVM> {
 
     fun createViewModel(): LVM?
 

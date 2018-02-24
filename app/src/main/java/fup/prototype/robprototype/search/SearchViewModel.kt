@@ -3,6 +3,7 @@ package fup.prototype.robprototype.search
 import android.arch.lifecycle.MutableLiveData
 import com.jakewharton.rxrelay2.PublishRelay
 import com.rxdroid.api.error.RequestError
+import com.rxdroid.repository.UserUiRepository
 import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
@@ -15,12 +16,12 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class SearchViewModel(repository: UserUiRepositoryOld) : BaseViewModel() {
+class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
 
     private val MIN_LENGTH_SEARCH: Int = 3
     private val DEBOUNCE_TIME_OUT: Long = 800L
 
-    private val userUiRepository: UserUiRepositoryOld = repository
+    private val userUiRepository = repository
     val searchValue: MutableLiveData<String> = MutableLiveData()
     private val publishRelay: PublishRelay<String> = PublishRelay.create()
     private val items: MutableLiveData<MutableList<User>> = MutableLiveData()
