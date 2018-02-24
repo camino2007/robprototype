@@ -11,13 +11,13 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(AndroidSupportInjectionModule::class,
-        KtAppModule::class,
+        AppModule::class,
         SearchModule::class,
         //SearchDetailsModule::class,
         RepositoryModule::class,
         ApiModule::class,
         DataModule::class))
-interface KtAppComponent {
+interface AppComponent {
 
     @Component.Builder
     interface Builder {
@@ -25,28 +25,9 @@ interface KtAppComponent {
         @BindsInstance
         fun application(application: ProtoApplication): Builder
 
-        fun build(): KtAppComponent
+        fun build(): AppComponent
     }
 
     fun inject(protoApplication: ProtoApplication)
 
-/*    @Singleton
-    @Component(modules = {AndroidSupportInjectionModule.class,
-        AppModule.class,
-        SearchModule.class,
-        SearchDetailsModule.class,
-        RepositoryModule.class,
-        ApiModule.class,
-        DataModule.class})
-    public interface AppComponent {
-
-        @Component.Builder
-        interface Builder {
-            @BindsInstance
-            Builder application(Application application);
-
-            AppComponent build();
-        }
-
-        void inject(KtProtoApplication protoApplication);*/
 }

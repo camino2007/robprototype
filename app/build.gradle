@@ -46,9 +46,11 @@ android {
         enabled = true
     }
 
+/*
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+*/
 
 }
 
@@ -58,6 +60,7 @@ dependencies {
 
     def globalDependencies = rootProject.ext.globalDependencies
 
+    implementation globalDependencies.kotlin
     implementation globalDependencies.dagger
     kapt globalDependencies.daggerCompiler
     implementation globalDependencies.rxAndroid
@@ -93,8 +96,6 @@ dependencies {
     })
 
     testImplementation 'junit:junit:4.12'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
 
 }
 repositories {

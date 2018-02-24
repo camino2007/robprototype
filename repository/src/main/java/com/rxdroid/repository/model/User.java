@@ -2,9 +2,11 @@ package com.rxdroid.repository.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import com.google.auto.value.AutoValue;
-import com.rxdroid.api.github.model.GitHubUserModel;
+import com.rxdroid.api.github.model.GitHubUserData;
 import com.squareup.haha.guava.collect.ImmutableList;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -76,19 +78,19 @@ public abstract class User implements Serializable {
     }
 
     @NonNull
-    public static User fromApi(final GitHubUserModel gitHubUser) {
+    public static User fromApi(final GitHubUserData gitHubUser) {
         return User.builder()
-                   .setId(gitHubUser.getId())
-                   .setLogin(gitHubUser.getLogin())
-                   .setName(gitHubUser.getName())
-                   .setEmail(gitHubUser.getEmail())
-                   .setCompany(gitHubUser.getCompany())
-                   .setType(gitHubUser.getType())
-                   .setAvatarUrl(gitHubUser.getAvatarUrl())
-                   .setHireable(gitHubUser.getHireable())
-                   .setIsSiteAdmin(gitHubUser.isSiteAdmin())
-                   .setPublicGistCount(gitHubUser.getPublicGists())
-                   .setPublicRepoCount(gitHubUser.getPublicRepos())
-                   .build();
+                .setId(gitHubUser.getId())
+                .setLogin(gitHubUser.getLogin())
+                .setName(gitHubUser.getName())
+                .setEmail(gitHubUser.getEmail())
+                .setCompany(gitHubUser.getCompany())
+                .setType(gitHubUser.getType())
+                .setAvatarUrl(gitHubUser.getAvatarUrl())
+                .setHireable(gitHubUser.getHireable())
+                .setIsSiteAdmin(gitHubUser.isSiteAdmin())
+                .setPublicGistCount(gitHubUser.getPublicGistCount())
+                .setPublicRepoCount(gitHubUser.getPublicRepoCount())
+                .build();
     }
 }

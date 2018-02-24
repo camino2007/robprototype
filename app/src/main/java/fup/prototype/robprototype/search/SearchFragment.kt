@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.android.databinding.library.baseAdapters.BR
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.rxdroid.api.error.RequestError
 import fup.prototype.robprototype.R
@@ -34,7 +35,7 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
     }
 
     override fun initBinding(binding: FragmentSearchBinding?) {
-        binding?.viewModel = getViewModel()
+        binding?.setVariable(BR.viewModel, getViewModel())
         binding?.setLifecycleOwner(this)
         setupUserAdapter()
     }
@@ -70,7 +71,7 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
     private fun addUserObserver() {
         getViewModel()?.getItems()?.observe(this, Observer { users ->
             if (users != null && !users.isEmpty()) {
-                userAdapter?.replace(users)
+                userAdapter.replace(users)
             }
         })
     }

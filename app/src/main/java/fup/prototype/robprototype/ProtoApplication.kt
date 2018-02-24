@@ -14,7 +14,7 @@ class ProtoApplication : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
-        DaggerKtAppComponent
+        DaggerAppComponent
                 .builder()
                 .application(this)
                 .build()

@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
 
@@ -41,8 +43,9 @@ dependencies {
 
     def globalDependencies = rootProject.ext.globalDependencies
 
+    implementation globalDependencies.kotlin
     implementation globalDependencies.dagger
-    annotationProcessor globalDependencies.daggerCompiler
+    kapt globalDependencies.daggerCompiler
     implementation globalDependencies.rxAndroid
     implementation globalDependencies.rxJava
     implementation globalDependencies.androidSupportDesgin

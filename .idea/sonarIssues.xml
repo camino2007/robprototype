@@ -58,7 +58,27 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/di/ApiComponent.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/di/ApiComponentOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/di/ApiModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/di/ApiModule.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/error/CustomRequestError.kt">
           <value>
             <set />
           </value>
@@ -68,12 +88,37 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/error/GeneralRequestError.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/error/KtRequestError.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/error/NoConnectionRequestError.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/error/RequestError.java">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/error/RequestError.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/GitHubApi.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/GitHubApi.kt">
           <value>
             <set />
           </value>
@@ -84,6 +129,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/model/GitHubUserModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/model/KtGitHubRepoData.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/model/KtGitHubRepoModel.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/model/KtGitHubUserData.kt">
           <value>
             <set />
           </value>
@@ -108,7 +168,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/ApiProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/GitHubApiProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/GitHubApiProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/GitHubApiProviderOld.java">
           <value>
             <set />
           </value>
@@ -128,7 +203,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/GitHubRepositoryProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/GitHubUserProvider.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/api/src/main/java/com/rxdroid/api/github/provider/GitHubUserProvider.kt">
           <value>
             <set />
           </value>
@@ -348,12 +433,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/AppComponent.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/AppInjector.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/AppModule.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/di/AppModule.kt">
           <value>
             <set />
           </value>
@@ -924,6 +1019,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/viewmodels/BaseViewModel.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/view/base/viewmodels/BaseViewModel.kt">
           <value>
             <set />
           </value>
@@ -1703,6 +1803,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/GithubDetailsUiRepository.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/GithubDetailsUiRepositoryOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/GithubRepository.java">
           <value>
             <set />
@@ -1733,6 +1843,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/UiRepository.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/UserRepository.java">
           <value>
             <set />
@@ -1748,12 +1863,32 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/UserUiRepository.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/UserUiRepositoryOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/cache/Cache.java">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/cache/Cache.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/cache/CacheOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/cache/KtTimeLimitedCache.kt">
           <value>
             <set />
           </value>
@@ -1768,6 +1903,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/cache/UserCache.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/cache/UserCacheOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/di/DataComponent.java">
           <value>
             <set />
@@ -1778,12 +1923,37 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/di/RepositoryComponent.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/di/RepositoryComponentOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/di/RepositoryModule.java">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/di/RepositoryModule.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/di/RepositoryModuleOld.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/model/GitHubRepository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/model/KtResource.kt">
           <value>
             <set />
           </value>
@@ -1799,6 +1969,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/model/Resource.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/repository/src/main/java/com/rxdroid/repository/model/Resource.kt">
           <value>
             <set />
           </value>
