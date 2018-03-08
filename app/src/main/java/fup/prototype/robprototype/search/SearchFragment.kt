@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.android.databinding.library.baseAdapters.BR
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.rxdroid.api.error.RequestError
 import fup.prototype.robprototype.R
@@ -24,7 +23,7 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var userAdapter = UserAdapter()
+    private var userAdapter = UserAdapterNew()
 
     companion object {
         fun newInstance(): SearchFragment = SearchFragment()
@@ -42,6 +41,7 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
 
     private fun setupUserAdapter() {
         val recyclerView: RecyclerView? = getViewBinding()?.recyclerView
+        recyclerView?.adapter = userAdapter
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView?.layoutManager = linearLayoutManager
         recyclerView?.adapter = userAdapter
@@ -71,7 +71,7 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
     private fun addUserObserver() {
         getViewModel()?.getItems()?.observe(this, Observer { users ->
             if (users != null && !users.isEmpty()) {
-                userAdapter.replace(users)
+                userAdapter.clearAndAddItems(users)
             }
         })
     }

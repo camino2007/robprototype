@@ -1,9 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 android {
-
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
     compileSdkVersion globalConfiguration["compileSdkVersion"]
@@ -21,10 +19,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
 
     buildTypes {
         release {
@@ -33,37 +27,22 @@ android {
         }
     }
 
-    packagingOptions {
-        exclude 'META-INF/rxjava.properties'
+    dataBinding {
+        enabled = true
     }
 
 }
 
 dependencies {
 
-    api project(path: ':common')
-
     def globalDependencies = rootProject.ext.globalDependencies
-
     implementation globalDependencies.kotlin
-    implementation globalDependencies.dagger
-    kapt globalDependencies.daggerCompiler
-    implementation globalDependencies.rxAndroid
-    implementation globalDependencies.rxJava
     implementation globalDependencies.androidSupportDesgin
 
-    def apiDependencies = rootProject.ext.apiDependencies
+    def appDependencies = rootProject.ext.appDependencies
+    implementation appDependencies.androidSupportAppCompat
 
-    implementation apiDependencies.retrofit
-    api apiDependencies.retrofitGsonConverter
-    implementation apiDependencies.retrofitRxAdapter
-    api apiDependencies.okHttp
-    implementation apiDependencies.okHttpLogging
-
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    testImplementation 'junit:junit:4.12'
-
+}
+repositories {
+    mavenCentral()
 }

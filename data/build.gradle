@@ -46,6 +46,8 @@ android {
 
 dependencies {
 
+    api project(path: ':common')
+
     def globalDependencies = rootProject.ext.globalDependencies
 
     implementation globalDependencies.dagger

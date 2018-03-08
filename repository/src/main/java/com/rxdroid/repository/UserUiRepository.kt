@@ -7,6 +7,8 @@ import com.rxdroid.repository.cache.UserCache
 import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.User
 import fup.prototype.data.search.UserDatabaseProvider
+import fup.prototype.data.search.UserDto
+import io.reactivex.Completable
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -14,7 +16,6 @@ import javax.inject.Singleton
 
 @Singleton
 class UserUiRepository @Inject constructor(
-
         val gitHubUserProvider: GitHubUserProvider,
         val userDatabaseProvider: UserDatabaseProvider) : UiRepository<User> {
 
@@ -56,12 +57,13 @@ class UserUiRepository @Inject constructor(
         return userResource != null && userResource?.data != null && TextUtils.equals(lastSearchValue, currentSearchValue) && userCache.hasValidCachedData()
     }
 
-/*    public Completable updateDatabase(@NonNull final User user) {
-        final UserDto userDto = new UserDto();
-        userDto.name = user.getName();
-        userDto.login = user.getLogin();
-        userDto.publicRepoCount = user.getPublicRepoCount();
-        userDto.publicGistCount = user.getPublicGistCount();
-        return userDatabaseProvider.insertOrUpdate(userDto);
-    }*/
+    fun updateDatabase(user: User): Completable {
+        val userDto = UserDto()
+        userDto.name = user.name
+        userDto.login = user.login
+        userDto.publicGistCount = user.publicGistCount
+        userDto.publicRepoCount = user.publicRepoCount
+        return userDatabaseProvider.insertOrUpdate(userDto)
+    }
+
 }

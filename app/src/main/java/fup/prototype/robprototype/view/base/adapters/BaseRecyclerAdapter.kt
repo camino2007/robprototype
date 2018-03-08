@@ -6,7 +6,7 @@ import android.view.ViewGroup
 
 abstract class BaseRecyclerAdapter<T, V : ViewDataBinding> : RecyclerView.Adapter<DataBoundViewHolder<V>>() {
 
-    private var items: MutableList<T> = ArrayList()
+    private var items: ArrayList<T> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): DataBoundViewHolder<V> {
         val binding: V = createBinding(parent)
@@ -23,8 +23,9 @@ abstract class BaseRecyclerAdapter<T, V : ViewDataBinding> : RecyclerView.Adapte
         holder?.getBinding()?.executePendingBindings()
     }
 
-    fun replace(update: MutableList<T>) {
-        items = update
+    fun replace(update: ArrayList<T>) {
+        items.clear()
+        items.addAll(update)
         notifyDataSetChanged()
     }
 
