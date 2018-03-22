@@ -21,5 +21,12 @@ class UserItemViewModel(u: User?) : ViewModel(), ItemViewType {
         return AdapterConstants.USER_ITEM
     }
 
+    fun onClick(viewModel: UserItemViewModel) {
+        /*  val context = constraintLayout.context
+          val user = viewModel.getUser()
+          val intent = DetailsActivity.createIntent(context, user)
+          context.startActivity(intent)*/
+    }
+
 
 }

@@ -1,24 +1,67 @@
 package fup.prototype.robprototype.search
 
-import android.databinding.DataBindingUtil
-import android.view.LayoutInflater
+import android.support.v4.util.SparseArrayCompat
+import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.rxdroid.repository.model.User
-import fup.prototype.robprototype.R
-import fup.prototype.robprototype.databinding.ItemUserBinding
-import fup.prototype.robprototype.view.ItemViewModelFactory
-import fup.prototype.robprototype.view.base.adapters.BaseRecyclerAdapter
+import com.rxdroid.common.AdapterConstants
+import com.rxdroid.common.adapter.ItemViewType
+import com.rxdroid.common.adapter.ViewTypeDelegateAdapter
+import fup.prototype.robprototype.view.base.adapters.LoadingDelegateAdapter
 
-class UserAdapter : BaseRecyclerAdapter<User, ItemUserBinding>() {
+class UserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun createBinding(parent: ViewGroup?): ItemUserBinding {
-        return DataBindingUtil.inflate(LayoutInflater.from(parent?.context), R.layout.item_user, parent, false)
+    private var items: ArrayList<ItemViewType>
+    private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
+    private val loadingItem = object : ItemViewType {
+        override fun getItemViewType(): Int {
+            return AdapterConstants.LOADING_ITEM
+        }
     }
 
-    override fun bind(binding: ItemUserBinding?, item: User) {
-        val userItemViewModel = ItemViewModelFactory.create(item)
-        binding?.viewModel = userItemViewModel
-        binding?.handler = UserItemHandler()
+    init {
+        delegateAdapters.put(AdapterConstants.LOADING_ITEM, LoadingDelegateAdapter())
+        delegateAdapters.put(AdapterConstants.USER_ITEM, UserDelegateAdapter())
+        items = ArrayList()
+    }
+
+    override fun getItemCount(): Int {
+        return items.size
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return delegateAdapters.get(viewType).onCreateViewHolder(parent)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, this.items[position])
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return this.items[position].getItemViewType()
+    }
+
+    fun addUsers(newItems: ArrayList<ItemViewType>) {
+        var initPosition = 0
+        if (!items.isEmpty()) {
+            initPosition = items.size - 1
+            if (getItemViewType(initPosition) == AdapterConstants.LOADING_ITEM) {
+                //remove loading item
+                items.removeAt(initPosition)
+                notifyItemRemoved(initPosition)
+            }
+        }
+        if (!newItems.isEmpty()) {
+            items.addAll(newItems)
+            if (newItems.size > 1) {
+                items.add(loadingItem)
+            }
+            notifyItemRangeChanged(initPosition, items.size)
+        }
+    }
+
+    fun clearAndAddItems(users: ArrayList<ItemViewType>) {
+        items.clear()
+        addUsers(users)
     }
 
 }

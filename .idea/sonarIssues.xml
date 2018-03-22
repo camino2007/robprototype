@@ -748,6 +748,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/UserAdapter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/search/UserAdapterNew.kt">
           <value>
             <set />
@@ -2234,6 +2239,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/logout/LogoutDialogFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/myjoy/MyJoyRepository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../joyclub-android/app/src/main/java/me/fup/joyapp/ui/myjoy/pinboard/PinBoardRecyclerAdapter.java">
           <value>
             <set />
           </value>

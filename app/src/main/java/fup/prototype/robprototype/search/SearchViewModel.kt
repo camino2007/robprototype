@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.jakewharton.rxrelay2.PublishRelay
 import com.rxdroid.api.error.RequestError
+import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.repository.UserUiRepository
 import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
@@ -27,11 +28,12 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
         const val DEBOUNCE_TIME_OUT: Long = 800L
     }
 
-    private val userUiRepository = repository
     val searchValue: MutableLiveData<String> = MutableLiveData()
-    private val publishRelay: PublishRelay<String> = PublishRelay.create()
-    private val items: MutableLiveData<ArrayList<UserItemViewModel>> = MutableLiveData()
     val userName: MutableLiveData<String> = MutableLiveData()
+    private val userUiRepository = repository
+    private val publishRelay: PublishRelay<String> = PublishRelay.create()
+    private val items: MutableLiveData<ArrayList<ItemViewType>> = MutableLiveData()
+
 
     init {
         addRepositoryDisposable()
@@ -43,17 +45,23 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
                 .distinctUntilChanged()
                 .filter({ searchValue -> searchValue.length >= Constants.MIN_LENGTH_SEARCH })
                 .switchMap<Resource<User>>({ searchValue -> Observable.concat(getLoadingObservable(), userUiRepository.loadBySearchValue(searchValue)) })
-                .switchMap<UserItemViewModel>({ resource -> Observable.just(ItemViewModelFactory.create(resource.data)) })
+                .switchMap<Resource<ItemViewType>>({ resource ->
+                    run {
+                        val viewModel: ItemViewType = ItemViewModelFactory.create(resource.data)
+                        val modelResource: Resource<ItemViewType> = Resource(resource.status, viewModel, resource.requestError)
+                        return@run Observable.just(modelResource)
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(UserObserver())
     }
 
     private fun getLoadingObservable(): Observable<Resource<User>> {
-        return Observable.just(Resource<User>(Status.LOADING, null, null))
+        return Observable.just(Resource.loading())
     }
 
-    fun getItems(): MutableLiveData<ArrayList<UserItemViewModel>> {
+    fun getItems(): MutableLiveData<ArrayList<ItemViewType>> {
         return items
     }
 
@@ -64,7 +72,7 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
         }
     }
 
-    private fun handleSuccessCase(userItemViewModel: UserItemViewModel?) {
+    private fun handleSuccessCase(userItemViewModel: ItemViewType?) {
         if (userItemViewModel != null) {
             setViewState(ViewState.DATA_LOADED)
             showUserData(userItemViewModel)
@@ -73,11 +81,11 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
         }
     }
 
-    private fun showUserData(userItemViewModel: UserItemViewModel) {
-        userName.postValue(userItemViewModel.loginName.value)
-        val users: ArrayList<UserItemViewModel> = ArrayList(1)
-        users.add(userItemViewModel)
-        items.postValue(users)
+    private fun showUserData(userItemViewModel: ItemViewType) {
+        //userName.postValue(userItemViewModel.loginName.value)
+        val newItems: ArrayList<ItemViewType> = ArrayList(1)
+        newItems.add(userItemViewModel)
+        items.postValue(newItems)
     }
 
     private fun storeToDatabase(user: User) {
@@ -101,13 +109,13 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
 
     }
 
-    inner class UserObserver : ObserverAdapter<Resource<UserItemViewModel>>() {
+    inner class UserObserver : ObserverAdapter<Resource<ItemViewType>>() {
 
         override fun onSubscribe(d: Disposable) {
             getCompositeDisposable().add(d)
         }
 
-        override fun onNext(t: Resource<UserItemViewModel>) {
+        override fun onNext(t: Resource<ItemViewType>) {
             changeLoadingState(t.status == Status.LOADING)
             when (t.status) {
                 Status.ERROR -> handleErrorCase(t.requestError!!)

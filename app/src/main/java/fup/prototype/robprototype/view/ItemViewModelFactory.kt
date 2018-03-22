@@ -1,12 +1,13 @@
 package fup.prototype.robprototype.view
 
+import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.repository.model.User
 import fup.prototype.robprototype.search.UserItemViewModel
 
 class ItemViewModelFactory {
 
     companion object {
-        fun create(user: User?): UserItemViewModel {
+        fun create(user: User?): ItemViewType {
             user.let {
                 val viewModel = UserItemViewModel(user)
                 viewModel.loginName.postValue(user?.login)

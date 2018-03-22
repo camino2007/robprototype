@@ -1,6 +1,7 @@
 package com.rxdroid.repository
 
 import android.text.TextUtils
+import android.util.Log
 import com.rxdroid.api.error.RequestError
 import com.rxdroid.api.github.provider.GitHubUserProvider
 import com.rxdroid.repository.cache.UserCache
@@ -19,6 +20,10 @@ class UserUiRepository @Inject constructor(
         val gitHubUserProvider: GitHubUserProvider,
         val userDatabaseProvider: UserDatabaseProvider) : UiRepository<User> {
 
+    private object Constants {
+        const val TAG: String = "UserUiRepository"
+    }
+
     private val userCache: UserCache = UserCache(10L, TimeUnit.SECONDS)
 
     private var lastSearchValue: String? = null
@@ -29,6 +34,7 @@ class UserUiRepository @Inject constructor(
 
 
     override fun loadBySearchValue(searchValue: String): Observable<Resource<User>> {
+        Log.d(Constants.TAG, "loadBySearchValue - searchValue: " + searchValue)
         if (TextUtils.isEmpty(searchValue)) {
             userResource = Resource.error(RequestError.create(RequestError.ERROR_CODE_NO_SEARCH_INPUT), null)
             return Observable.just(userResource)

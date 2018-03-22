@@ -11,11 +11,11 @@ abstract class DelegateAdapter : ViewTypeDelegateAdapter {
     private var layoutInflater: LayoutInflater? = null
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        layoutInflater.let {
+        if (layoutInflater == null) {
             layoutInflater = LayoutInflater.from(parent.context)
         }
         val binding: ViewDataBinding = DataBindingUtil.inflate(layoutInflater!!, getLayoutId(), parent, false)
-        return BindingViewHolder(binding)
+        return DelegateAdapter.BindingViewHolder(binding)
     }
 
     abstract fun getLayoutId(): Int

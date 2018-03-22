@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.rxdroid.api.error.RequestError
+import fup.prototype.robprototype.BR
 import fup.prototype.robprototype.R
 import fup.prototype.robprototype.databinding.FragmentSearchBinding
 import fup.prototype.robprototype.util.DialogUtils
@@ -23,7 +24,7 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var userAdapter = UserAdapterNew()
+    private var userAdapter = UserAdapter()
 
     companion object {
         fun newInstance(): SearchFragment = SearchFragment()

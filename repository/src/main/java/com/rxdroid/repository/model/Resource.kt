@@ -14,8 +14,8 @@ class Resource<out T>(val status: Status, val data: T?, val requestError: Reques
             return Resource(Status.ERROR, data, requestError)
         }
 
-        fun <T> loading(data: T?): Resource<T> {
-            return Resource(Status.LOADING, data, null)
+        fun <T> loading(): Resource<T> {
+            return Resource(Status.LOADING, null, null)
         }
     }
 }
