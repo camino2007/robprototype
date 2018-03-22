@@ -31,11 +31,11 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
     private fun getOrCreateFragment(savedInstanceState: Bundle?): BaseFragment<*, *> {
-        return if (savedInstanceState != null) {
+        if (savedInstanceState != null) {
             val keyFragment: String = savedInstanceState.getString(KEY_FRAGMENT)
-            supportFragmentManager.getFragment(savedInstanceState, keyFragment) as BaseFragment<*, *>
+            return supportFragmentManager.getFragment(savedInstanceState, keyFragment) as BaseFragment<*, *>
         } else {
-            createInitialContentFragment()
+            return createInitialContentFragment()
         }
     }
 

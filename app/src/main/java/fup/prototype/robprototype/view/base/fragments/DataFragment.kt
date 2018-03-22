@@ -6,7 +6,6 @@ import com.rxdroid.api.error.RequestError
 import fup.prototype.robprototype.util.DialogUtils
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 
 
 abstract class DataFragment<B : ViewDataBinding, out LVM : BaseViewModel> : BaseFragment<B, LVM>() {
@@ -15,7 +14,7 @@ abstract class DataFragment<B : ViewDataBinding, out LVM : BaseViewModel> : Base
 
     override fun onResume() {
         super.onResume()
-        val errorDisposable: Disposable? = getViewModel()?.getErrorSubject()
+        val errorDisposable = getViewModel()?.getErrorSubject()
                 ?.subscribeOn(AndroidSchedulers.mainThread())
                 ?.subscribe({ requestError ->
                     errorDialog = createErrorDialog(requestError)

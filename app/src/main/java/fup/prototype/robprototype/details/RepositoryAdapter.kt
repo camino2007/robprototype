@@ -1,4 +1,4 @@
-package fup.prototype.robprototype.search
+package fup.prototype.robprototype.details
 
 import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView
@@ -6,21 +6,14 @@ import android.view.ViewGroup
 import com.rxdroid.common.AdapterConstants
 import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.common.adapter.ViewTypeDelegateAdapter
-import fup.prototype.robprototype.view.base.adapters.LoadingDelegateAdapter
 
-class UserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RepositoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: ArrayList<ItemViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
-    private val loadingItem = object : ItemViewType {
-        override fun getItemViewType(): Int {
-            return AdapterConstants.LOADING_ITEM
-        }
-    }
 
     init {
-        delegateAdapters.put(AdapterConstants.LOADING_ITEM, LoadingDelegateAdapter())
-        delegateAdapters.put(AdapterConstants.USER_ITEM, UserDelegateAdapter())
+        delegateAdapters.put(AdapterConstants.REPOSITORY_ITEM, RepositoryDelegateAdapter())
         items = ArrayList()
     }
 
@@ -40,28 +33,20 @@ class UserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return this.items[position].getItemViewType()
     }
 
+    fun clearAndAddItems(newItems: ArrayList<ItemViewType>) {
+        items.clear()
+        addItems(newItems)
+    }
+
     fun addItems(newItems: ArrayList<ItemViewType>) {
         var initPosition = 0
         if (!items.isEmpty()) {
-            initPosition = items.size - 1
-            if (getItemViewType(initPosition) == AdapterConstants.LOADING_ITEM) {
-                //remove loading item
-                items.removeAt(initPosition)
-                notifyItemRemoved(initPosition)
-            }
+            initPosition = items.size
         }
         if (!newItems.isEmpty()) {
             items.addAll(newItems)
-            if (newItems.size > 1) {
-                items.add(loadingItem)
-            }
             notifyItemRangeChanged(initPosition, items.size)
         }
-    }
-
-    fun clearAndAddItems(users: ArrayList<ItemViewType>) {
-        items.clear()
-        addItems(users)
     }
 
 }

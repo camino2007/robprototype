@@ -12,6 +12,6 @@ abstract class SearchModule {
     abstract fun bindSearchActivity(): SearchActivity
 
     @ContributesAndroidInjector
-    abstract fun bindKtSearchFragment(): SearchFragment
+    abstract fun bindSearchFragment(): SearchFragment
 
 }

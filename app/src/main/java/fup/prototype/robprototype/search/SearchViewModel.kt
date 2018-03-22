@@ -20,7 +20,7 @@ import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
+class SearchViewModel(private val repository: UserUiRepository) : BaseViewModel() {
 
     private object Constants {
         const val TAG: String = "SearchViewModel"
@@ -30,10 +30,9 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
 
     val searchValue: MutableLiveData<String> = MutableLiveData()
     val userName: MutableLiveData<String> = MutableLiveData()
-    private val userUiRepository = repository
-    private val publishRelay: PublishRelay<String> = PublishRelay.create()
-    private val items: MutableLiveData<ArrayList<ItemViewType>> = MutableLiveData()
 
+    private val items: MutableLiveData<ArrayList<ItemViewType>> = MutableLiveData()
+    private val publishRelay: PublishRelay<String> = PublishRelay.create()
 
     init {
         addRepositoryDisposable()
@@ -44,10 +43,10 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
                 .skip(1)
                 .distinctUntilChanged()
                 .filter({ searchValue -> searchValue.length >= Constants.MIN_LENGTH_SEARCH })
-                .switchMap<Resource<User>>({ searchValue -> Observable.concat(getLoadingObservable(), userUiRepository.loadBySearchValue(searchValue)) })
+                .switchMap<Resource<User>>({ searchValue -> Observable.concat(getLoadingObservable(), repository.loadBySearchValue(searchValue)) })
                 .switchMap<Resource<ItemViewType>>({ resource ->
                     run {
-                        val viewModel: ItemViewType = ItemViewModelFactory.create(resource.data)
+                        val viewModel: ItemViewType? = ItemViewModelFactory.create(resource.data)
                         val modelResource: Resource<ItemViewType> = Resource(resource.status, viewModel, resource.requestError)
                         return@run Observable.just(modelResource)
                     }
@@ -82,6 +81,7 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
     }
 
     private fun showUserData(userItemViewModel: ItemViewType) {
+        //TODO move to item view model
         //userName.postValue(userItemViewModel.loginName.value)
         val newItems: ArrayList<ItemViewType> = ArrayList(1)
         newItems.add(userItemViewModel)
@@ -89,7 +89,7 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
     }
 
     private fun storeToDatabase(user: User) {
-        userUiRepository.updateDatabase(user)
+        repository.updateDatabase(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(DatabaseWriteObserver())
@@ -116,8 +116,8 @@ class SearchViewModel(repository: UserUiRepository) : BaseViewModel() {
         }
 
         override fun onNext(t: Resource<ItemViewType>) {
-            changeLoadingState(t.status == Status.LOADING)
             when (t.status) {
+                Status.LOADING -> showLoadingState()
                 Status.ERROR -> handleErrorCase(t.requestError!!)
                 Status.SUCCESS -> {
                     // storeToDatabase(userResource.data)

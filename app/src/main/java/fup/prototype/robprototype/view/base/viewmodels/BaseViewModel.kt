@@ -28,10 +28,8 @@ open class BaseViewModel : ViewModel() {
         return compositeDisposable
     }
 
-    fun changeLoadingState(isLoading: Boolean) {
-        if (isLoading) {
-            setViewState(ViewState.LOADING)
-        }
+    fun showLoadingState() {
+        setViewState(ViewState.LOADING)
     }
 
     fun handleErrorCase(requestError: RequestError) {
