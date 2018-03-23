@@ -1,7 +1,6 @@
 package fup.prototype.robprototype.view.base
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
@@ -15,7 +14,9 @@ import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
-    private val KEY_FRAGMENT = "keyFragment"
+    private object Constants {
+        const val KEY_FRAGMENT = "keyFragment"
+    }
 
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
@@ -31,12 +32,11 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
     private fun getOrCreateFragment(savedInstanceState: Bundle?): BaseFragment<*, *> {
-        if (savedInstanceState != null) {
-            val keyFragment: String = savedInstanceState.getString(KEY_FRAGMENT)
+        savedInstanceState?.let {
+            val keyFragment = savedInstanceState.getString(Constants.KEY_FRAGMENT)
             return supportFragmentManager.getFragment(savedInstanceState, keyFragment) as BaseFragment<*, *>
-        } else {
-            return createInitialContentFragment()
         }
+        return createInitialContentFragment()
     }
 
     private fun initContent() {
@@ -44,10 +44,12 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
         fragmentManager.beginTransaction().replace(R.id.fragment_container, baseFragment).commit()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        super.onSaveInstanceState(outState, outPersistentState)
-        outState?.putString(KEY_FRAGMENT, baseFragment?.getKey())
-        supportFragmentManager.putFragment(outState, baseFragment?.getKey(), baseFragment)
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.let {
+            outState.putString(Constants.KEY_FRAGMENT, baseFragment?.getKey())
+            supportFragmentManager.putFragment(outState, baseFragment?.getKey(), baseFragment)
+        }
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment>? {

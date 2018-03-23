@@ -20,8 +20,8 @@ import javax.inject.Singleton
 
 @Singleton
 class UserUiRepository @Inject constructor(
-        val gitHubUserProvider: GitHubUserProvider,
-        val userDatabaseProvider: UserDatabaseProvider) : UiRepository<User> {
+        private val gitHubUserProvider: GitHubUserProvider,
+        private val userDatabaseProvider: UserDatabaseProvider) : UiRepository<User> {
 
     private object Constants {
         const val TAG: String = "UserUiRepository"
