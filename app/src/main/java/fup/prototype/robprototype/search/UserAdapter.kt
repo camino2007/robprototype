@@ -20,7 +20,7 @@ class UserAdapter(private val userClickHandler: SearchFragment.UserClickHandler)
 
     init {
         delegateAdapters.put(AdapterConstants.LOADING_ITEM, LoadingDelegateAdapter())
-        delegateAdapters.put(AdapterConstants.USER_ITEM, UserDelegateAdapter())
+        delegateAdapters.put(AdapterConstants.USER_ITEM, UserDelegateAdapter(userClickHandler))
         items = ArrayList()
     }
 
@@ -33,7 +33,7 @@ class UserAdapter(private val userClickHandler: SearchFragment.UserClickHandler)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(userClickHandler, holder, this.items[position])
+        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, this.items[position])
     }
 
     override fun getItemViewType(position: Int): Int {
