@@ -4,10 +4,10 @@ import android.arch.lifecycle.MutableLiveData
 import com.jakewharton.rxrelay2.PublishRelay
 import com.rxdroid.api.error.RequestError
 import com.rxdroid.common.adapter.ItemViewType
-import com.rxdroid.repository.UserUiRepository
 import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
+import com.rxdroid.repository.repositories.search.UserUiRepository
 import fup.prototype.robprototype.view.ItemViewModelFactory
 import fup.prototype.robprototype.view.base.adapters.ObserverAdapter
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel
@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit
 class SearchViewModel(private val repository: UserUiRepository) : BaseViewModel() {
 
     private object Constants {
-        const val TAG: String = "SearchViewModel"
         const val MIN_LENGTH_SEARCH: Int = 3
         const val DEBOUNCE_TIME_OUT: Long = 800L
     }
@@ -41,7 +40,7 @@ class SearchViewModel(private val repository: UserUiRepository) : BaseViewModel(
                 .skip(1)
                 .distinctUntilChanged()
                 .filter({ searchValue -> searchValue.length >= Constants.MIN_LENGTH_SEARCH })
-                .switchMap<Resource<User>>({ searchValue -> Observable.concat(getLoadingObservable(), repository.loadBySearchValue(searchValue)) })
+                .switchMap<Resource<User>>({ searchValue -> Observable.concat(getLoadingObservable(), repository.searchForUser(searchValue)) })
                 .switchMap<Resource<ItemViewType>>({ resource ->
                     run {
                         val viewModel: ItemViewType? = ItemViewModelFactory.create(resource.data)

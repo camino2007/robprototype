@@ -1,14 +1,13 @@
 package fup.prototype.robprototype.details
 
 import android.arch.lifecycle.MutableLiveData
-import android.util.Log
 import com.rxdroid.api.error.RequestError
 import com.rxdroid.common.adapter.ItemViewType
-import com.rxdroid.repository.GithubDetailsUiRepository
 import com.rxdroid.repository.model.Repository
 import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
+import com.rxdroid.repository.repositories.detail.DetailsUiRepository
 import fup.prototype.robprototype.view.ItemViewModelFactory
 import fup.prototype.robprototype.view.base.adapters.ObserverAdapter
 import fup.prototype.robprototype.view.base.viewmodels.BaseViewModel
@@ -19,11 +18,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 
-class DetailViewModel(private val repository: GithubDetailsUiRepository) : BaseViewModel() {
-
-    private object Constants {
-        const val TAG: String = "DetailViewModel"
-    }
+class DetailViewModel(private val repository: DetailsUiRepository) : BaseViewModel() {
 
     val userName: MutableLiveData<String> = MutableLiveData()
 
@@ -34,7 +29,7 @@ class DetailViewModel(private val repository: GithubDetailsUiRepository) : BaseV
     }
 
     fun loadReposForUser(user: User) {
-        Observable.concat(getLoadingObservable(), repository.loadBySearchValue(user.login))
+        Observable.concat(getLoadingObservable(), repository.loadReposForUser(user))
                 .switchMap<Resource<ArrayList<ItemViewType>>>({ resource: Resource<List<Repository>> ->
                     kotlin.run {
                         val repositories = resource.data
@@ -53,7 +48,6 @@ class DetailViewModel(private val repository: GithubDetailsUiRepository) : BaseV
     }
 
     private fun handleSuccessCase(newItems: ArrayList<ItemViewType>?) {
-        Log.d(Constants.TAG, "handleSuccessCase - newItems?.size: " + newItems?.size)
         if (newItems != null) {
             setViewState(ViewState.DATA_LOADED)
             items.postValue(newItems)
@@ -72,10 +66,7 @@ class DetailViewModel(private val repository: GithubDetailsUiRepository) : BaseV
             when (t.status) {
                 Status.LOADING -> showLoadingState()
                 Status.ERROR -> handleErrorCase(t.requestError!!)
-                Status.SUCCESS -> {
-                    // storeToDatabase(userResource.data)
-                    handleSuccessCase(t.data)
-                }
+                Status.SUCCESS -> handleSuccessCase(t.data)
             }
         }
 
@@ -84,32 +75,6 @@ class DetailViewModel(private val repository: GithubDetailsUiRepository) : BaseV
         }
     }
 
-    /*
-
-    private void storeToDatabase(List<Repository> repositories) {
-        final Completable completable = detailsUiRepository.updateDatabase(repositories, user.getId());
-        completable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DatabaseWriteObserver());
-    }
-
-
-
-    private class DatabaseWriteObserver extends DisposableCompletableObserver {
-
-        @Override
-        public void onError(final Throwable e) {
-            //Database write transaction failed due of reasons ...
-            Log.e(TAG, "DatabaseWriteObserver - onError: ", e);
-        }
-
-        @Override
-        public void onComplete() {
-            Log.d(TAG, "DatabaseWriteObserver - onComplete: ");
-        }
-    }
-
-*/
 }
 
 

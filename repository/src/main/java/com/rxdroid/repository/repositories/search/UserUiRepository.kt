@@ -1,4 +1,4 @@
-package com.rxdroid.repository
+package com.rxdroid.repository.repositories.search
 
 import android.text.TextUtils
 import android.util.Log
@@ -21,7 +21,8 @@ import javax.inject.Singleton
 @Singleton
 class UserUiRepository @Inject constructor(
         private val gitHubUserProvider: GitHubUserProvider,
-        private val userDatabaseProvider: UserDatabaseProvider) : UiRepository<User> {
+        private val userDatabaseProvider: UserDatabaseProvider) : SearchRepository {
+
 
     private object Constants {
         const val TAG: String = "UserUiRepository"
@@ -35,8 +36,7 @@ class UserUiRepository @Inject constructor(
     override val cachedValue: Resource<User>?
         get() = userResource
 
-
-    override fun loadBySearchValue(searchValue: String): Observable<Resource<User>> {
+    override fun searchForUser(searchValue: String): Observable<Resource<User>> {
         Log.d(Constants.TAG, "loadBySearchValue - searchValue: " + searchValue)
         if (TextUtils.isEmpty(searchValue)) {
             userResource = Resource.error(RequestError.create(RequestError.ERROR_CODE_NO_SEARCH_INPUT), null)
@@ -68,12 +68,11 @@ class UserUiRepository @Inject constructor(
                 })
     }
 
-
     fun hasValidCacheValue(currentSearchValue: String): Boolean {
         return userResource != null && userResource?.data != null && TextUtils.equals(lastSearchValue, currentSearchValue) && userCache.hasValidCachedData()
     }
 
-    fun updateDatabase(user: User): Completable {
+    private fun updateDatabase(user: User): Completable {
         Log.d(Constants.TAG, "updateDatabase")
         val userDto = UserDto()
         userDto.name = user.name

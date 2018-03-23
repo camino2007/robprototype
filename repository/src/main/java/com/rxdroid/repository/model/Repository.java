@@ -35,8 +35,8 @@ public abstract class Repository implements Serializable {
         abstract Repository build();
     }
 
-    public static List<Repository> fromApiList(@Nullable final List<GitHubRepoData> gitHubRepos) {
-        final List<Repository> repositories = new ArrayList<>();
+    public static ArrayList<Repository> fromApiList(@Nullable final List<GitHubRepoData> gitHubRepos) {
+        final ArrayList<Repository> repositories = new ArrayList<>();
         if (gitHubRepos != null && !gitHubRepos.isEmpty()) {
             for (final GitHubRepoData repo : gitHubRepos) {
                 final Repository repository = createFromApi(repo);
@@ -51,23 +51,4 @@ public abstract class Repository implements Serializable {
         return Repository.builder().setId(gitHubRepo.getIdRep()).setName(gitHubRepo.getName()).setFullName(gitHubRepo.getFullName()).build();
     }
 
-/*
-
-    public static List<Repository> fromEntityList(@Nullable final List<RepositoryEntity> realmRepositories) {
-        final List<Repository> repositories = new ArrayList<>();
-     *//*   if (realmRepositories != null && !realmRepositories.isEmpty()) {
-            for (RepositoryEntity repositoryEntity : realmRepositories) {
-                final Repository repository = createFromEntity(repositoryEntity);
-                repositories.add(repository);
-            }*//*
-
-        return repositories;
-    }
-
-    @NonNull
-    private static Repository createFromEntity(RepositoryEntity repositoryEntity) {
-        return Repository.builder().setId(repositoryEntity.getIdRep()).setName(repositoryEntity.getName()).setFullName(repositoryEntity.getFullName()).build();
-    }
-
-*/
 }
