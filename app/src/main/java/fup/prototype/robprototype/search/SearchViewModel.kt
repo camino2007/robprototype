@@ -1,7 +1,6 @@
 package fup.prototype.robprototype.search
 
 import android.arch.lifecycle.MutableLiveData
-import android.util.Log
 import com.jakewharton.rxrelay2.PublishRelay
 import com.rxdroid.api.error.RequestError
 import com.rxdroid.common.adapter.ItemViewType
@@ -16,7 +15,6 @@ import fup.prototype.robprototype.view.base.viewmodels.ViewState
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
@@ -88,27 +86,6 @@ class SearchViewModel(private val repository: UserUiRepository) : BaseViewModel(
         items.postValue(newItems)
     }
 
-    private fun storeToDatabase(user: User) {
-        repository.updateDatabase(user)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(DatabaseWriteObserver())
-    }
-
-    inner class DatabaseWriteObserver : DisposableCompletableObserver() {
-
-        override fun onComplete() {
-            // In case you want to know, when db write succeeded
-            Log.d(Constants.TAG, "DatabaseWriteObserver - onComplete")
-        }
-
-        override fun onError(e: Throwable) {
-            //Database write transaction failed due of reasons ...
-            Log.e(Constants.TAG, "DatabaseWriteObserver - onError: ", e)
-        }
-
-    }
-
     inner class UserObserver : ObserverAdapter<Resource<ItemViewType>>() {
 
         override fun onSubscribe(d: Disposable) {
@@ -119,10 +96,7 @@ class SearchViewModel(private val repository: UserUiRepository) : BaseViewModel(
             when (t.status) {
                 Status.LOADING -> showLoadingState()
                 Status.ERROR -> handleErrorCase(t.requestError!!)
-                Status.SUCCESS -> {
-                    // storeToDatabase(userResource.data)
-                    handleSuccessCase(t.data)
-                }
+                Status.SUCCESS -> handleSuccessCase(t.data)
             }
         }
 
