@@ -26,7 +26,7 @@ class RepositoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, this.items[position])
+        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(null, holder, this.items[position])
     }
 
     override fun getItemViewType(position: Int): Int {

@@ -1,6 +1,6 @@
 package com.rxdroid.common
 
-interface ItemClick<in T> {
+interface ItemClickHandler<in T> {
 
     fun onClick(t: T)
 }

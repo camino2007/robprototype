@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.rxdroid.api.error.RequestError
-import com.rxdroid.repository.model.User
+import com.rxdroid.common.ItemClickHandler
 import fup.prototype.robprototype.BR
 import fup.prototype.robprototype.R
 import fup.prototype.robprototype.databinding.FragmentSearchBinding
@@ -16,7 +16,6 @@ import fup.prototype.robprototype.util.DialogUtils
 import fup.prototype.robprototype.view.ViewModelFactory
 import fup.prototype.robprototype.view.base.fragments.DataFragment
 import fup.prototype.robprototype.view.base.viewmodels.ViewState
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -27,7 +26,7 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var userAdapter = UserAdapter()
+    private var userAdapter = UserAdapter(UserClickHandler())
 
     companion object {
         fun newInstance(): SearchFragment = SearchFragment()
@@ -61,7 +60,6 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
     override fun applyLiveDataObserver() {
         addUserObserver()
         addKeyboardObserver()
-        // addItemClickObserver()
     }
 
     private fun addKeyboardObserver() {
@@ -77,27 +75,9 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
             kotlin.run {
                 if (users != null && !users.isEmpty()) {
                     userAdapter.clearAndAddItems(users)
-                    addItemClickObserver()
                 }
             }
         })
-    }
-
-    private fun addItemClickObserver() {
-        val items = getViewModel()?.getItems()?.value
-        items?.let {
-            for (itemViewType in items) {
-                val viewModel = itemViewType as UserItemViewModel
-                val clickDisposable = viewModel.getClickSubject()
-                        .subscribeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ user: User ->
-                            val intent = DetailActivity.createIntent(context, user)
-                            context.startActivity(intent)
-                        })
-                addRxDisposable(clickDisposable)
-            }
-        }
-
     }
 
     override fun addViewListener() {
@@ -122,6 +102,15 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
             return DialogUtils.createOkCancelDialog(context, "ToDo", errorText, "Ok", "F*ck it", null, null)
         }
         return DialogUtils.createOkCancelDialog(context, "Möp", "A wild error occurred", "Ok", "F*ck it", null, null)
+
+    }
+
+    inner class UserClickHandler : ItemClickHandler<UserItemViewModel> {
+
+        override fun onClick(t: UserItemViewModel) {
+            val intent = DetailActivity.createIntent(context, t.getUser())
+            context.startActivity(intent)
+        }
 
     }
 }

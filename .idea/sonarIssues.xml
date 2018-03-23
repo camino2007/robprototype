@@ -1468,6 +1468,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/common/src/main/java/com/rxdroid/common/ItemClickHandler.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/common/src/main/java/com/rxdroid/common/adapter/DelegateAdapter.kt">
           <value>
             <set />
