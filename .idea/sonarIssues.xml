@@ -263,6 +263,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/build/generated/source/kapt/debug/android/databinding/DataBinderMapperImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/build/generated/source/kapt/debug/fup/prototype/robprototype/databinding/FragmentSearchBinding.java">
           <value>
             <set />
@@ -318,6 +323,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/AppGlideModule.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/AppModule.java">
           <value>
             <set />
@@ -339,6 +349,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/ProtoApplication.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/fup/prototype/robprototype/ProtoGlideModule.kt">
           <value>
             <set />
           </value>

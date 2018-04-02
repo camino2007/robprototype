@@ -12,8 +12,10 @@ class ItemViewModelFactory {
         fun create(user: User?): ItemViewType? {
             user?.let {
                 val viewModel = UserItemViewModel(user)
-                viewModel.loginName.postValue(user.login)
+                viewModel.userLogin.postValue(user.login)
+                viewModel.userName.postValue(user.name)
                 viewModel.repoCounter.postValue(user.publicRepoCount.toString())
+                viewModel.avatarUrl.postValue(user.avatarUrl)
                 return viewModel
             }
             return null

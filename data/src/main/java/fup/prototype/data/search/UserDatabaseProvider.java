@@ -65,6 +65,7 @@ public class UserDatabaseProvider extends RoomDatabaseProvider implements UserDa
                 .map(new Function<List<UserEntity>, List<UserDto>>() {
                     @Override
                     public List<UserDto> apply(List<UserEntity> userEntities) throws Exception {
+                        //TODO
                         final List<UserDto> userDtos = new ArrayList<>();
                         return userDtos;
                     }

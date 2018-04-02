@@ -56,7 +56,7 @@ class DetailFragment : DataFragment<FragmentDetailsBinding, DetailViewModel>() {
 
     override fun onResume() {
         super.onResume()
-        val user: User = arguments.getSerializable(DetailActivity.DetailConstants.KEY_USER) as User
+        val user: User = arguments?.getSerializable(DetailActivity.DetailConstants.KEY_USER) as User
         getViewModel()?.loadReposForUser(user)
     }
 
@@ -75,7 +75,7 @@ class DetailFragment : DataFragment<FragmentDetailsBinding, DetailViewModel>() {
     }
 
     override fun createErrorDialog(requestError: RequestError): AlertDialog {
-        return DialogUtils.createOkCancelDialog(context, "Möp", "A wild error occurred", "Ok", "Fuck it", null, null)
+        return DialogUtils.createOkCancelDialog(context!!, "Möp", "A wild error occurred", "Ok", "F*ck it", null, null)
 
     }
 

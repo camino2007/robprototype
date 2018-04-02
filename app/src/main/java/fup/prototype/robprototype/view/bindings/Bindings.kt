@@ -2,6 +2,8 @@ package fup.prototype.robprototype.view.bindings
 
 import android.databinding.BindingAdapter
 import android.view.View
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 
 object Bindings {
 
@@ -13,6 +15,15 @@ object Bindings {
         } else {
             View.GONE
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("glideAvatarUrl")
+    fun setGlideAvatarUrl(view: ImageView, url: String) {
+        Glide.with(view.context)
+                .asDrawable()
+                .load(url)
+                .into(view)
     }
 
 }

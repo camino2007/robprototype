@@ -28,8 +28,8 @@ abstract class BaseFragment<B : ViewDataBinding, out LVM : BaseViewModel> : Frag
         super.onAttach(context)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewBinding = DataBindingUtil.inflate(inflater!!, getLayoutId(), container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
         return viewBinding?.root
     }
 
@@ -53,10 +53,9 @@ abstract class BaseFragment<B : ViewDataBinding, out LVM : BaseViewModel> : Frag
     }
 
     protected fun hideKeyboard() {
-        val activity = activity
         if (context != null) {
-            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            val view = activity.currentFocus
+            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val view = activity?.currentFocus
             if (view != null) {
                 imm.hideSoftInputFromWindow(view.windowToken, 0)
             }

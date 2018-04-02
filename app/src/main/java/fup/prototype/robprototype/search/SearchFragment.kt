@@ -95,21 +95,24 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
 
     override fun createErrorDialog(requestError: RequestError): AlertDialog {
         if (requestError.response != null && requestError.response!!.code() == HttpURLConnection.HTTP_NOT_FOUND) {
-            return DialogUtils.createOkCancelDialog(context, "Möp", "User not found", "Ok", "F*ck it", null, null)
+            return DialogUtils.createOkCancelDialog(context!!, "Möp", "User not found", "Ok", "F*ck it", null, null)
         }
         if (requestError.errorCode == RequestError.ERROR_CODE_NO_SEARCH_INPUT) {
             val errorText = "If you leave this field blank, sooner or later I'll load all users."
-            return DialogUtils.createOkCancelDialog(context, "ToDo", errorText, "Ok", "F*ck it", null, null)
+            return DialogUtils.createOkCancelDialog(context!!, "ToDo", errorText, "Ok", "F*ck it", null, null)
         }
-        return DialogUtils.createOkCancelDialog(context, "Möp", "A wild error occurred", "Ok", "F*ck it", null, null)
+        return DialogUtils.createOkCancelDialog(context!!, "Möp", "A wild error occurred", "Ok", "F*ck it", null, null)
 
     }
 
     inner class UserClickHandler : ItemClickHandler<UserItemViewModel> {
 
         override fun onClick(t: UserItemViewModel) {
-            val intent = DetailActivity.createIntent(context, t.getUser())
-            context.startActivity(intent)
+            context?.let {
+                val intent = DetailActivity.createIntent(context!!, t.getUser())
+                context!!.startActivity(intent)
+            }
+
         }
 
     }

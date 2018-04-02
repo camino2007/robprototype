@@ -77,6 +77,8 @@ dependencies {
     implementation appDependencies.lifeCycleExtentions
     implementation appDependencies.lifeCycleRxStreams
     annotationProcessor appDependencies.lifeCycleCompiler
+    implementation appDependencies.glide
+    kapt appDependencies.glideCompiler
 
     def developmentDependencies = rootProject.ext.developmentDependencies
 
