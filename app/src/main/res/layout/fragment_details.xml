@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="fup.prototype.robprototype.view.base.viewmodels.ViewState" />
+        <import type="com.rxdroid.app.view.base.viewmodels.ViewState" />
 
         <variable
             name="viewModel"
-            type="fup.prototype.robprototype.details.DetailViewModel" />
+            type="com.rxdroid.app.details.DetailViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

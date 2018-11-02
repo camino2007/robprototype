@@ -1,24 +1,12 @@
 package com.rxdroid.repository.di
 
-import com.rxdroid.api.di.ApiComponent
-import com.rxdroid.repository.repositories.UiRepository
-import com.rxdroid.repository.repositories.detail.DetailsUiRepository
-import com.rxdroid.repository.repositories.search.UserUiRepository
-import dagger.Module
-import dagger.Provides
-import fup.prototype.data.di.DataComponent
+import com.rxdroid.repository.repositories.search.UserSearchRepository
+import com.rxdroid.repository.repositories.search.UserSearchRepositoryImpl
+import org.koin.dsl.module.module
 
-@Module(subcomponents = arrayOf(ApiComponent::class, DataComponent::class))
-class RepositoryModule {
+val repositoryModule = module {
 
-    @Provides
-    fun provideUserUiRepository(userUiRepository: UserUiRepository): UiRepository<*> {
-        return userUiRepository
-    }
-
-    @Provides
-    fun provideGithubDetailsUiRepository(detailsUiRepository: DetailsUiRepository): UiRepository<*> {
-        return detailsUiRepository
-    }
+    single<UserSearchRepository> { UserSearchRepositoryImpl(get(), get()) }
 
 }
+

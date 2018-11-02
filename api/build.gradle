@@ -46,10 +46,9 @@ dependencies {
     def globalDependencies = rootProject.ext.globalDependencies
 
     implementation globalDependencies.kotlin
-    implementation globalDependencies.dagger
-    kapt globalDependencies.daggerCompiler
     implementation globalDependencies.rxAndroid
     implementation globalDependencies.rxJava
+    api globalDependencies.koin
     implementation globalDependencies.androidSupportDesgin
 
     def apiDependencies = rootProject.ext.apiDependencies
@@ -66,4 +65,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 
+}
+repositories {
+    mavenCentral()
 }

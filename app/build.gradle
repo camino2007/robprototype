@@ -10,7 +10,7 @@ android {
     buildToolsVersion globalConfiguration["buildToolsVersion"]
 
     defaultConfig {
-        applicationId "fup.prototype.robprototype"
+        applicationId "com.rxdroid.app"
         minSdkVersion globalConfiguration["minSdkVersion"]
         targetSdkVersion globalConfiguration["targetSdkVersion"]
         versionCode 1
@@ -54,18 +54,15 @@ dependencies {
     def globalDependencies = rootProject.ext.globalDependencies
 
     implementation globalDependencies.kotlin
-    implementation globalDependencies.dagger
-    kapt globalDependencies.daggerCompiler
     implementation globalDependencies.rxAndroid
     implementation globalDependencies.rxJava
+    implementation globalDependencies.rxKotlin
+    implementation globalDependencies.koin
+    implementation globalDependencies.koinViewModel
     implementation globalDependencies.androidSupportDesgin
 
     def appDependencies = rootProject.ext.appDependencies
 
-    implementation appDependencies.daggerAndroid
-    implementation appDependencies.daggerAndroidSupport
-    kapt appDependencies.daggerAndroidProcessor
-    kapt appDependencies.daggerAndroidSupport
     implementation appDependencies.rxBindingKotlin
     implementation appDependencies.rxRelay
     implementation appDependencies.constraintLayout

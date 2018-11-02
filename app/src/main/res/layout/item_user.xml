@@ -6,12 +6,8 @@
     <data>
 
         <variable
-            name="handler"
-            type="fup.prototype.robprototype.search.SearchFragment.UserClickHandler" />
-
-        <variable
             name="viewModel"
-            type="fup.prototype.robprototype.search.UserItemViewModel" />
+            type="com.rxdroid.app.search.UserItemViewModel" />
     </data>
 
 
@@ -27,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="12dp"
-            android:onClick="@{() -> handler.onClick(viewModel)}"
+            android:onClick="@{() -> viewModel.onClick(viewModel)}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <ImageView
@@ -36,10 +32,10 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                app:glideAvatarUrl="@{viewModel.avatarUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:glideAvatarUrl="@{viewModel.avatarUrl}" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/user_login"

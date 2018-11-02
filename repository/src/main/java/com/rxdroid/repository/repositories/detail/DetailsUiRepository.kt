@@ -3,24 +3,20 @@ package com.rxdroid.repository.repositories.detail
 import android.text.TextUtils
 import android.util.Log
 import com.rxdroid.api.error.RequestError
-import com.rxdroid.api.github.provider.GitHubRepositoryProvider
+import com.rxdroid.api.github.search.SearchApiProvider
+import com.rxdroid.data.details.RepositoryDatabaseProvider
+import com.rxdroid.data.details.RepositoryDto
 import com.rxdroid.repository.model.Repository
 import com.rxdroid.repository.model.Resource
-import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
-import fup.prototype.data.details.RepositoryDatabaseProvider
-import fup.prototype.data.details.RepositoryDto
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.observers.DisposableCompletableObserver
-import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class DetailsUiRepository @Inject constructor(
-        val gitHubRepositoryProvider: GitHubRepositoryProvider,
-        val repositoryDatabaseProvider: RepositoryDatabaseProvider) : DetailRepository {
+
+class DetailsUiRepository constructor(
+        private val searchApiProvider: SearchApiProvider,
+        private val repositoryDatabaseProvider: RepositoryDatabaseProvider) : DetailRepository {
 
 
     private object Constants {
@@ -40,24 +36,24 @@ class DetailsUiRepository @Inject constructor(
             return Observable.just(listResource)
         }
         lastSearchValue = user.login
-        return gitHubRepositoryProvider.loadBySearchValue(user.login)
-                .map({ listResponse ->
+        return searchApiProvider.findUserBySearchValue(user.login)
+                .map { listResponse ->
                     if (listResponse.isSuccessful) {
                         val repositories = Repository.fromApiList(listResponse.body())
                         listResource = Resource.success(repositories)
                     } else {
-                        val requestError = RequestError.create(listResponse, null)
+                        val requestError = RequestError.create(listResponse)
                         listResource = Resource.error(requestError, null)
                     }
                     return@map listResource!!
-                })
-                .doOnNext({ listResource ->
-                    if (listResource.status == Status.SUCCESS) {
-                        updateDatabase(listResource.data!!, user.id)
-                                .subscribeOn(Schedulers.io())
-                                .subscribe(DatabaseWriteObserver())
-                    }
-                })
+                }
+        /*   .doOnNext { listResource ->
+               if (listResource.status == Status.SUCCESS) {
+                   updateDatabase(listResource.data!!, user.id)
+                           .subscribeOn(Schedulers.io())
+                           .subscribe(DatabaseWriteObserver())
+               }
+           }*/
     }
 
 

@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="fup.prototype.robprototype.view.base.viewmodels.ViewState" />
+        <import type="com.rxdroid.app.view.base.viewmodels.ViewState" />
 
         <variable
             name="viewModel"
-            type="fup.prototype.robprototype.search.SearchViewModel" />
+            type="com.rxdroid.app.search.SearchViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

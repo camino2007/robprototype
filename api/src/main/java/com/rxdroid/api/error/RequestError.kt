@@ -4,28 +4,27 @@ import retrofit2.Response
 import java.net.ConnectException
 import java.net.UnknownHostException
 
-abstract class RequestError(val response: Response<*>?,
-                            val throwable: Throwable?,
-                            val errorCode: Int) {
+sealed class RequestError {
 
     companion object {
 
-        val ERROR_CODE_NO_SEARCH_INPUT = 102
-        val ERROR_CODE_NO_RESULTS = 103
+        const val ERROR_CODE_NO_SEARCH_INPUT = 102
 
-        fun create(response: Response<*>?, throwable: Throwable?): RequestError {
-            if (throwable != null) {
-                if (throwable is ConnectException || throwable is UnknownHostException) {
-                    return NoConnectionRequestError(throwable)
-                }
-            }
-            return GeneralRequestError(response, throwable)
+        fun create(throwable: Throwable?): RequestError = when (throwable) {
+            is ConnectException, is UnknownHostException -> NoConnectionRequestError(throwable)
+            else -> GeneralRequestError(throwable)
         }
 
-        fun create(errorCode: Int): RequestError {
-            return CustomRequestError(errorCode)
-        }
+        fun create(errorCode: Int) = CustomRequestError(errorCode)
 
+        fun create(response: Response<*>?) = ServerRequestError(response)
     }
-
 }
+
+data class NoConnectionRequestError(val throwable: Throwable?) : RequestError()
+
+data class GeneralRequestError(val throwable: Throwable?) : RequestError()
+
+data class CustomRequestError(val errorCode: Int) : RequestError()
+
+data class ServerRequestError(val response: Response<*>?) : RequestError()

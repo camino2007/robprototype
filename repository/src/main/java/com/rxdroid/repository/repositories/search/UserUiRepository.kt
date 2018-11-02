@@ -3,23 +3,20 @@ package com.rxdroid.repository.repositories.search
 import android.text.TextUtils
 import android.util.Log
 import com.rxdroid.api.error.RequestError
-import com.rxdroid.api.github.provider.GitHubUserProvider
 import com.rxdroid.repository.cache.UserCache
 import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
-import fup.prototype.data.search.UserDatabaseProvider
-import fup.prototype.data.search.UserDto
+import com.rxdroid.data.search.UserDatabaseProvider
+import com.rxdroid.data.search.UserDto
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class UserUiRepository @Inject constructor(
+
+class UserUiRepository constructor(
         private val gitHubUserProvider: GitHubUserProvider,
         private val userDatabaseProvider: UserDatabaseProvider) : SearchRepository {
 
@@ -48,24 +45,24 @@ class UserUiRepository @Inject constructor(
         }
         this.lastSearchValue = searchValue
         return gitHubUserProvider.loadBySearchValue(searchValue)
-                .map({ userDataResponse ->
-                    if (userDataResponse.isSuccessful) {
+                .map { userDataResponse ->
+                    userResource = if (userDataResponse.isSuccessful) {
                         val user = User.fromApi(userDataResponse.body())
                         userCache.setData(user)
-                        userResource = Resource.success(user)
+                        Resource.success(user)
                     } else {
-                        val requestError = RequestError.create(userDataResponse, null)
-                        userResource = Resource.error(requestError, null)
+                        val requestError = RequestError.create(userDataResponse)
+                        Resource.error(requestError, null)
                     }
                     return@map userResource!!
-                })
-                .doOnNext({ userResource ->
+                }
+                .doOnNext { userResource ->
                     if (userResource.status == Status.SUCCESS) {
                         updateDatabase(userResource.data!!)
                                 .subscribeOn(Schedulers.io())
                                 .subscribe(DatabaseWriteObserver())
                     }
-                })
+                }
     }
 
     fun hasValidCacheValue(currentSearchValue: String): Boolean {
