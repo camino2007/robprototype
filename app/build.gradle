@@ -1,26 +1,25 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
 
-    def globalConfiguration = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion globalConfiguration["compileSdkVersion"]
-    buildToolsVersion globalConfiguration["buildToolsVersion"]
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
         applicationId "com.rxdroid.app"
-        minSdkVersion globalConfiguration["minSdkVersion"]
-        targetSdkVersion globalConfiguration["targetSdkVersion"]
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode versions.code
+        versionName versions.name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     packagingOptions {
@@ -51,43 +50,40 @@ dependencies {
 
     implementation project(path: ':repository')
 
-    def globalDependencies = rootProject.ext.globalDependencies
+    implementation libraries.kotlin
+    implementation libraries.rxAndroid
+    implementation libraries.rxJava
+    implementation libraries.rxKotlin
+    implementation libraries.koin
+    implementation libraries.koinViewModel
 
-    implementation globalDependencies.kotlin
-    implementation globalDependencies.rxAndroid
-    implementation globalDependencies.rxJava
-    implementation globalDependencies.rxKotlin
-    implementation globalDependencies.koin
-    implementation globalDependencies.koinViewModel
-    implementation globalDependencies.androidSupportDesgin
-
-    def appDependencies = rootProject.ext.appDependencies
-
-    implementation appDependencies.rxBindingKotlin
-    implementation appDependencies.rxRelay
-    implementation appDependencies.constraintLayout
-    annotationProcessor appDependencies.autoValue
-    compileOnly appDependencies.autoValueAnnotations
-    implementation appDependencies.androidSupportAppCompat
-    implementation appDependencies.androidSupportCardView
-    // ViewModel and LiveData
-    implementation appDependencies.lifeCycleExtentions
-    implementation appDependencies.lifeCycleRxStreams
-    annotationProcessor appDependencies.lifeCycleCompiler
-    implementation appDependencies.glide
-    kapt appDependencies.glideCompiler
-
-    def developmentDependencies = rootProject.ext.developmentDependencies
-
-    implementation developmentDependencies.leakCanary
-    releaseImplementation developmentDependencies.leakCanaryNoOp
-    testImplementation developmentDependencies.leakCanaryNoOp
+    implementation libraries.rxBindingKotlin
+    implementation libraries.rxRelay
+    implementation libraries.constraintLayout
+    kapt libraries.autoValue
+    compileOnly libraries.autoValueAnnotations
+    implementation libraries.androidSupportAppCompat
+    implementation libraries.androidSupportCardView
+    implementation libraries.androidSupportDesgin
 
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    testImplementation 'junit:junit:4.12'
+    // ViewModel and LiveData
+    implementation libraries.lifeCycleExtentions
+    implementation libraries.lifeCycleRxStreams
+    kapt libraries.lifeCycleCompiler
+    implementation libraries.glide
+    kapt libraries.glideCompiler
+
+    implementation libraries.leakCanary
+    releaseImplementation libraries.leakCanaryNoOp
+    testImplementation libraries.leakCanaryNoOp
+
+    testImplementation libraries.junit
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
 }
 repositories {

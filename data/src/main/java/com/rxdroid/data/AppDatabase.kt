@@ -4,10 +4,12 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import com.rxdroid.data.details.UserRepositoryEntity
 import com.rxdroid.data.room.dao.UserDaoRoom
 import com.rxdroid.data.room.dao.UserRepositoryRoomDao
+import com.rxdroid.data.search.UserEntity
 
-@Database(entities = [UserDaoRoom::class, UserRepositoryRoomDao::class], version = 1)
+@Database(entities = [UserEntity::class, UserRepositoryEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDaoRoom(): UserDaoRoom

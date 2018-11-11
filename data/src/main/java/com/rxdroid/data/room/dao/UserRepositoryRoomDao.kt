@@ -4,6 +4,7 @@ import android.arch.persistence.room.*
 import com.rxdroid.data.details.UserRepositoryEntity
 import io.reactivex.Maybe
 
+@Dao
 interface UserRepositoryRoomDao {
 
     @Query("SELECT * FROM RepositoryEntity WHERE github_user_id LIKE :userId LIMIT 1")

@@ -4,26 +4,16 @@ apply plugin: 'kotlin-kapt'
 
 android {
 
-    def globalConfiguration = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion globalConfiguration["compileSdkVersion"]
-    buildToolsVersion globalConfiguration["buildToolsVersion"]
+    // Declared in dependencies.gradle in the root of the project.
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
-
-        defaultPublishConfig 'release'
-        publishNonDefault true
-
-        minSdkVersion globalConfiguration["minSdkVersion"]
-        targetSdkVersion globalConfiguration["targetSdkVersion"]
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode versions.code
+        versionName versions.name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     buildTypes {
@@ -33,10 +23,6 @@ android {
         }
     }
 
-    packagingOptions {
-        exclude 'META-INF/rxjava.properties'
-    }
-
 }
 
 dependencies {
@@ -44,31 +30,25 @@ dependencies {
     api project(path: ':api')
     api project(path: ':data')
 
-    def globalDependencies = rootProject.ext.globalDependencies
+    implementation libraries.kotlin
+    implementation libraries.rxAndroid
+    implementation libraries.rxJava
+    implementation libraries.koin
 
-    implementation globalDependencies.kotlin
-    implementation globalDependencies.rxAndroid
-    implementation globalDependencies.rxJava
-    implementation globalDependencies.koin
-    implementation globalDependencies.androidSupportDesgin
+    kapt libraries.autoValue
+    compileOnly libraries.autoValueAnnotations
+    implementation libraries.retrofit
 
-    def repositoryDependencies = rootProject.ext.repositoryDependencies
+    implementation libraries.leakCanary
+    releaseImplementation libraries.leakCanaryNoOp
+    testImplementation libraries.leakCanaryNoOp
 
-    kapt repositoryDependencies.autoValue
-    compileOnly repositoryDependencies.autoValueAnnotations
-    implementation repositoryDependencies.retrofit
-
-    def developmentDependencies = rootProject.ext.developmentDependencies
-
-    implementation developmentDependencies.leakCanary
-    releaseImplementation developmentDependencies.leakCanaryNoOp
-    testImplementation developmentDependencies.leakCanaryNoOp
-
+    implementation libraries.androidSupportDesgin
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation libraries.junit
 
 }
 repositories {
