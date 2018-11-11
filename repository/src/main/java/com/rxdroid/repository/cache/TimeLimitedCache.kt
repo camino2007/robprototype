@@ -4,8 +4,8 @@ import java.util.concurrent.TimeUnit
 
 abstract class TimeLimitedCache<T>(timeOut: Long, timeUnit: TimeUnit) : Cache<T> {
 
-    var savedTimeStamp: Long = -1L
-    var maxValidDuration: Long = -1L
+    private var savedTimeStamp: Long = -1L
+    private var maxValidDuration: Long = -1L
 
     init {
         this.maxValidDuration = TimeUnit.MILLISECONDS.convert(timeOut, timeUnit)

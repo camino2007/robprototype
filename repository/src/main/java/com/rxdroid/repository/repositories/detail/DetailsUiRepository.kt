@@ -1,3 +1,4 @@
+/*
 package com.rxdroid.repository.repositories.detail
 
 import android.text.TextUtils
@@ -47,13 +48,13 @@ class DetailsUiRepository constructor(
                     }
                     return@map listResource!!
                 }
-        /*   .doOnNext { listResource ->
+       .doOnNext { listResource ->
                if (listResource.status == Status.SUCCESS) {
                    updateDatabase(listResource.data!!, user.id)
                            .subscribeOn(Schedulers.io())
                            .subscribe(DatabaseWriteObserver())
                }
-           }*/
+           }
     }
 
 
@@ -88,4 +89,4 @@ class DetailsUiRepository constructor(
         }
 
     }
-}
+}*/

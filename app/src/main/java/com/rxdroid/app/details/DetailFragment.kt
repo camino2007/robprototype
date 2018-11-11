@@ -1,23 +1,22 @@
 package com.rxdroid.app.details
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.rxdroid.api.error.RequestError
-import com.rxdroid.app.util.DialogUtils
-import com.rxdroid.app.view.ViewModelFactory
-import com.rxdroid.app.view.base.fragments.DataFragment
-import com.rxdroid.repository.model.User
 import com.rxdroid.app.BR
 import com.rxdroid.app.R
 import com.rxdroid.app.databinding.FragmentDetailsBinding
+import com.rxdroid.app.util.DialogUtils
+import com.rxdroid.app.view.base.fragments.DataFragment
+import com.rxdroid.repository.model.User
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailFragment : DataFragment<FragmentDetailsBinding, DetailViewModel>() {
 
-    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: DetailViewModel by viewModel()
 
     private var repositoryAdapter = RepositoryAdapter()
 
@@ -44,9 +43,7 @@ class DetailFragment : DataFragment<FragmentDetailsBinding, DetailViewModel>() {
         recyclerView?.layoutManager = linearLayoutManager
     }
 
-    override fun createViewModel(): DetailViewModel? {
-        return ViewModelProviders.of(this, viewModelFactory).get(DetailViewModel::class.java)
-    }
+    override fun createViewModel(): DetailViewModel? = viewModel
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_details

@@ -3,7 +3,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.rxdroid.api.github.GitHubApi
-import com.rxdroid.api.github.details.DetailsProvider
+import com.rxdroid.api.github.details.DetailsApiProvider
 import com.rxdroid.api.github.details.DetailsProviderImpl
 import com.rxdroid.api.github.search.SearchApiProvider
 import com.rxdroid.api.github.search.SearchProviderImpl
@@ -31,7 +31,7 @@ val apiModule = module {
 
     single<SearchApiProvider> { SearchProviderImpl(get()) }
 
-    single<DetailsProvider> { DetailsProviderImpl(get()) }
+    single<DetailsApiProvider> { DetailsProviderImpl(get()) }
 
 }
 
