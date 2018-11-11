@@ -15,7 +15,4 @@ val appModule = module {
     viewModel { DetailViewModel(get()) }
 }
 
-val appModuleList = listOf(appModule, apiModule, dataModule, repositoryModule)
-
-
-
+val appModuleList = listOf(apiModule, dataModule, repositoryModule, appModule)

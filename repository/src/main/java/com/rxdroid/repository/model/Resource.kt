@@ -10,8 +10,8 @@ class Resource<out T>(val status: Status, val data: T?, val requestError: Reques
             return Resource(Status.SUCCESS, data, null)
         }
 
-        fun <T> error(requestError: RequestError, data: T?): Resource<T> {
-            return Resource(Status.ERROR, data, requestError)
+        fun <T> error(requestError: RequestError): Resource<T> {
+            return Resource(Status.ERROR, null, requestError)
         }
 
         fun <T> loading(): Resource<T> {

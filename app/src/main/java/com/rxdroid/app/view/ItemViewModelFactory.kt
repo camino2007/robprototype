@@ -9,9 +9,9 @@ import com.rxdroid.app.search.UserItemViewModel
 class ItemViewModelFactory {
 
     companion object {
-        fun create(user: User?): ItemViewType? {
+        fun create(user: User?, clickListener: (User) -> Unit): ItemViewType? {
             user?.let {
-                val viewModel = UserItemViewModel(user)
+                val viewModel = UserItemViewModel(user, clickListener)
                 viewModel.userLogin.postValue(user.login)
                 viewModel.userName.postValue(user.name)
                 viewModel.repoCounter.postValue(user.publicRepoCount.toString())

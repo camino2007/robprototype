@@ -29,9 +29,9 @@ val apiModule = module {
 
     single { provideGitHubApi(get()) }
 
-    single<SearchApiProvider> { SearchProviderImpl(get()) }
+    single { SearchProviderImpl(get()) as SearchApiProvider }
 
-    single<DetailsApiProvider> { DetailsProviderImpl(get()) }
+    single { DetailsProviderImpl(get()) as DetailsApiProvider }
 
 }
 

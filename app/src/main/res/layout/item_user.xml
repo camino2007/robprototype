@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="12dp"
-            android:onClick="@{() -> viewModel.onClick(viewModel)}"
+            android:onClick="@{() -> viewModel.onClick()}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <ImageView

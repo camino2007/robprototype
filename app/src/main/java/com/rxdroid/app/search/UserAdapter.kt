@@ -8,7 +8,7 @@ import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.common.adapter.ViewTypeDelegateAdapter
 import com.rxdroid.app.view.base.adapters.LoadingDelegateAdapter
 
-class UserAdapter(private val userClickHandler: SearchFragment.UserClickHandler) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class UserAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: ArrayList<ItemViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
@@ -20,7 +20,7 @@ class UserAdapter(private val userClickHandler: SearchFragment.UserClickHandler)
 
     init {
         delegateAdapters.put(AdapterConstants.LOADING_ITEM, LoadingDelegateAdapter())
-        delegateAdapters.put(AdapterConstants.USER_ITEM, UserDelegateAdapter(userClickHandler))
+        delegateAdapters.put(AdapterConstants.USER_ITEM, UserDelegateAdapter())
         items = ArrayList()
     }
 
@@ -40,7 +40,7 @@ class UserAdapter(private val userClickHandler: SearchFragment.UserClickHandler)
         return this.items[position].getItemViewType()
     }
 
-    fun addItems(newItems: ArrayList<ItemViewType>) {
+    fun addItems(newItems: List<ItemViewType>?) {
         var initPosition = 0
         if (!items.isEmpty()) {
             initPosition = items.size - 1
@@ -50,7 +50,7 @@ class UserAdapter(private val userClickHandler: SearchFragment.UserClickHandler)
                 notifyItemRemoved(initPosition)
             }
         }
-        if (!newItems.isEmpty()) {
+        if (newItems!=null && !newItems.isEmpty()) {
             items.addAll(newItems)
             if (newItems.size > 1) {
                 items.add(loadingItem)
@@ -59,7 +59,7 @@ class UserAdapter(private val userClickHandler: SearchFragment.UserClickHandler)
         }
     }
 
-    fun clearAndAddItems(users: ArrayList<ItemViewType>) {
+    fun clearAndAddItems(users: List<ItemViewType>?) {
         items.clear()
         addItems(users)
     }

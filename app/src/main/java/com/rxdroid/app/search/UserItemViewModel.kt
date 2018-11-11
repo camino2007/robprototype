@@ -6,7 +6,7 @@ import com.rxdroid.common.AdapterConstants
 import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.repository.model.User
 
-class UserItemViewModel(private val user: User) : ViewModel(), ItemViewType {
+class UserItemViewModel(private val user: User, private val clickListener: (User) -> Unit) : ViewModel(), ItemViewType {
 
     val userLogin: MutableLiveData<String> = MutableLiveData()
     val userName: MutableLiveData<String> = MutableLiveData()
@@ -21,8 +21,8 @@ class UserItemViewModel(private val user: User) : ViewModel(), ItemViewType {
         return user
     }
 
-    fun onClick(itemViewModel: UserItemViewModel){
-
+    fun onClick() {
+        user.let(clickListener)
     }
 
 }
