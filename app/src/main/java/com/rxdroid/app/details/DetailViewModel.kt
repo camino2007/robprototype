@@ -1,6 +1,6 @@
 package com.rxdroid.app.details
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.rxdroid.api.error.RequestError
 import com.rxdroid.app.view.base.adapters.ObserverAdapter
 import com.rxdroid.app.view.base.viewmodels.BaseViewModel

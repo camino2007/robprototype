@@ -1,8 +1,8 @@
 package com.rxdroid.app.details
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import com.rxdroid.common.adapter.DelegateAdapter
 import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.app.BR

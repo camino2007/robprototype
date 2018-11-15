@@ -21,7 +21,7 @@ class DetailActivity : BaseActivity() {
         }
     }
 
-    override fun createInitialContentFragment(): BaseFragment<*, *> {
+    override fun createInitialContentFragment(): BaseFragment<*> {
         val user: User = intent.getSerializableExtra(DetailConstants.KEY_USER) as User
         return DetailFragment.newInstance(user)
     }

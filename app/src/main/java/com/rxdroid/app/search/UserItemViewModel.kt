@@ -1,7 +1,7 @@
 package com.rxdroid.app.search
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.rxdroid.common.AdapterConstants
 import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.repository.model.User
@@ -15,10 +15,6 @@ class UserItemViewModel(private val user: User, private val clickListener: (User
 
     override fun getItemViewType(): Int {
         return AdapterConstants.USER_ITEM
-    }
-
-    fun getUser(): User {
-        return user
     }
 
     fun onClick() {

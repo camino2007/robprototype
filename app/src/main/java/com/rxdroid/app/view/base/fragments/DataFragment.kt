@@ -1,16 +1,16 @@
 package com.rxdroid.app.view.base.fragments
 
-import android.databinding.ViewDataBinding
-import android.support.v7.app.AlertDialog
+import androidx.databinding.ViewDataBinding
+import androidx.appcompat.app.AlertDialog
 import com.rxdroid.api.error.RequestError
 import com.rxdroid.app.util.DialogUtils
 import com.rxdroid.app.view.base.viewmodels.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 
-abstract class DataFragment<B : ViewDataBinding, out LVM : BaseViewModel> : BaseFragment<B, LVM>() {
+abstract class DataFragment<B : ViewDataBinding> : BaseFragment<B>() {
 
-    private var errorDialog: AlertDialog? = null
+    /*private var errorDialog: AlertDialog? = null
 
     override fun onResume() {
         super.onResume()
@@ -32,6 +32,6 @@ abstract class DataFragment<B : ViewDataBinding, out LVM : BaseViewModel> : Base
         super.onPause()
     }
 
-    protected abstract fun createErrorDialog(requestError: RequestError): AlertDialog
+    protected abstract fun createErrorDialog(requestError: RequestError): AlertDialog*/
 }
 

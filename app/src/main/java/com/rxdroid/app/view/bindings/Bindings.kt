@@ -1,6 +1,6 @@
 package com.rxdroid.app.view.bindings
 
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide

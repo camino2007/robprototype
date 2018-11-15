@@ -1,15 +1,15 @@
 package com.rxdroid.app.view
 
 
-interface ViewProvider<in B, out LVM> {
-
-    fun createViewModel(): LVM?
+interface ViewProvider<in B> {
 
     fun getLayoutId(): Int
 
+    fun getKey(): String
+
     fun addViewListener()
 
-    fun initBinding(binding: B?)
+    fun initBinding(binding: B)
 
 }
 

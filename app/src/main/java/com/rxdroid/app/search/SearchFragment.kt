@@ -1,25 +1,21 @@
 package com.rxdroid.app.search
 
-import android.arch.lifecycle.Observer
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.widget.textChanges
-import com.rxdroid.api.error.RequestError
 import com.rxdroid.app.BR
 import com.rxdroid.app.R
 import com.rxdroid.app.databinding.FragmentSearchBinding
 import com.rxdroid.app.details.DetailActivity
-import com.rxdroid.app.util.DialogUtils
-import com.rxdroid.app.view.base.fragments.DataFragment
+import com.rxdroid.app.view.base.fragments.BaseFragment
 import com.rxdroid.app.view.base.viewmodels.ViewState
-import com.rxdroid.common.ItemClickHandler
 import com.rxdroid.repository.model.User
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.addTo
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
+class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private val viewModel: SearchViewModel by viewModel()
 
@@ -29,21 +25,30 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
         fun newInstance(): SearchFragment = SearchFragment()
     }
 
-    override fun createViewModel(): SearchViewModel = viewModel
-
-    override fun initBinding(binding: FragmentSearchBinding?) {
-        binding?.setVariable(BR.viewModel, getViewModel())
-        binding?.setLifecycleOwner(this)
+    override fun initBinding(binding: FragmentSearchBinding) {
+        binding.setVariable(BR.viewModel, viewModel)
+        binding.setLifecycleOwner(viewLifecycleOwner)
         setupUserAdapter()
-        viewModel.getUserItems().observe(this, Observer { it -> userAdapter.clearAndAddItems(it) })
-        viewModel.getClickedUserItem().observe(this, Observer { it -> onClick(it) })
+        viewModel.getUserItems()
+                .observe(viewLifecycleOwner, Observer { it -> userAdapter.clearAndAddItems(it) })
+        viewModel.getClickedUserItem()
+                .observe(viewLifecycleOwner, Observer { it -> onClick(it) })
+        viewModel.getViewState().observe(viewLifecycleOwner, Observer { viewState ->
+            if (viewState == ViewState.LOADING) {
+                hideKeyboard()
+            }
+        })
     }
 
     private fun setupUserAdapter() {
-        val recyclerView: RecyclerView? = getViewBinding()?.recyclerView
+        val recyclerView: RecyclerView? = getViewBinding().recyclerView
         recyclerView?.adapter = userAdapter
-        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recyclerView?.layoutManager = linearLayoutManager
+    }
+
+    override fun addViewListener() {
+        addSearchInputListener()
     }
 
     override fun getLayoutId(): Int {
@@ -51,32 +56,14 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
     }
 
     override fun getKey(): String {
-        return SearchFragment.toString()
-    }
-
-    override fun applyLiveDataObserver() {
-        addKeyboardObserver()
-    }
-
-    private fun addKeyboardObserver() {
-        viewModel.viewState.observe(this, Observer { viewState ->
-            if (viewState == ViewState.LOADING) {
-                hideKeyboard()
-            }
-        })
-    }
-
-    override fun addViewListener() {
-        addSearchInputListener()
+        return SearchFragment::class.java.name.toString()
     }
 
     private fun addSearchInputListener() {
-        val disposable: Disposable? = getViewBinding()?.input
-                ?.textChanges()
-                ?.subscribe { chars -> getViewModel()?.updateSearchInput(chars.toString()) }
-        if (disposable != null) {
-            addRxDisposable(disposable)
-        }
+        getViewBinding()
+                .input.textChanges()
+                .subscribe { input: CharSequence? -> viewModel.updateSearchInput(input.toString()) }
+                .addTo(getBaseCompositeDisposable())
     }
 
     private fun onClick(user: User?) {
@@ -86,24 +73,23 @@ class SearchFragment : DataFragment<FragmentSearchBinding, SearchViewModel>() {
                 context!!.startActivity(intent)
             }
         }
-
     }
 
-    override fun createErrorDialog(requestError: RequestError): AlertDialog {
-/*        when(requestError){
+    /*     override fun createErrorDialog(requestError: RequestError): AlertDialog {
+         when(requestError){
 
-        }
+           }
 
 
-        if (requestError.response != null && requestError.response!!.code() == HttpURLConnection.HTTP_NOT_FOUND) {
-            return DialogUtils.createOkCancelDialog(context!!, "Möp", "User not found", "Ok", "F*ck it", null, null)
-        }
-        if (requestError.errorCode == RequestError.ERROR_CODE_NO_SEARCH_INPUT) {
-            val errorText = "If you leave this field blank, sooner or later I'll load all users."
-            return DialogUtils.createOkCancelDialog(context!!, "ToDo", errorText, "Ok", "F*ck it", null, null)
-        }*/
+           if (requestError.response != null && requestError.response!!.code() == HttpURLConnection.HTTP_NOT_FOUND) {
+               return DialogUtils.createOkCancelDialog(context!!, "Möp", "User not found", "Ok", "F*ck it", null, null)
+           }
+           if (requestError.errorCode == RequestError.ERROR_CODE_NO_SEARCH_INPUT) {
+               val errorText = "If you leave this field blank, sooner or later I'll load all users."
+               return DialogUtils.createOkCancelDialog(context!!, "ToDo", errorText, "Ok", "F*ck it", null, null)
+           }
         return DialogUtils.createOkCancelDialog(context!!, "Möp", "A wild error occurred", "Ok", "F*ck it", null, null)
 
-    }
+    }*/
 
 }

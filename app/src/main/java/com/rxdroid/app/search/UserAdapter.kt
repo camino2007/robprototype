@@ -1,14 +1,15 @@
 package com.rxdroid.app.search
 
-import android.support.v4.util.SparseArrayCompat
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.collection.SparseArrayCompat
+import androidx.recyclerview.widget.RecyclerView
+import com.rxdroid.app.view.base.adapters.LoadingDelegateAdapter
 import com.rxdroid.common.AdapterConstants
 import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.common.adapter.ViewTypeDelegateAdapter
-import com.rxdroid.app.view.base.adapters.LoadingDelegateAdapter
+import timber.log.Timber
 
-class UserAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class UserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: ArrayList<ItemViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
@@ -29,18 +30,23 @@ class UserAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return delegateAdapters.get(viewType).onCreateViewHolder(parent)
+        val viewHolder = delegateAdapters.get(viewType)
+        viewHolder?.also {
+            return it.onCreateViewHolder(parent)
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, this.items[position])
+        val viewHolder = delegateAdapters.get(getItemViewType(position))
+        viewHolder?.also { it -> it.onBindViewHolder(holder, this.items[position]) }
     }
 
     override fun getItemViewType(position: Int): Int {
         return this.items[position].getItemViewType()
     }
 
-    fun addItems(newItems: List<ItemViewType>?) {
+    private fun addItems(newItems: List<ItemViewType>?) {
+        Timber.i("SICK newItems: " + newItems?.size)
         var initPosition = 0
         if (!items.isEmpty()) {
             initPosition = items.size - 1
@@ -50,7 +56,7 @@ class UserAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 notifyItemRemoved(initPosition)
             }
         }
-        if (newItems!=null && !newItems.isEmpty()) {
+        if (newItems != null && !newItems.isEmpty()) {
             items.addAll(newItems)
             if (newItems.size > 1) {
                 items.add(loadingItem)

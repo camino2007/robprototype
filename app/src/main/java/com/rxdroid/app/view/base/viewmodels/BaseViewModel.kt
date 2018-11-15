@@ -1,14 +1,14 @@
 package com.rxdroid.app.view.base.viewmodels
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.rxdroid.api.error.RequestError
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 
 open class BaseViewModel : ViewModel() {
 
-    val viewState: MutableLiveData<ViewState> = MutableLiveData()
+    private val viewState: MutableLiveData<ViewState> = MutableLiveData()
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val errorSubject: PublishSubject<RequestError> = PublishSubject.create()
 
@@ -16,29 +16,25 @@ open class BaseViewModel : ViewModel() {
         setViewState(ViewState.INIT)
     }
 
-    fun setViewState(viewState: ViewState) {
-        this.viewState.postValue(viewState)
-    }
+    fun getViewState() = viewState
 
-    fun getErrorSubject(): PublishSubject<RequestError> {
-        return errorSubject
-    }
+    fun setViewState(viewState: ViewState) = this.viewState.postValue(viewState)
 
-    fun getCompositeDisposable(): CompositeDisposable {
-        return compositeDisposable
-    }
+    fun getErrorSubject() = errorSubject
 
-    fun showLoadingState() {
-        setViewState(ViewState.LOADING)
-    }
+    fun getCompositeDisposable() = compositeDisposable
 
-    fun handleErrorCase(requestError: RequestError) {
-        setViewState(ViewState.DATA_ERROR)
-        this.errorSubject.onNext(requestError)
+    fun showLoadingState() = setViewState(ViewState.LOADING)
+
+    fun handleErrorCase(requestError: RequestError?) {
+        requestError?.also {
+            setViewState(ViewState.DATA_ERROR)
+            this.errorSubject.onNext(requestError)
+        }
     }
 
     override fun onCleared() {
-        super.onCleared()
         compositeDisposable.clear()
+        super.onCleared()
     }
 }

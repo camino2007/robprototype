@@ -1,6 +1,6 @@
 package com.rxdroid.data.room.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.rxdroid.data.details.UserRepositoryEntity
 import io.reactivex.Maybe
 

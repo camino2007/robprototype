@@ -1,8 +1,8 @@
 package com.rxdroid.app.details
 
-import android.support.v4.util.SparseArrayCompat
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.collection.SparseArrayCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.rxdroid.common.AdapterConstants
 import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.common.adapter.ViewTypeDelegateAdapter
@@ -22,11 +22,15 @@ class RepositoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return delegateAdapters.get(viewType).onCreateViewHolder(parent)
+        val viewHolder = delegateAdapters.get(viewType)
+        viewHolder?.also {
+            return it.onCreateViewHolder(parent)
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, this.items[position])
+        val viewHolder = delegateAdapters.get(getItemViewType(position))
+        viewHolder?.also { it -> it.onBindViewHolder(holder, this.items[position]) }
     }
 
     override fun getItemViewType(position: Int): Int {

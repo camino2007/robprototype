@@ -1,7 +1,8 @@
 package com.rxdroid.app.search
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.databinding.Bindable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.jakewharton.rxrelay2.PublishRelay
 import com.rxdroid.api.error.RequestError
 import com.rxdroid.app.view.ItemViewModelFactory
@@ -25,8 +26,6 @@ class SearchViewModel(private val repository: UserSearchRepository) : BaseViewMo
         const val DEBOUNCE_TIME_OUT: Long = 800L
     }
 
-    val searchValue: MutableLiveData<String> = MutableLiveData()
-
     private val publishRelay: PublishRelay<String> = PublishRelay.create()
 
     private val userItem = MutableLiveData<List<ItemViewType>>()
@@ -35,6 +34,12 @@ class SearchViewModel(private val repository: UserSearchRepository) : BaseViewMo
     private val clickedUserItem = MutableLiveData<User>()
     fun getClickedUserItem(): LiveData<User> = clickedUserItem
 
+    //@Bindable
+    var searchValue: String? = null
+      /*  private set(value) {
+            field = value
+            notifyPropertyChanged(BR.input)
+        }*/
 
     init {
         addRepositoryDisposable()
@@ -56,7 +61,7 @@ class SearchViewModel(private val repository: UserSearchRepository) : BaseViewMo
                 .subscribe({ it ->
                     when (it.status) {
                         Status.LOADING -> showLoadingState()
-                        Status.ERROR -> handleErrorCase(it.requestError!!)
+                        Status.ERROR -> handleErrorCase(it.requestError)
                         Status.SUCCESS -> handleSuccessCase(it.data)
                     }
                 }, { e: Throwable? -> handleErrorCase(RequestError.create(e)) })
@@ -71,7 +76,7 @@ class SearchViewModel(private val repository: UserSearchRepository) : BaseViewMo
 
     fun updateSearchInput(search: String?) {
         search?.let {
-            searchValue.postValue(search)
+        //    searchValue.postValue(search)
             publishRelay.accept(search)
         }
     }

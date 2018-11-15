@@ -1,8 +1,8 @@
 package com.rxdroid.app.search
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import com.rxdroid.app.BR
 import com.rxdroid.app.R
 import com.rxdroid.common.adapter.DelegateAdapter

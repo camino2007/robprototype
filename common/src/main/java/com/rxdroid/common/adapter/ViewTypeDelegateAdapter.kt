@@ -1,6 +1,6 @@
 package com.rxdroid.common.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 
 interface ViewTypeDelegateAdapter {
