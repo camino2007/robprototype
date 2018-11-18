@@ -10,6 +10,8 @@ import com.rxdroid.app.databinding.FragmentSearchBinding
 import com.rxdroid.app.details.DetailActivity
 import com.rxdroid.app.view.base.fragments.BaseFragment
 import com.rxdroid.app.view.base.viewmodels.ViewState
+import com.rxdroid.common.Consumable
+import com.rxdroid.common.invokeIfNeeded
 import com.rxdroid.repository.model.User
 import io.reactivex.rxkotlin.addTo
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -66,11 +68,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 .addTo(getBaseCompositeDisposable())
     }
 
-    private fun onClick(user: User?) {
-        if (user != null) {
+    private fun onClick(consumable: Consumable<User>) {
+        consumable.invokeIfNeeded { user ->
             context?.let {
-                val intent = DetailActivity.createIntent(context!!, user)
-                context!!.startActivity(intent)
+                val intent = DetailActivity.createIntent(it, user)
+                it.startActivity(intent)
             }
         }
     }

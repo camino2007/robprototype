@@ -10,19 +10,18 @@ import com.rxdroid.app.R
 
 class RepositoryDelegateAdapter : DelegateAdapter() {
 
-
     override fun getLayoutId(): Int {
         return R.layout.item_repository
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ItemViewType) {
         val binding: ViewDataBinding? = DataBindingUtil.getBinding(holder.itemView)
-        binding.let {
-            val resultVar: Boolean = binding!!.setVariable(BR.viewModel, item)
+        binding?.let {
+            val resultVar: Boolean = it.setVariable(BR.viewModel, item)
             if (!resultVar) {
                 throw RuntimeException("Missing binding variable!")
             }
-            binding.executePendingBindings()
+            it.executePendingBindings()
         }
     }
 

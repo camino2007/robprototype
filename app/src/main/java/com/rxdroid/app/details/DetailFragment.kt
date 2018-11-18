@@ -1,6 +1,7 @@
 package com.rxdroid.app.details
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rxdroid.app.BR
@@ -30,10 +31,12 @@ class DetailFragment : DataFragment<FragmentDetailsBinding>() {
         binding.setVariable(BR.viewModel, viewModel)
         binding.setLifecycleOwner(this)
         setupRepositoryAdapter()
+        viewModel.getItems()
+                .observe(viewLifecycleOwner, Observer { it -> repositoryAdapter.clearAndAddItems(it) })
     }
 
     private fun setupRepositoryAdapter() {
-        val recyclerView: RecyclerView? = getViewBinding()?.recyclerView
+        val recyclerView: RecyclerView? = getViewBinding().recyclerView
         recyclerView?.adapter = repositoryAdapter
         val linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recyclerView?.layoutManager = linearLayoutManager
@@ -46,30 +49,13 @@ class DetailFragment : DataFragment<FragmentDetailsBinding>() {
     override fun onResume() {
         super.onResume()
         val user: User = arguments?.getSerializable(DetailActivity.DetailConstants.KEY_USER) as User
-        //  getViewModel()?.loadReposForUser(user)
+        viewModel.loadReposForUser(user)
     }
 
     override fun addViewListener() {
         //nothing
     }
 
-    /* override fun applyLiveDataObserver() {
-         getViewModel()?.getItems()?.observe(this, Observer { items ->
-             kotlin.run {
-                 if (items != null && !items.isEmpty()) {
-                     repositoryAdapter.clearAndAddItems(items)
-                 }
-             }
-         })
-     }*/
-
-    /*
-
-     override fun createErrorDialog(requestError: RequestError): AlertDialog {
-         return DialogUtils.createOkCancelDialog(context!!, "Möp", "A wild error occurred", "Ok", "F*ck it", null, null)
-
-     }
- */
     override fun getKey(): String {
         return DetailFragment.toString()
     }

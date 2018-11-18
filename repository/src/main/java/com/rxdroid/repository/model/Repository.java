@@ -35,7 +35,7 @@ public abstract class Repository implements Serializable {
         abstract Repository build();
     }
 
-    public static ArrayList<Repository> fromApiList(@Nullable final List<GitHubRepoData> gitHubRepos) {
+    public static List<Repository> fromApiList(@Nullable final List<GitHubRepoData> gitHubRepos) {
         final ArrayList<Repository> repositories = new ArrayList<>();
         if (gitHubRepos != null && !gitHubRepos.isEmpty()) {
             for (final GitHubRepoData repo : gitHubRepos) {

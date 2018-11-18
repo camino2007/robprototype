@@ -37,17 +37,17 @@ class RepositoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return this.items[position].getItemViewType()
     }
 
-    fun clearAndAddItems(newItems: ArrayList<ItemViewType>) {
+    fun clearAndAddItems(newItems: List<ItemViewType>?) {
         items.clear()
         addItems(newItems)
     }
 
-    fun addItems(newItems: ArrayList<ItemViewType>) {
+    fun addItems(newItems: List<ItemViewType>?) {
         var initPosition = 0
         if (!items.isEmpty()) {
             initPosition = items.size
         }
-        if (!newItems.isEmpty()) {
+        if (newItems!=null && !newItems.isEmpty()) {
             items.addAll(newItems)
             notifyItemRangeChanged(initPosition, items.size)
         }

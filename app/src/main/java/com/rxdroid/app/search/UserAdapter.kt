@@ -7,7 +7,6 @@ import com.rxdroid.app.view.base.adapters.LoadingDelegateAdapter
 import com.rxdroid.common.AdapterConstants
 import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.common.adapter.ViewTypeDelegateAdapter
-import timber.log.Timber
 
 class UserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -46,7 +45,6 @@ class UserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     private fun addItems(newItems: List<ItemViewType>?) {
-        Timber.i("SICK newItems: " + newItems?.size)
         var initPosition = 0
         if (!items.isEmpty()) {
             initPosition = items.size - 1

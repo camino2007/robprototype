@@ -1,6 +1,5 @@
 package com.rxdroid.app.search
 
-import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jakewharton.rxrelay2.PublishRelay
@@ -8,6 +7,7 @@ import com.rxdroid.api.error.RequestError
 import com.rxdroid.app.view.ItemViewModelFactory
 import com.rxdroid.app.view.base.viewmodels.BaseViewModel
 import com.rxdroid.app.view.base.viewmodels.ViewState
+import com.rxdroid.common.Consumable
 import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
@@ -31,15 +31,8 @@ class SearchViewModel(private val repository: UserSearchRepository) : BaseViewMo
     private val userItem = MutableLiveData<List<ItemViewType>>()
     fun getUserItems(): LiveData<List<ItemViewType>> = userItem
 
-    private val clickedUserItem = MutableLiveData<User>()
-    fun getClickedUserItem(): LiveData<User> = clickedUserItem
-
-    //@Bindable
-    var searchValue: String? = null
-      /*  private set(value) {
-            field = value
-            notifyPropertyChanged(BR.input)
-        }*/
+    private val clickedUserItem = MutableLiveData<Consumable<User>>()
+    fun getClickedUserItem(): LiveData<Consumable<User>> = clickedUserItem
 
     init {
         addRepositoryDisposable()
@@ -69,14 +62,13 @@ class SearchViewModel(private val repository: UserSearchRepository) : BaseViewMo
     }
 
     private fun onUserItemClicked(user: User) {
-        clickedUserItem.postValue(user)
+        clickedUserItem.value = Consumable(user)
     }
 
     private fun getLoadingState(): Observable<Resource<User>> = Observable.just(Resource.loading())
 
     fun updateSearchInput(search: String?) {
         search?.let {
-        //    searchValue.postValue(search)
             publishRelay.accept(search)
         }
     }

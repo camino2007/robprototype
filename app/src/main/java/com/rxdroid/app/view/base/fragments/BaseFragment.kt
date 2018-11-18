@@ -43,18 +43,16 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), ViewProvider<B> {
     }
 
     protected fun hideKeyboard() {
-        if (context != null) {
-            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            val view = activity?.currentFocus
+        activity?.also {
+            val imm = it.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val view = it.currentFocus
             if (view != null) {
                 imm.hideSoftInputFromWindow(view.windowToken, 0)
             }
         }
     }
 
-    fun getViewBinding(): B {
-        return viewBinding
-    }
+    fun getViewBinding(): B = viewBinding
 
     fun getBaseCompositeDisposable() = compositeDisposable
 
