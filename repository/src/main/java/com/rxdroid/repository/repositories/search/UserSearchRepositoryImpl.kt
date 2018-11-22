@@ -26,7 +26,7 @@ class UserSearchRepositoryImpl(private val searchApiProvider: SearchApiProvider,
     private var userResource: Resource<User>? = null
 
     override fun searchForUser(searchValue: String): Observable<Resource<User>> {
-        if (TextUtils.isEmpty(searchValue)) {
+        if (searchValue.isEmpty()) {
             userResource = Resource.error(RequestError.create(RequestError.ERROR_CODE_NO_SEARCH_INPUT))
             return Observable.just(userResource)
         }
@@ -76,3 +76,5 @@ class UserSearchRepositoryImpl(private val searchApiProvider: SearchApiProvider,
     }
 
 }
+
+

@@ -20,7 +20,7 @@ class DetailFragment : DataFragment<FragmentDetailsBinding>() {
     companion object {
         fun newInstance(user: User): DetailFragment {
             val bundle = Bundle()
-            bundle.putSerializable(DetailActivity.DetailConstants.KEY_USER, user)
+            bundle.putParcelable(DetailActivity.DetailConstants.KEY_USER, user)
             val detailFragment = DetailFragment()
             detailFragment.arguments = bundle
             return detailFragment
@@ -29,7 +29,7 @@ class DetailFragment : DataFragment<FragmentDetailsBinding>() {
 
     override fun initBinding(binding: FragmentDetailsBinding) {
         binding.setVariable(BR.viewModel, viewModel)
-        binding.setLifecycleOwner(this)
+        binding.setLifecycleOwner(viewLifecycleOwner)
         setupRepositoryAdapter()
         viewModel.getItems()
                 .observe(viewLifecycleOwner, Observer { it -> repositoryAdapter.clearAndAddItems(it) })
@@ -48,8 +48,10 @@ class DetailFragment : DataFragment<FragmentDetailsBinding>() {
 
     override fun onResume() {
         super.onResume()
-        val user: User = arguments?.getSerializable(DetailActivity.DetailConstants.KEY_USER) as User
-        viewModel.loadReposForUser(user)
+        val user: User? = arguments?.getParcelable(DetailActivity.DetailConstants.KEY_USER)
+        user?.also {
+            viewModel.loadReposForUser(it)
+        }
     }
 
     override fun addViewListener() {

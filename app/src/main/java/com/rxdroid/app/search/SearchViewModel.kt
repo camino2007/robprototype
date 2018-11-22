@@ -14,12 +14,15 @@ import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
 import com.rxdroid.repository.repositories.search.UserSearchRepository
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class SearchViewModel(private val repository: UserSearchRepository) : BaseViewModel() {
+class SearchViewModel(private val repository: UserSearchRepository,
+                      private val debounceScheduler: Scheduler) : BaseViewModel() {
 
     private object Constants {
         const val MIN_LENGTH_SEARCH: Int = 3
@@ -34,20 +37,20 @@ class SearchViewModel(private val repository: UserSearchRepository) : BaseViewMo
     private val clickedUserItem = MutableLiveData<Consumable<User>>()
     fun getClickedUserItem(): LiveData<Consumable<User>> = clickedUserItem
 
-    init {
-        addRepositoryDisposable()
-    }
+    /*  init {
+          addRepositoryDisposable()
+      }*/
 
-    private fun addRepositoryDisposable() {
-        publishRelay.debounce(Constants.DEBOUNCE_TIME_OUT, TimeUnit.MILLISECONDS)
+    fun addRepositoryDisposable() {
+        Timber.i("addRepositoryDisposable")
+        publishRelay.debounce(Constants.DEBOUNCE_TIME_OUT, TimeUnit.MILLISECONDS, debounceScheduler)
                 .skip(1)
                 .distinctUntilChanged()
                 .filter { searchValue -> searchValue.length >= Constants.MIN_LENGTH_SEARCH }
                 .switchMap<Resource<User>> { searchValue -> Observable.concat(getLoadingState(), repository.searchForUser(searchValue)) }
-                .switchMap<Resource<ItemViewType>> { userResource: Resource<User> ->
+                .map<Resource<ItemViewType>> { userResource: Resource<User> ->
                     val viewModel: ItemViewType? = ItemViewModelFactory.create(userResource.data, this::onUserItemClicked)
-                    val modelResource: Resource<ItemViewType> = Resource(userResource.status, viewModel, userResource.requestError)
-                    Observable.just(modelResource)
+                    Resource(userResource.status, viewModel, userResource.requestError)
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -69,7 +72,7 @@ class SearchViewModel(private val repository: UserSearchRepository) : BaseViewMo
 
     fun updateSearchInput(search: String?) {
         search?.let {
-            publishRelay.accept(search)
+            publishRelay.accept(it)
         }
     }
 

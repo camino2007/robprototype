@@ -9,6 +9,7 @@ import com.rxdroid.app.R
 import com.rxdroid.app.databinding.FragmentSearchBinding
 import com.rxdroid.app.details.DetailActivity
 import com.rxdroid.app.view.base.fragments.BaseFragment
+import com.rxdroid.app.view.base.fragments.applyErrorHandling
 import com.rxdroid.app.view.base.viewmodels.ViewState
 import com.rxdroid.common.Consumable
 import com.rxdroid.common.invokeIfNeeded
@@ -40,6 +41,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 hideKeyboard()
             }
         })
+        viewModel.addRepositoryDisposable()
+        applyErrorHandling()
     }
 
     private fun setupUserAdapter() {

@@ -44,6 +44,14 @@ android {
     dataBinding {
         enabled = true
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+/*    androidExtensions {
+        experimental = true
+    }*/
 }
 
 dependencies {
@@ -59,14 +67,14 @@ dependencies {
 
     implementation libraries.rxBindingKotlin
     implementation libraries.rxRelay
-    kapt libraries.autoValue
-    compileOnly libraries.autoValueAnnotations
+
     implementation libraries.androidXAppCompat
     implementation libraries.xCardView
     implementation libraries.xConstraintLayout
     implementation libraries.googleMaterial
 
-    api "androidx.arch.core:core-runtime:2.0.1-alpha01"
+    api libraries.androidXCoreRuntime
+    implementation libraries.androidCoreTesting
 
     implementation libraries.androidXLifeCycleExtensions
     kapt libraries.androidXLifeCycleCompiler
@@ -80,10 +88,6 @@ dependencies {
     testImplementation libraries.leakCanaryNoOp
 
     testImplementation libraries.junit
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    testImplementation libraries.mockk
+}
 
-}
-repositories {
-    mavenCentral()
-}

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
 
@@ -23,7 +24,12 @@ android {
         }
     }
 
+    androidExtensions {
+        experimental = true
+    }
+
 }
+
 
 dependencies {
 
@@ -35,8 +41,10 @@ dependencies {
     implementation libraries.rxJava
     implementation libraries.koin
 
-    kapt libraries.autoValue
-    compileOnly libraries.autoValueAnnotations
+    kapt libraries.paperParcelCompiler
+    implementation libraries.paperParcel
+    implementation libraries.paperParcelKotlin
+
     implementation libraries.retrofit
 
     implementation libraries.leakCanary
@@ -44,14 +52,5 @@ dependencies {
     testImplementation libraries.leakCanaryNoOp
 
     implementation libraries.googleMaterial
-   /* androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })*/
-
-    testImplementation libraries.junit
 
 }
-repositories {
-    mavenCentral()
-}
-

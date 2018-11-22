@@ -15,11 +15,7 @@ abstract class TimeLimitedCache<T>(timeOut: Long, timeUnit: TimeUnit) : Cache<T>
         this.savedTimeStamp = getCurrentTimeStamp()
     }
 
-    private fun getCurrentTimeStamp(): Long {
-        return System.currentTimeMillis()
-    }
+    private fun getCurrentTimeStamp(): Long = System.currentTimeMillis()
 
-    fun isTimingValid(): Boolean {
-        return getCurrentTimeStamp() < savedTimeStamp + maxValidDuration
-    }
+    fun isTimingValid(): Boolean = getCurrentTimeStamp() < savedTimeStamp + maxValidDuration
 }

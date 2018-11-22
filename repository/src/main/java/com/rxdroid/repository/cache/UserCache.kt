@@ -6,17 +6,10 @@ import java.util.concurrent.TimeUnit
 class UserCache(timeOut: Long, timeUnit: TimeUnit) : TimeLimitedCache<User>(timeOut, timeUnit) {
 
 
-    override fun getData(): User {
-        return getData()
-    }
+    override fun getData(): User = getData()
 
-    override fun hasValidCachedData(): Boolean {
-        return isTimingValid()
-    }
+    override fun hasValidCachedData() = isTimingValid()
 
-    override fun isSameObjectCached(t: User?): Boolean {
-        return getData() == t
-    }
-
+    override fun isSameObjectCached(t: User?) = getData() == t
 
 }

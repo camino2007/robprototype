@@ -29,7 +29,7 @@ open class BaseViewModel : ViewModel() {
     fun handleErrorCase(requestError: RequestError?) {
         requestError?.also {
             setViewState(ViewState.DATA_ERROR)
-            this.errorSubject.onNext(requestError)
+            this.errorSubject.onNext(it)
         }
     }
 

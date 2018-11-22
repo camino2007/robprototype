@@ -45,9 +45,7 @@ class DetailViewModel(private val repository: DetailsRepository) : BaseViewModel
                 .addTo(getCompositeDisposable())
     }
 
-    private fun getLoadingObservable(): Observable<Resource<List<Repository>>> {
-        return Observable.just(Resource.loading())
-    }
+    private fun getLoadingObservable(): Observable<Resource<List<Repository>>> = Observable.just(Resource.loading())
 
     private fun handleSuccessCase(newItems: List<ItemViewType>?) {
         if (newItems != null) {

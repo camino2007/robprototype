@@ -2,10 +2,10 @@ package com.rxdroid.app.details
 
 import android.content.Context
 import android.content.Intent
-import com.rxdroid.repository.model.User
 import com.rxdroid.app.R
 import com.rxdroid.app.view.base.BaseActivity
 import com.rxdroid.app.view.base.fragments.BaseFragment
+import com.rxdroid.repository.model.User
 
 class DetailActivity : BaseActivity() {
 
@@ -22,7 +22,7 @@ class DetailActivity : BaseActivity() {
     }
 
     override fun createInitialContentFragment(): BaseFragment<*> {
-        val user: User = intent.getSerializableExtra(DetailConstants.KEY_USER) as User
+        val user: User = intent.getParcelableExtra(DetailConstants.KEY_USER) as User
         return DetailFragment.newInstance(user)
     }
 

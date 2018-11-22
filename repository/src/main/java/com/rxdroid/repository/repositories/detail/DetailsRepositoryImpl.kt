@@ -5,10 +5,7 @@ import com.rxdroid.api.error.RequestError
 import com.rxdroid.api.github.details.DetailsApiProvider
 import com.rxdroid.data.details.RepositoryDatabaseProvider
 import com.rxdroid.data.details.UserRepositoryDto
-import com.rxdroid.repository.model.Repository
-import com.rxdroid.repository.model.Resource
-import com.rxdroid.repository.model.Status
-import com.rxdroid.repository.model.User
+import com.rxdroid.repository.model.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -58,7 +55,7 @@ class DetailsRepositoryImpl(private val searchApiProvider: DetailsApiProvider,
         var dto: UserRepositoryDto
         repositories.let {
             for (repo in repositories) {
-                dto = UserRepositoryDto(fullName = repo.fullName, name = repo.name, githubUserId = userId, idRep = repo.id)
+                dto = UserRepositoryDto(fullName = repo.fullName, name = repo.name, githubUserId = userId, idRep = repo.repositoryId)
                 repositoryDtos.add(dto)
             }
         }
@@ -66,3 +63,4 @@ class DetailsRepositoryImpl(private val searchApiProvider: DetailsApiProvider,
     }
 
 }
+
