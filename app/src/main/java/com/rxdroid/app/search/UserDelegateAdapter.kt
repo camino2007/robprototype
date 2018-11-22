@@ -8,11 +8,9 @@ import com.rxdroid.app.R
 import com.rxdroid.common.adapter.DelegateAdapter
 import com.rxdroid.common.adapter.ItemViewType
 
-class UserDelegateAdapter() : DelegateAdapter() {
+class UserDelegateAdapter : DelegateAdapter() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.item_user
-    }
+    override fun getLayoutId() = R.layout.item_user
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ItemViewType) {
         val binding: ViewDataBinding? = DataBindingUtil.getBinding(holder.itemView)

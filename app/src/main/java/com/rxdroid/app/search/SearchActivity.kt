@@ -5,11 +5,8 @@ import com.rxdroid.app.view.base.BaseActivity
 
 class SearchActivity : BaseActivity() {
 
-    override fun createInitialContentFragment(): SearchFragment {
-        return SearchFragment.newInstance()
-    }
+    override fun createInitialContentFragment() = SearchFragment.newInstance()
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main
-    }
+    override fun getLayoutId() = R.layout.activity_main
+
 }

@@ -13,9 +13,7 @@ class UserItemViewModel(private val user: User, private val clickListener: (User
     val repoCounter: MutableLiveData<String> = MutableLiveData()
     val avatarUrl: MutableLiveData<String> = MutableLiveData()
 
-    override fun getItemViewType(): Int {
-        return AdapterConstants.USER_ITEM
-    }
+    override fun getItemViewType(): Int = AdapterConstants.USER_ITEM
 
     fun onClick() {
         user.let(clickListener)

@@ -10,12 +10,8 @@ class RepositoryItemViewModel(private val repository: Repository?) : ViewModel()
 
     val repoName: MutableLiveData<String> = MutableLiveData()
 
-    override fun getItemViewType(): Int {
-        return AdapterConstants.REPOSITORY_ITEM
-    }
+    override fun getItemViewType() =  AdapterConstants.REPOSITORY_ITEM
 
-    fun getRepository(): Repository? {
-        return repository
-    }
+    fun getRepository(): Repository? = repository
 
 }

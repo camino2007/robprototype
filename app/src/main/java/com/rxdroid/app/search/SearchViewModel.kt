@@ -37,10 +37,6 @@ class SearchViewModel(private val repository: UserSearchRepository,
     private val clickedUserItem = MutableLiveData<Consumable<User>>()
     fun getClickedUserItem(): LiveData<Consumable<User>> = clickedUserItem
 
-    /*  init {
-          addRepositoryDisposable()
-      }*/
-
     fun addRepositoryDisposable() {
         Timber.i("addRepositoryDisposable")
         publishRelay.debounce(Constants.DEBOUNCE_TIME_OUT, TimeUnit.MILLISECONDS, debounceScheduler)

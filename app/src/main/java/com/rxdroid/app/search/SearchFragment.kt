@@ -56,13 +56,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         addSearchInputListener()
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_search
-    }
+    override fun getLayoutId() = R.layout.fragment_search
 
-    override fun getKey(): String {
-        return SearchFragment::class.java.name.toString()
-    }
+    override fun getKey() = SearchFragment::class.java.name.toString()
 
     private fun addSearchInputListener() {
         getViewBinding()

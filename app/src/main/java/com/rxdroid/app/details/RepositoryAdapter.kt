@@ -17,9 +17,7 @@ class RepositoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         items = ArrayList()
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder = delegateAdapters.get(viewType)
@@ -33,9 +31,7 @@ class RepositoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         viewHolder?.also { it -> it.onBindViewHolder(holder, this.items[position]) }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return this.items[position].getItemViewType()
-    }
+    override fun getItemViewType(position: Int): Int = this.items[position].getItemViewType()
 
     fun clearAndAddItems(newItems: List<ItemViewType>?) {
         items.clear()

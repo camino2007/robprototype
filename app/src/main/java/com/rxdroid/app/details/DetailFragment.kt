@@ -44,9 +44,7 @@ class DetailFragment : BaseFragment<FragmentDetailsBinding>() {
         recyclerView?.layoutManager = linearLayoutManager
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_details
-    }
+    override fun getLayoutId(): Int = R.layout.fragment_details
 
     override fun onResume() {
         super.onResume()
@@ -60,8 +58,6 @@ class DetailFragment : BaseFragment<FragmentDetailsBinding>() {
         //nothing
     }
 
-    override fun getKey(): String {
-        return DetailFragment.toString()
-    }
+    override fun getKey() = DetailFragment::class.java.toString()
 
 }

@@ -26,7 +26,6 @@ class DetailActivity : BaseActivity() {
         return DetailFragment.newInstance(user)
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main
-    }
+    override fun getLayoutId(): Int=  R.layout.activity_main
+
 }

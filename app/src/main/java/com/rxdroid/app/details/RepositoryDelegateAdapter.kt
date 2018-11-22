@@ -10,9 +10,7 @@ import com.rxdroid.app.R
 
 class RepositoryDelegateAdapter : DelegateAdapter() {
 
-    override fun getLayoutId(): Int {
-        return R.layout.item_repository
-    }
+    override fun getLayoutId(): Int = R.layout.item_repository
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ItemViewType) {
         val binding: ViewDataBinding? = DataBindingUtil.getBinding(holder.itemView)
