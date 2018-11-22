@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rxdroid.app.BR
 import com.rxdroid.app.R
 import com.rxdroid.app.databinding.FragmentDetailsBinding
-import com.rxdroid.app.view.base.fragments.DataFragment
+import com.rxdroid.app.view.base.fragments.BaseFragment
+import com.rxdroid.app.view.base.fragments.applyErrorHandling
 import com.rxdroid.repository.model.User
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class DetailFragment : DataFragment<FragmentDetailsBinding>() {
+class DetailFragment : BaseFragment<FragmentDetailsBinding>() {
 
     private val viewModel: DetailViewModel by viewModel()
 
@@ -33,6 +34,7 @@ class DetailFragment : DataFragment<FragmentDetailsBinding>() {
         setupRepositoryAdapter()
         viewModel.getItems()
                 .observe(viewLifecycleOwner, Observer { it -> repositoryAdapter.clearAndAddItems(it) })
+        applyErrorHandling(viewModel)
     }
 
     private fun setupRepositoryAdapter() {
@@ -49,7 +51,7 @@ class DetailFragment : DataFragment<FragmentDetailsBinding>() {
     override fun onResume() {
         super.onResume()
         val user: User? = arguments?.getParcelable(DetailActivity.DetailConstants.KEY_USER)
-        user?.also {
+        user?.let {
             viewModel.loadReposForUser(it)
         }
     }

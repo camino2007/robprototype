@@ -2,6 +2,7 @@ package com.rxdroid.api.error
 
 import retrofit2.Response
 import java.net.ConnectException
+import java.net.HttpURLConnection
 import java.net.UnknownHostException
 
 sealed class RequestError {
@@ -15,10 +16,19 @@ sealed class RequestError {
             else -> GeneralRequestError(throwable)
         }
 
-        fun create(errorCode: Int) = CustomRequestError(errorCode)
+        fun create(errorCode: Int): RequestError = CustomRequestError(errorCode)
 
-        fun create(response: Response<*>?) = ServerRequestError(response)
+        fun create(response: Response<*>?): RequestError {
+            response?.let {
+                return if (it.code() == HttpURLConnection.HTTP_NOT_FOUND) {
+                    NoResultsError(response)
+                } else {
+                    ServerRequestError(response)
+                }
+            }
+        }
     }
+
 }
 
 data class NoConnectionRequestError(val throwable: Throwable?) : RequestError()
@@ -27,4 +37,6 @@ data class GeneralRequestError(val throwable: Throwable?) : RequestError()
 
 data class CustomRequestError(val errorCode: Int) : RequestError()
 
-data class ServerRequestError(val response: Response<*>?) : RequestError()
+data class NoResultsError(val response: Response<*>) : RequestError()
+
+data class ServerRequestError(val response: Response<*>) : RequestError()

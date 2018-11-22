@@ -5,7 +5,10 @@ import com.rxdroid.api.error.RequestError
 import com.rxdroid.api.github.details.DetailsApiProvider
 import com.rxdroid.data.details.RepositoryDatabaseProvider
 import com.rxdroid.data.details.UserRepositoryDto
-import com.rxdroid.repository.model.*
+import com.rxdroid.repository.model.Repository
+import com.rxdroid.repository.model.Resource
+import com.rxdroid.repository.model.Status
+import com.rxdroid.repository.model.User
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers

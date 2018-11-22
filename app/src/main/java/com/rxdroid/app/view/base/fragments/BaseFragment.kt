@@ -9,8 +9,14 @@ import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import com.rxdroid.api.error.RequestError
+import com.rxdroid.app.util.getErrorDialog
 import com.rxdroid.app.view.ViewProvider
+import com.rxdroid.app.view.base.viewmodels.BaseViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 
 abstract class BaseFragment<B : ViewDataBinding> : Fragment(), ViewProvider<B> {
 
@@ -43,7 +49,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), ViewProvider<B> {
     }
 
     protected fun hideKeyboard() {
-        activity?.also {fragmentActivity ->
+        activity?.let { fragmentActivity ->
             val imm = fragmentActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             val view = fragmentActivity.currentFocus
             view?.also {
@@ -58,6 +64,25 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), ViewProvider<B> {
 
 }
 
-fun applyErrorHandling() {
+fun BaseFragment<*>.applyErrorHandling(viewModel: ViewModel) {
+    if (viewModel is BaseViewModel) {
+        viewModel.getErrorSubject()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe { requestError: RequestError ->
+                    showErrorDialog(requestError)
+                }
+                .addTo(viewModel.getCompositeDisposable())
+    } else {
+        throw IllegalArgumentException("ViewModel should be instance of BaseViewModel. Otherwise error handling won't work this way.")
+    }
+
+
+}
+
+fun BaseFragment<*>.showErrorDialog(requestError: RequestError) {
+    context?.let {
+        val errorDialog = getErrorDialog(it, requestError)
+        errorDialog.show()
+    }
 
 }
