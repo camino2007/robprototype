@@ -60,9 +60,9 @@ class UserSearchRepositoryTest {
         every { searchApiProvider.findUserBySearchValue(TEST_USER) } returns Single.just(userResponse)
         every { userDatabaseProvider.insertOrUpdate(userDto) } returns Completable.complete()
 
-        val expectedObservable = tested.searchForUser(TEST_USER)
+        val expectedFlowable = tested.searchForUser(TEST_USER)
 
-        val expected = expectedObservable.blockingFirst()
+        val expected = expectedFlowable.blockingFirst()
         assert(expected.status == Status.SUCCESS)
         assert(expected.data?.login == TEST_USER)
     }
@@ -73,17 +73,17 @@ class UserSearchRepositoryTest {
         every { searchApiProvider.findUserBySearchValue(TEST_USER) } returns Single.just(userResponse)
         every { userDatabaseProvider.insertOrUpdate(userDto) } returns Completable.complete()
 
-        val expectedObservable = tested.searchForUser(TEST_USER)
+        val expectedFlowable = tested.searchForUser(TEST_USER)
 
-        val expected = expectedObservable.blockingFirst()
+        val expected = expectedFlowable.blockingFirst()
         assert(expected.status == Status.ERROR)
     }
 
     @Test
     fun testEmptyUserSearch() {
-        val expectedObservable = tested.searchForUser("")
+        val expectedFlowable = tested.searchForUser("")
 
-        val expected = expectedObservable.blockingFirst()
+        val expected = expectedFlowable.blockingFirst()
         assert(expected.status == Status.ERROR)
     }
 

@@ -43,7 +43,7 @@ dependencies {
     implementation libraries.rxJava
     implementation libraries.koin
 
-    implementation libraries.retrofit
+    api libraries.retrofit
     api libraries.retrofitGsonConverter
     implementation libraries.retrofitRxJavaAdapter
     api libraries.okHttp

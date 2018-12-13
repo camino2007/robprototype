@@ -13,6 +13,6 @@ interface GitHubApi {
     fun getRepositoriesForUser(@Path("user") user: String): Single<Response<List<GitHubRepoData>>>
 
     @GET("/users/{user}")
-    fun getUserByName(@Path("user") user: String): Single<Response<GitHubUserData>>
+    fun getUserByLogin(@Path("user") user: String): Single<Response<GitHubUserData>>
 
 }

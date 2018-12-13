@@ -27,7 +27,7 @@ open class BaseViewModel : ViewModel() {
     fun showLoadingState() = setViewState(ViewState.LOADING)
 
     fun handleErrorCase(requestError: RequestError?) {
-        requestError?.also {
+        requestError?.let {
             setViewState(ViewState.DATA_ERROR)
             this.errorSubject.onNext(it)
         }

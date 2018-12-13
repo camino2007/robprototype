@@ -8,7 +8,7 @@ import retrofit2.Response
 class SearchProviderImpl(private val gitHubApi: GitHubApi) : SearchApiProvider {
 
     override fun findUserBySearchValue(searchValue: String): Single<Response<GitHubUserData>> {
-        return gitHubApi.getUserByName(searchValue)
+        return gitHubApi.getUserByLogin(searchValue)
     }
 
 }

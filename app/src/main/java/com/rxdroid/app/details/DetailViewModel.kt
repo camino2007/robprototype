@@ -11,6 +11,7 @@ import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
 import com.rxdroid.repository.repositories.detail.DetailsRepository
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -26,12 +27,12 @@ class DetailViewModel(private val repository: DetailsRepository) : BaseViewModel
 
 
     fun loadReposForUser(user: User) {
-        Observable.concat(getLoadingObservable(), repository.loadRepositoriesForUser(user))
+        Flowable.concat(getLoadingObservable(), repository.loadRepositoriesForUser(user))
                 .flatMap<Resource<List<ItemViewType>>> { resource: Resource<List<Repository>> ->
                     val repositories = resource.data
                     val viewModels: List<ItemViewType> = ItemViewModelFactory.create(repositories)
                     val modelResource: Resource<List<ItemViewType>> = Resource(resource.status, viewModels, resource.requestError)
-                    Observable.just(modelResource)
+                    Flowable.just(modelResource)
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -45,7 +46,7 @@ class DetailViewModel(private val repository: DetailsRepository) : BaseViewModel
                 .addTo(getCompositeDisposable())
     }
 
-    private fun getLoadingObservable(): Observable<Resource<List<Repository>>> = Observable.just(Resource.loading())
+    private fun getLoadingObservable(): Flowable<Resource<List<Repository>>> = Flowable.just(Resource.loading())
 
     private fun handleSuccessCase(newItems: List<ItemViewType>?) {
         if (newItems != null) {

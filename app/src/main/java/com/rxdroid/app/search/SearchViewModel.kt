@@ -13,12 +13,12 @@ import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
 import com.rxdroid.repository.repositories.search.UserSearchRepository
-import io.reactivex.Observable
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class SearchViewModel(private val repository: UserSearchRepository,
@@ -37,16 +37,19 @@ class SearchViewModel(private val repository: UserSearchRepository,
     private val clickedUserItem = MutableLiveData<Consumable<User>>()
     fun getClickedUserItem(): LiveData<Consumable<User>> = clickedUserItem
 
-    fun addRepositoryDisposable() {
-        Timber.i("addRepositoryDisposable")
+    fun initialize() {
         publishRelay.debounce(Constants.DEBOUNCE_TIME_OUT, TimeUnit.MILLISECONDS, debounceScheduler)
                 .skip(1)
                 .distinctUntilChanged()
                 .filter { searchValue -> searchValue.length >= Constants.MIN_LENGTH_SEARCH }
-                .switchMap<Resource<User>> { searchValue -> Observable.concat(getLoadingState(), repository.searchForUser(searchValue)) }
-                .map<Resource<ItemViewType>> { userResource: Resource<User> ->
-                    val viewModel: ItemViewType? = ItemViewModelFactory.create(userResource.data, this::onUserItemClicked)
-                    Resource(userResource.status, viewModel, userResource.requestError)
+                .toFlowable(BackpressureStrategy.LATEST)
+                .flatMap { searchValue ->
+                    Flowable.concat(getLoadingState(), repository.searchForUser(searchValue))
+                            .flatMap { userResource: Resource<User> ->
+                                val viewModel = ItemViewModelFactory.create(userResource.data, this::onUserItemClicked)
+                                val resource = Resource(userResource.status, viewModel, userResource.requestError)
+                                Flowable.just(resource)
+                            }
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -64,7 +67,7 @@ class SearchViewModel(private val repository: UserSearchRepository,
         clickedUserItem.value = Consumable(user)
     }
 
-    private fun getLoadingState(): Observable<Resource<User>> = Observable.just(Resource.loading())
+    private fun getLoadingState(): Flowable<Resource<User>> = Flowable.just(Resource.loading())
 
     fun updateSearchInput(search: String?) {
         search?.let {

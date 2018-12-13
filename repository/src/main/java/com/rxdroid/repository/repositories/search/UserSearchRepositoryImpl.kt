@@ -11,6 +11,7 @@ import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
@@ -25,16 +26,16 @@ class UserSearchRepositoryImpl(private val searchApiProvider: SearchApiProvider,
     private var lastSearchValue: String? = null
     private var userResource: Resource<User>? = null
 
-    override fun searchForUser(searchValue: String): Observable<Resource<User>> {
+    override fun searchForUser(searchValue: String): Flowable<Resource<User>> {
         if (searchValue.isEmpty()) {
             userResource = Resource.error(RequestError.create(RequestError.ERROR_CODE_NO_SEARCH_INPUT))
-            return Observable.just(userResource)
+            return Flowable.just(userResource)
         }
         if (hasValidCacheValue(searchValue)) {
             userResource = Resource.success(userResource?.data!!)
-            return Observable.just(userResource)
+            return Flowable.just(userResource)
         }
-        return searchApiProvider.findUserBySearchValue(searchValue).toObservable()
+        return searchApiProvider.findUserBySearchValue(searchValue).toFlowable()
                 .flatMap<Resource<User>> { userDataResponse: Response<GitHubUserData> ->
                     userResource = if (userDataResponse.isSuccessful) {
                         val user = User.fromApi(userDataResponse.body())
@@ -44,7 +45,7 @@ class UserSearchRepositoryImpl(private val searchApiProvider: SearchApiProvider,
                         val requestError = RequestError.create(userDataResponse)
                         Resource.error(requestError)
                     }
-                    Observable.just(userResource)
+                    Flowable.just(userResource)
                 }
                 .doOnNext {
                     if (it.status == Status.SUCCESS) {

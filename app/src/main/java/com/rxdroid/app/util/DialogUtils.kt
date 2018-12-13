@@ -13,7 +13,6 @@ fun getErrorDialog(context: Context, requestError: RequestError): AlertDialog {
         is NoConnectionRequestError -> createErrorDialog(context, R.string.error_title, R.string.error_msg_no_connection)
         else -> createErrorDialog(context, R.string.error_title, R.string.error_msg_general)
     }
-
 }
 
 private fun createErrorDialog(context: Context, titleResId: Int, messageResId: Int): AlertDialog {

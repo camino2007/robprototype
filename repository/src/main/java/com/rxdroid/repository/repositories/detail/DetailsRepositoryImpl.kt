@@ -10,6 +10,7 @@ import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -20,12 +21,12 @@ class DetailsRepositoryImpl(private val searchApiProvider: DetailsApiProvider,
     private var listResource: Resource<List<Repository>>? = null
     private var lastSearchValue: String? = null
 
-    override fun loadRepositoriesForUser(user: User): Observable<Resource<List<Repository>>> {
+    override fun loadRepositoriesForUser(user: User): Flowable<Resource<List<Repository>>> {
         if (hasValidCacheValue(user.login)) {
-            return Observable.just(Resource.success(listResource?.data!!))
+            return Flowable.just(Resource.success(listResource?.data!!))
         }
         lastSearchValue = user.login
-        return searchApiProvider.getRepositoriesForUser(user.login).toObservable()
+        return searchApiProvider.getRepositoriesForUser(user.login).toFlowable()
                 .flatMap<Resource<List<Repository>>> { listResponse ->
                     listResource = if (listResponse.isSuccessful) {
                         val repositories = Repository.fromApiList(listResponse.body())
@@ -34,7 +35,7 @@ class DetailsRepositoryImpl(private val searchApiProvider: DetailsApiProvider,
                         val requestError = RequestError.create(listResponse)
                         Resource.error(requestError)
                     }
-                    Observable.just(listResource)
+                    Flowable.just(listResource)
                 }
                 .doOnNext {
                     if (it.status == Status.SUCCESS) {
