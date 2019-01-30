@@ -19,7 +19,7 @@ import io.reactivex.rxkotlin.addTo
 
 abstract class BaseFragment<B : ViewDataBinding> : Fragment(), ViewProvider<B> {
 
-    private val compositeDisposable = CompositeDisposable()
+    val compositeDisposable = CompositeDisposable()
 
     private lateinit var viewBinding: B
 
@@ -59,7 +59,7 @@ fun BaseFragment<*>.applyErrorHandling(viewModel: BaseViewModel) {
             .subscribe { requestError: RequestError ->
                 showErrorDialog(requestError)
             }
-            .addTo(viewModel.getCompositeDisposable())
+            .addTo(compositeDisposable)
 }
 
 fun BaseFragment<*>.showErrorDialog(requestError: RequestError) {
