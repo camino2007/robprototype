@@ -1,6 +1,7 @@
 package com.rxdroid.app.view
 
 import com.rxdroid.app.details.RepositoryItemViewModel
+import com.rxdroid.app.search.ClickAction
 import com.rxdroid.app.search.UserItemViewModel
 import com.rxdroid.common.adapter.ItemViewType
 import com.rxdroid.repository.model.Repository
@@ -9,7 +10,7 @@ import com.rxdroid.repository.model.User
 class ItemViewModelFactory {
 
     companion object {
-        fun create(user: User?, clickListener: (User) -> Unit): ItemViewType? {
+        fun create(user: User?, clickListener: (ClickAction) -> Unit): ItemViewType? {
             return user?.let {
                 val itemViewModel = UserItemViewModel(it, clickListener)
                 itemViewModel.userLogin.postValue(it.login)

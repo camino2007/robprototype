@@ -18,15 +18,14 @@ sealed class RequestError {
 
         fun create(errorCode: Int): RequestError = CustomRequestError(errorCode)
 
-        fun create(response: Response<*>?): RequestError {
-            response?.let {
-                return if (it.code() == HttpURLConnection.HTTP_NOT_FOUND) {
-                    NoResultsError(response)
-                } else {
-                    ServerRequestError(response)
-                }
+        fun create(response: Response<*>): RequestError {
+            return if (response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
+                NoResultsError(response)
+            } else {
+                ServerRequestError(response)
             }
         }
+
     }
 
 }

@@ -31,12 +31,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     override fun initBinding(binding: FragmentSearchBinding) {
         binding.setVariable(BR.viewModel, viewModel)
-        binding.setLifecycleOwner(viewLifecycleOwner)
+        binding.lifecycleOwner = viewLifecycleOwner
         setupUserAdapter()
         viewModel.getUserItems()
-                .observe(viewLifecycleOwner, Observer { it -> userAdapter.clearAndAddItems(it) })
+                .observe(viewLifecycleOwner, Observer { userAdapter.clearAndAddItems(it) })
         viewModel.getClickedUserItem()
-                .observe(viewLifecycleOwner, Observer { it -> onClick(it) })
+                .observe(viewLifecycleOwner, Observer { onClick(it) })
         viewModel.getViewState().observe(viewLifecycleOwner, Observer { viewState ->
             if (viewState == ViewState.LOADING) {
                 hideKeyboard()

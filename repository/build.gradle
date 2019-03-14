@@ -41,6 +41,8 @@ dependencies {
     implementation libraries.rxJava
     implementation libraries.koin
 
+    implementation group: 'androidx.lifecycle', name: 'lifecycle-extensions', version: '2.1.0-alpha03'
+
     kapt libraries.paperParcelCompiler
     implementation libraries.paperParcel
     implementation libraries.paperParcelKotlin

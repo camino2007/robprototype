@@ -14,10 +14,12 @@ import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
 import com.rxdroid.repository.repositories.search.UserSearchRepository
 import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
+import io.reactivex.FlowableTransformer
+import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
@@ -44,30 +46,50 @@ class SearchViewModel(private val repository: UserSearchRepository,
                 .filter { searchValue -> searchValue.length >= Constants.MIN_LENGTH_SEARCH }
                 .toFlowable(BackpressureStrategy.LATEST)
                 .flatMap { searchValue ->
-                    Flowable.concat(getLoadingState(), repository.searchForUser(searchValue))
-                            .flatMap { userResource: Resource<User> ->
-                                val viewModel = ItemViewModelFactory.create(userResource.data, this::onUserItemClicked)
-                                val resource = Resource(userResource.status, viewModel, userResource.requestError)
-                                Flowable.just(resource)
-                            }
+                    repository.searchForUser(searchValue)
+                            .startWith(getLoadingState())
+                            .toFlowable(BackpressureStrategy.LATEST)
                 }
+                .compose(getViewModelTransformer())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ it ->
-                    when (it.status) {
-                        Status.LOADING -> showLoadingState()
-                        Status.ERROR -> handleErrorCase(it.requestError)
-                        Status.SUCCESS -> handleSuccessCase(it.data)
-                    }
-                }, { e: Throwable? -> handleErrorCase(RequestError.create(e)) })
+                .subscribeBy(
+                        onNext = { viewTypeResource ->
+                            evaluateResource(viewTypeResource)
+                        },
+                        onError = { throwable ->
+                            handleErrorCase(RequestError.create(throwable))
+                        }
+                )
                 .addTo(getCompositeDisposable())
+    }
+
+    private fun getViewModelTransformer(): FlowableTransformer<Resource<User>, Resource<ItemViewType>> {
+        return FlowableTransformer { flowableUserResource ->
+            flowableUserResource.map { userResource ->
+                val viewModel = ItemViewModelFactory.create(userResource.data, this::performClick)
+                Resource(userResource.status, viewModel, userResource.requestError)
+            }
+        }
+    }
+
+    private fun evaluateResource(resource: Resource<ItemViewType>) {
+        when (resource.status) {
+            Status.LOADING -> showLoadingState()
+            Status.ERROR -> handleErrorCase(resource.requestError)
+            Status.SUCCESS -> handleSuccessCase(resource.data)
+        }
+    }
+
+    private fun performClick(action: ClickAction) = when (action) {
+        is ClickAction.OnUser -> onUserItemClicked(action.user)
     }
 
     private fun onUserItemClicked(user: User) {
         clickedUserItem.value = Consumable(user)
     }
 
-    private fun getLoadingState(): Flowable<Resource<User>> = Flowable.just(Resource.loading())
+    private fun getLoadingState(): Observable<Resource<User>> = Observable.just(Resource.loading())
 
     fun updateSearchInput(search: String?) {
         search?.let {
@@ -86,4 +108,8 @@ class SearchViewModel(private val repository: UserSearchRepository,
         }
     }
 
+}
+
+sealed class ClickAction {
+    data class OnUser(val user: User) : ClickAction()
 }

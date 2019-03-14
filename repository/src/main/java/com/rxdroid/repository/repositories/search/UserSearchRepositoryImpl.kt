@@ -11,8 +11,9 @@ import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.ObservableTransformer
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 import timber.log.Timber
@@ -24,55 +25,71 @@ class UserSearchRepositoryImpl(private val searchApiProvider: SearchApiProvider,
     private val userCache: UserCache = UserCache(10L, TimeUnit.SECONDS)
 
     private var lastSearchValue: String? = null
-    private var userResource: Resource<User>? = null
 
-    override fun searchForUser(searchValue: String): Flowable<Resource<User>> {
-        if (searchValue.isEmpty()) {
-            userResource = Resource.error(RequestError.create(RequestError.ERROR_CODE_NO_SEARCH_INPUT))
-            return Flowable.just(userResource)
-        }
+    override fun searchForUser(searchValue: String): Observable<Resource<User>> {
         if (hasValidCacheValue(searchValue)) {
-            userResource = Resource.success(userResource?.data!!)
-            return Flowable.just(userResource)
+            val successResource = Resource.success(userCache.getData())
+            return Observable.just(successResource)
         }
-        return searchApiProvider.findUserBySearchValue(searchValue).toFlowable()
-                .flatMap<Resource<User>> { userDataResponse: Response<GitHubUserData> ->
-                    userResource = if (userDataResponse.isSuccessful) {
-                        val user = User.fromApi(userDataResponse.body())
-                        userCache.setData(user)
-                        Resource.success(user)
-                    } else {
-                        val requestError = RequestError.create(userDataResponse)
-                        Resource.error(requestError)
-                    }
-                    Flowable.just(userResource)
-                }
-                .doOnNext {
-                    if (it.status == Status.SUCCESS) {
-                        updateDatabase(it.data)
-                                .subscribeOn(Schedulers.io())
-                                .subscribe({
-                                    Timber.i("Write to db successful")
-                                }, { error: Throwable ->
-                                    Timber.e(error, "Write to db failed")
-                                })
-                    }
-                }
+        lastSearchValue = searchValue
+        return searchApiProvider
+                .findUserBySearchValue(searchValue)
+                .toObservable()
+                .compose(getResponseTransformer())
+                .doOnNext(getCacheConsumer())
+                .doOnNext(getDatabaseConsumer())
     }
 
-    private fun hasValidCacheValue(currentSearchValue: String): Boolean {
-        return userResource != null && userResource?.data != null
-                && TextUtils.equals(lastSearchValue, currentSearchValue) && userCache.hasValidCachedData()
+    private fun hasValidCacheValue(currentSearchValue: String) = TextUtils.equals(lastSearchValue, currentSearchValue) && userCache.hasValidCachedData()
+
+
+    private fun updateDatabase(user: User): Completable {
+        val userDto = UserDto(name = user.name,
+                login = user.login,
+                publicRepoCount = user.publicRepoCount,
+                publicGistCount = user.publicGistCount,
+                githubUserId = user.id)
+        return userDatabaseProvider.insertOrUpdate(userDto)
     }
 
-    private fun updateDatabase(user: User?): Completable {
-        user?.also {
-            val userDto = UserDto(name = user.name,
-                    login = user.login,
-                    publicRepoCount = user.publicRepoCount,
-                    publicGistCount = user.publicGistCount,
-                    githubUserId = user.id)
-            return userDatabaseProvider.insertOrUpdate(userDto)
+    private fun getCacheConsumer(): Consumer<in Resource<User>>? {
+        return Consumer { userResource ->
+            if (userResource.status == Status.SUCCESS) {
+                userResource.data?.let { user ->
+                    userCache.setData(user)
+                }
+            }
+        }
+    }
+
+    private fun getDatabaseConsumer(): Consumer<in Resource<User>>? {
+        return Consumer { userResource ->
+            if (userResource.status == Status.SUCCESS) {
+                userResource.data?.let { user ->
+                    updateDatabase(user)
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({
+                                Timber.i("Write to db successful")
+                            }, { error: Throwable ->
+                                Timber.e(error, "Write to db failed")
+                            })
+                }
+            }
+        }
+    }
+
+    private fun getResponseTransformer(): ObservableTransformer<Response<GitHubUserData>, Resource<User>> {
+        return ObservableTransformer { responseObservable ->
+            responseObservable.map { response ->
+                if (response.isSuccessful) {
+                    val result = response.body()
+                    if (result != null) {
+                        return@map Resource.success(User.fromApi(result))
+                    }
+                }
+                val requestError = RequestError.create(response)
+                Resource.error<User>(requestError)
+            }
         }
     }
 

@@ -49,9 +49,6 @@ android {
         unitTests.returnDefaultValues = true
     }
 
-/*    androidExtensions {
-        experimental = true
-    }*/
 }
 
 dependencies {

@@ -23,6 +23,7 @@ data class Repository(
                 }
                 return repositories
             }
+            return emptyList()
         }
     }
 

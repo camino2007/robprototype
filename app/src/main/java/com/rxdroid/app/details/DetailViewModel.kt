@@ -11,11 +11,10 @@ import com.rxdroid.repository.model.Resource
 import com.rxdroid.repository.model.Status
 import com.rxdroid.repository.model.User
 import com.rxdroid.repository.repositories.detail.DetailsRepository
-import io.reactivex.Flowable
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.ObservableTransformer
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxkotlin.subscribeBy
 
 
 class DetailViewModel(private val repository: DetailsRepository) : BaseViewModel() {
@@ -27,26 +26,39 @@ class DetailViewModel(private val repository: DetailsRepository) : BaseViewModel
 
 
     fun loadReposForUser(user: User) {
-        Flowable.concat(getLoadingObservable(), repository.loadRepositoriesForUser(user))
-                .flatMap<Resource<List<ItemViewType>>> { resource: Resource<List<Repository>> ->
-                    val repositories = resource.data
-                    val viewModels: List<ItemViewType> = ItemViewModelFactory.create(repositories)
-                    val modelResource: Resource<List<ItemViewType>> = Resource(resource.status, viewModels, resource.requestError)
-                    Flowable.just(modelResource)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ it ->
-                    when (it.status) {
-                        Status.LOADING -> showLoadingState()
-                        Status.ERROR -> handleErrorCase(it.requestError)
-                        Status.SUCCESS -> handleSuccessCase(it.data)
-                    }
-                }, { e: Throwable? -> handleErrorCase(RequestError.create(e)) })
+        repository.loadRepositoriesForUser(user)
+                .startWith(getLoadingObservable())
+                .compose(getViewModelTransformer())
+                .subscribeBy(
+                        onNext = { listViewTypeResource ->
+                            evaluateResource(listViewTypeResource)
+                        },
+                        onError = { throwable ->
+                            handleErrorCase(RequestError.create(throwable))
+                        }
+                )
                 .addTo(getCompositeDisposable())
     }
 
-    private fun getLoadingObservable(): Flowable<Resource<List<Repository>>> = Flowable.just(Resource.loading())
+    private fun evaluateResource(resource: Resource<List<ItemViewType>>) {
+        when (resource.status) {
+            Status.LOADING -> showLoadingState()
+            Status.ERROR -> handleErrorCase(resource.requestError)
+            Status.SUCCESS -> handleSuccessCase(resource.data)
+        }
+    }
+
+    private fun getLoadingObservable(): Observable<Resource<List<Repository>>> = Observable.just(Resource.loading())
+
+    private fun getViewModelTransformer(): ObservableTransformer<Resource<List<Repository>>, Resource<List<ItemViewType>>> {
+        return ObservableTransformer { observableResource ->
+            observableResource.map { resourceList ->
+                val repositories = resourceList.data
+                val viewModels: List<ItemViewType> = ItemViewModelFactory.create(repositories)
+                Resource(resourceList.status, viewModels, resourceList.requestError)
+            }
+        }
+    }
 
     private fun handleSuccessCase(newItems: List<ItemViewType>?) {
         if (newItems != null) {

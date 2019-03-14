@@ -26,14 +26,15 @@ class UserAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder = delegateAdapters.get(viewType)
-        viewHolder?.also {
-            return it.onCreateViewHolder(parent)
+        if (viewHolder != null) {
+            return viewHolder.onCreateViewHolder(parent)
         }
+        throw RuntimeException("ViewHolder not found. Missing delegate adapter!")
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = delegateAdapters.get(getItemViewType(position))
-        viewHolder?.also { it -> it.onBindViewHolder(holder, this.items[position]) }
+        viewHolder?.onBindViewHolder(holder, this.items[position])
     }
 
     override fun getItemViewType(position: Int) = this.items[position].getItemViewType()

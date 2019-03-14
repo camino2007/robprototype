@@ -33,7 +33,7 @@ class DetailFragment : BaseFragment<FragmentDetailsBinding>() {
         binding.setLifecycleOwner(viewLifecycleOwner)
         setupRepositoryAdapter()
         viewModel.getItems()
-                .observe(viewLifecycleOwner, Observer { it -> repositoryAdapter.clearAndAddItems(it) })
+                .observe(viewLifecycleOwner, Observer { repositoryAdapter.clearAndAddItems(it) })
         applyErrorHandling(viewModel)
     }
 

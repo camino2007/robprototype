@@ -19,5 +19,3 @@ class Resource<out T>(val status: Status, val data: T?, val requestError: Reques
         }
     }
 }
-
-
