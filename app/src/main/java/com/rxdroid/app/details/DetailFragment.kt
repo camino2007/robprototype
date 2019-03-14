@@ -30,7 +30,6 @@ class DetailFragment : BaseFragment<FragmentDetailsBinding>() {
 
     override fun initBinding(binding: FragmentDetailsBinding) {
         binding.setVariable(BR.viewModel, viewModel)
-        binding.setLifecycleOwner(viewLifecycleOwner)
         setupRepositoryAdapter()
         viewModel.getItems()
                 .observe(viewLifecycleOwner, Observer { repositoryAdapter.clearAndAddItems(it) })

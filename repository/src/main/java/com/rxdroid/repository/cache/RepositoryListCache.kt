@@ -5,7 +5,9 @@ import java.util.concurrent.TimeUnit
 
 class RepositoryListCache(timeOut: Long, timeUnit: TimeUnit) : TimeLimitedCache<List<Repository>>(timeOut, timeUnit) {
 
-    override fun getData(): List<Repository> = getData()
+    private var repositories: List<Repository>? = null
+
+    override fun getData() = repositories
 
     override fun hasValidCachedData() = isTimingValid()
 

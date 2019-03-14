@@ -29,8 +29,11 @@ class DetailsRepositoryImpl(private val searchApiProvider: DetailsApiProvider,
 
     override fun loadRepositoriesForUser(user: User): Observable<Resource<List<Repository>>> {
         if (hasValidCacheValue(user.login)) {
-            val successResource = Resource.success(repositoryCache.getData())
-            return Observable.just(successResource)
+            val repositories = repositoryCache.getData()
+            repositories?.let {
+                val successResource = Resource.success(it)
+                return Observable.just(successResource)
+            }
         }
         lastSearchValue = user.login
         return searchApiProvider

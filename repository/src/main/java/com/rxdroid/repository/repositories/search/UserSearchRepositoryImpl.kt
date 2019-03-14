@@ -28,8 +28,11 @@ class UserSearchRepositoryImpl(private val searchApiProvider: SearchApiProvider,
 
     override fun searchForUser(searchValue: String): Observable<Resource<User>> {
         if (hasValidCacheValue(searchValue)) {
-            val successResource = Resource.success(userCache.getData())
-            return Observable.just(successResource)
+            val user = userCache.getData()
+            user?.let {
+                val successResource = Resource.success(it)
+                return Observable.just(successResource)
+            }
         }
         lastSearchValue = searchValue
         return searchApiProvider

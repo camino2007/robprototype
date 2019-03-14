@@ -13,8 +13,11 @@ import com.rxdroid.repository.model.User
 import com.rxdroid.repository.repositories.detail.DetailsRepository
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 
 class DetailViewModel(private val repository: DetailsRepository) : BaseViewModel() {
@@ -26,14 +29,18 @@ class DetailViewModel(private val repository: DetailsRepository) : BaseViewModel
 
 
     fun loadReposForUser(user: User) {
-        repository.loadRepositoriesForUser(user)
+        repository
+                .loadRepositoriesForUser(user)
                 .startWith(getLoadingObservable())
                 .compose(getViewModelTransformer())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onNext = { listViewTypeResource ->
                             evaluateResource(listViewTypeResource)
                         },
                         onError = { throwable ->
+                            Timber.e(throwable)
                             handleErrorCase(RequestError.create(throwable))
                         }
                 )

@@ -31,7 +31,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     override fun initBinding(binding: FragmentSearchBinding) {
         binding.setVariable(BR.viewModel, viewModel)
-        binding.lifecycleOwner = viewLifecycleOwner
         setupUserAdapter()
         viewModel.getUserItems()
                 .observe(viewLifecycleOwner, Observer { userAdapter.clearAndAddItems(it) })

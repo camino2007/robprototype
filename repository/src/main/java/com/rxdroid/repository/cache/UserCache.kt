@@ -5,7 +5,9 @@ import java.util.concurrent.TimeUnit
 
 class UserCache(timeOut: Long, timeUnit: TimeUnit) : TimeLimitedCache<User>(timeOut, timeUnit) {
 
-    override fun getData(): User = getData()
+    private var user: User? = null
+
+    override fun getData() = user
 
     override fun hasValidCachedData() = isTimingValid()
 

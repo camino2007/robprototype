@@ -21,6 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class SearchViewModel(private val repository: UserSearchRepository,
@@ -40,7 +41,8 @@ class SearchViewModel(private val repository: UserSearchRepository,
     fun getClickedUserItem(): LiveData<Consumable<User>> = clickedUserItem
 
     fun initialize() {
-        publishRelay.debounce(Constants.DEBOUNCE_TIME_OUT, TimeUnit.MILLISECONDS, debounceScheduler)
+        publishRelay
+                .debounce(Constants.DEBOUNCE_TIME_OUT, TimeUnit.MILLISECONDS, debounceScheduler)
                 .skip(1)
                 .distinctUntilChanged()
                 .filter { searchValue -> searchValue.length >= Constants.MIN_LENGTH_SEARCH }
@@ -58,6 +60,7 @@ class SearchViewModel(private val repository: UserSearchRepository,
                             evaluateResource(viewTypeResource)
                         },
                         onError = { throwable ->
+                            Timber.e(throwable)
                             handleErrorCase(RequestError.create(throwable))
                         }
                 )
