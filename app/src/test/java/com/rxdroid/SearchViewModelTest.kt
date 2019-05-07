@@ -10,14 +10,12 @@ import com.rxdroid.repository.model.User
 import com.rxdroid.repository.repositories.search.UserSearchRepository
 import io.mockk.every
 import io.mockk.mockk
-import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.schedulers.TestScheduler
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-//TODO Fix it
 class SearchViewModelTest {
 
     @get:Rule
@@ -40,7 +38,7 @@ class SearchViewModelTest {
         val testUser = mockk<User>()
         every { testUser.login } returns "testUser"
         val testUserResource: Resource<User> = Resource.success(testUser)
-        every { repository.searchForUser("testUser") } returns Flowable.just(testUserResource)
+        every { repository.searchForUser("testUser") } returns Observable.just(testUserResource)
 
         tested.initialize()
         tested.updateSearchInput("testUser")

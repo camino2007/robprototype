@@ -9,10 +9,14 @@ import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.rxdroid.api.error.RequestError
+import com.rxdroid.app.R
+import com.rxdroid.app.util.buildErrorSnackbar
 import com.rxdroid.app.util.getErrorDialog
 import com.rxdroid.app.view.ViewProvider
 import com.rxdroid.app.view.base.viewmodels.BaseViewModel
+import com.rxdroid.app.view.base.viewmodels.retryLastCall
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -53,7 +57,17 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), ViewProvider<B> {
 
 }
 
-fun BaseFragment<*>.applyErrorHandling(viewModel: BaseViewModel) {
+fun BaseFragment<*>.applyErrorHandlingWithSnackBar(viewModel: BaseViewModel) {
+    viewModel.getErrorSubject()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { requestError: RequestError ->
+                showErrorSnackBar(viewModel, requestError)
+            }
+            .addTo(compositeDisposable)
+}
+
+fun BaseFragment<*>.applyErrorHandlingWithDialog(viewModel: BaseViewModel) {
+    viewModel.applyRetryBehavior()
     viewModel.getErrorSubject()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { requestError: RequestError ->
@@ -62,14 +76,25 @@ fun BaseFragment<*>.applyErrorHandling(viewModel: BaseViewModel) {
             .addTo(compositeDisposable)
 }
 
-fun BaseFragment<*>.showErrorDialog(requestError: RequestError) {
+private fun BaseFragment<*>.showErrorDialog(requestError: RequestError) {
     context?.let {
-        val errorDialog = getErrorDialog(it, requestError)
-        errorDialog.show()
+        getErrorDialog(it, requestError).show()
     }
 }
 
-fun BaseFragment<*>.hideKeyboard(){
+private fun BaseFragment<*>.showErrorSnackBar(viewModel: BaseViewModel, requestError: RequestError) {
+    view?.let {
+        buildErrorSnackbar(it,
+                requestError,
+                Snackbar.LENGTH_INDEFINITE,
+                R.string.retry,
+                View.OnClickListener {
+                    viewModel.retryLastCall()
+                }).show()
+    }
+}
+
+fun BaseFragment<*>.hideKeyboard() {
     activity?.let { fragmentActivity ->
         val imm = fragmentActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         val view = fragmentActivity.currentFocus

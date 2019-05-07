@@ -27,12 +27,12 @@ class DetailViewModel(private val repository: DetailsRepository) : BaseViewModel
     private val items: MutableLiveData<List<ItemViewType>> = MutableLiveData()
     fun getItems(): MutableLiveData<List<ItemViewType>> = items
 
-
     fun loadReposForUser(user: User) {
         repository
                 .loadRepositoriesForUser(user)
                 .startWith(getLoadingObservable())
                 .compose(getViewModelTransformer())
+                .compose(getRetryBehavior().observableTransformer())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(

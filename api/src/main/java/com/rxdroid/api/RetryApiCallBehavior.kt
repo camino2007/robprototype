@@ -10,7 +10,7 @@ class RetryApiCallBehavior {
     private val retrySubject = PublishSubject.create<Boolean>()
 
     init {
-        retrySubject.onNext(false)
+        disableRetry()
     }
 
     fun getRetryErrorEvent(): PublishSubject<Throwable> = errorEventSubject
@@ -38,6 +38,25 @@ class RetryApiCallBehavior {
                                         Observable.error(throwable)
                                     }
 
+                                })
+                    }
+        }
+    }
+
+    fun <Data> flowableTransformer():FlowableTransformer<Data, Data>{
+        return FlowableTransformer {upstream ->
+            upstream
+                    .doOnError { throwable ->
+                        errorEventSubject.onNext(throwable)
+                    }
+                    .retryWhen { errors ->
+                        errors.zipWith(retrySubject.toFlowable(BackpressureStrategy.LATEST),
+                                BiFunction<Throwable, Boolean, Flowable<Throwable>> { throwable: Throwable, isRetryEnabled: Boolean ->
+                                    if (isRetryEnabled) {
+                                        Flowable.just(throwable)
+                                    } else {
+                                        Flowable.error(throwable)
+                                    }
                                 })
                     }
         }

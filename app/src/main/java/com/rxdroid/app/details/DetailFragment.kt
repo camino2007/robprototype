@@ -8,7 +8,7 @@ import com.rxdroid.app.BR
 import com.rxdroid.app.R
 import com.rxdroid.app.databinding.FragmentDetailsBinding
 import com.rxdroid.app.view.base.fragments.BaseFragment
-import com.rxdroid.app.view.base.fragments.applyErrorHandling
+import com.rxdroid.app.view.base.fragments.applyErrorHandlingWithSnackBar
 import com.rxdroid.repository.model.User
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -33,7 +33,8 @@ class DetailFragment : BaseFragment<FragmentDetailsBinding>() {
         setupRepositoryAdapter()
         viewModel.getItems()
                 .observe(viewLifecycleOwner, Observer { repositoryAdapter.clearAndAddItems(it) })
-        applyErrorHandling(viewModel)
+        //applyErrorHandlingWithDialog(viewModel)
+        applyErrorHandlingWithSnackBar(viewModel)
     }
 
     private fun setupRepositoryAdapter() {

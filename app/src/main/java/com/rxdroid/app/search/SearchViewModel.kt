@@ -52,6 +52,7 @@ class SearchViewModel(private val repository: UserSearchRepository,
                             .startWith(getLoadingState())
                             .toFlowable(BackpressureStrategy.LATEST)
                 }
+                .compose(getRetryBehavior().flowableTransformer())
                 .compose(getViewModelTransformer())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

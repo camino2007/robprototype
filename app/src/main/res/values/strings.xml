@@ -6,4 +6,5 @@
     <string name="error_msg_no_search_results">The user you\'ve been looking was not found.</string>
     <string name="error_msg_general">I don\'t know what, but something went wrong.</string>
     <string name="error_msg_no_connection">You need a data connection. lol.</string>
+    <string name="retry">Retry.</string>
 </resources>
